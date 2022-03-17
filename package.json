@@ -1,0 +1,37 @@
+{
+  "name": "genetic-fourier-function-approx",
+  "version": "0.0.1",
+  "description": "Genetic algorithm for functions approximation by Fourier series",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "latest",
+    "jest": "latest",
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.6.2",
+    "webpack": "^5.67",
+    "webpack-cli": "^4.9.1"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "webpack",
+    "start": "webpack --watch"
+  },
+  "jest": {
+    "rootDir": ".",
+    "transform": {
+      ".*": "<rootDir>/node_modules/babel-jest"
+    },
+    "unmockedModulePathPatterns": []
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Smoren/genetic-fourier-function-approx-js"
+  },
+  "author": "Smoren",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Smoren/genetic-fourier-function-approx-js/issues"
+  },
+  "homepage": "https://github.com/Smoren/genetic-fourier-function-approx-js#readme"
+}
