@@ -8,7 +8,7 @@ export interface VectorInterface {
 }
 
 export interface ObservableInterface {
-  onChange(handler: (target: unknown) => void): void;
+  onChange(actorName: string, handler: (target: unknown) => void): void;
 }
 
 export interface BaseDrawableConfigInterface {
@@ -42,7 +42,7 @@ export interface ViewConfigInterface {
 export interface ViewConfigObservableInterface extends ObservableInterface {
   scale: VectorArrayType;
   offset: VectorArrayType;
-  onChange(handler: (target: ViewConfigObservableInterface) => void): void;
+  onChange(actorName: string, handler: (target: ViewConfigObservableInterface) => void): void;
 }
 
 export interface DrawerConfigInterface {
