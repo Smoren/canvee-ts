@@ -4,7 +4,7 @@ import { areArraysEqual } from "../helpers/base";
 export default class ViewConfig implements ViewConfigObservableInterface {
   protected _scale: VectorArrayType;
   protected _offset: VectorArrayType;
-  protected _handlerMap: Record<string, (viewConfig: ViewConfig) => void> = {};
+  protected _handlerMap: Record<string, (target: ViewConfig) => void> = {};
   protected _muteHandlers: boolean = false;
 
   constructor({ scale, offset }: ViewConfigInterface) {
@@ -22,7 +22,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
     });
   }
 
-  onChange(actorName: string, handler: (target: ViewConfig) => void): void {
+  onViewChange(actorName: string, handler: (target: ViewConfig) => void): void {
     this._handlerMap[actorName] = handler;
   }
 

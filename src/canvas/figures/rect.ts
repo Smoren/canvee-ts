@@ -13,19 +13,19 @@ interface RectConfigInterface extends BasicFigureDrawableConfigInterface {
 }
 
 class Rect extends Drawable implements DrawableInterface {
-  config: RectConfigInterface;
+  protected _config: RectConfigInterface;
 
-  constructor(config: RectConfigInterface, data: LinkedDataType | null = null) {
+  constructor(config: RectConfigInterface, data: LinkedDataType = {}) {
     super(config, data);
   }
 
   draw(drawer: DrawerInterface): void {
     drawer.context.beginPath();
-    drawer.context.strokeStyle = this.config.strokeStyle;
-    drawer.context.fillStyle = this.config.fillStyle;
-    drawer.context.lineWidth = this.config.lineWidth;
-    drawer.context.fillRect(...this.config.position, ...this.config.size);
-    drawer.context.strokeRect(...this.config.position, ...this.config.size);
+    drawer.context.strokeStyle = this._config.strokeStyle;
+    drawer.context.fillStyle = this._config.fillStyle;
+    drawer.context.lineWidth = this._config.lineWidth;
+    drawer.context.fillRect(...this._config.position, ...this._config.size);
+    drawer.context.strokeRect(...this._config.position, ...this._config.size);
     drawer.context.closePath();
   }
 }

@@ -7,15 +7,15 @@ export interface VectorInterface {
   toArray(): VectorArrayType;
 }
 
-export interface ObservableInterface {
-  onChange(actorName: string, handler: (target: unknown) => void): void;
+export interface ViewObservableInterface {
+  onViewChange(actorName: string, handler: (target: unknown) => void): void;
 }
 
-export interface BaseDrawableConfigInterface {
+export interface DrawableConfigInterface {
   zIndex: number;
 }
 
-export interface BasicFigureDrawableConfigInterface extends BaseDrawableConfigInterface {
+export interface BasicFigureDrawableConfigInterface extends DrawableConfigInterface {
   strokeStyle: string;
   fillStyle: string;
   lineWidth: number;
@@ -23,10 +23,11 @@ export interface BasicFigureDrawableConfigInterface extends BaseDrawableConfigIn
 
 export type LinkedDataType = Record<string, unknown>;
 
-export interface DrawableInterface {
-  config: BaseDrawableConfigInterface;
+export interface DrawableInterface extends ViewObservableInterface {
+  config: DrawableConfigInterface;
   data: LinkedDataType
   draw(drawer: DrawerInterface): void;
+  onViewChange(actorName: string, handler: (target: DrawableInterface) => void): void;
 }
 
 export interface DrawableStorageInterface {
@@ -39,10 +40,10 @@ export interface ViewConfigInterface {
   offset: VectorArrayType;
 }
 
-export interface ViewConfigObservableInterface extends ObservableInterface {
+export interface ViewConfigObservableInterface extends ViewObservableInterface {
   scale: VectorArrayType;
   offset: VectorArrayType;
-  onChange(actorName: string, handler: (target: ViewConfigObservableInterface) => void): void;
+  onViewChange(actorName: string, handler: (target: ViewConfigObservableInterface) => void): void;
 }
 
 export interface DrawerConfigInterface {
@@ -58,4 +59,5 @@ export interface DrawerInterface {
   height: number;
   draw(): void;
   refresh(): void;
+  clear(): void;
 }

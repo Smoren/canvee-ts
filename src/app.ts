@@ -13,6 +13,7 @@ storage.add(new Rect({
   strokeStyle: 'black',
   lineWidth: 3,
 }));
+console.log(storage);
 
 const viewConfig: ViewConfigObservableInterface = new ViewConfig({
   scale: [1, 1],
