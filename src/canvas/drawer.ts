@@ -1,66 +1,63 @@
-interface DrawableConfig {
-  zIndex: number;
-}
+import { DrawableStorageInterface, DrawerConfigInterface, DrawerInterface, ViewConfigInterface } from "./types";
 
-class Drawable {
-  config: DrawableConfig;
+class Drawer implements DrawerInterface {
+  protected _domElement: HTMLCanvasElement;
+  protected _viewConfig: ViewConfigInterface;
+  protected _storage: DrawableStorageInterface;
+  protected _context: CanvasRenderingContext2D;
+  protected _resizeObserver: ResizeObserver;
 
-  constructor(config: DrawableConfig) {
-    this.config = config;
-  }
-
-  draw(drawer: Drawer): void {
-
-  }
-}
-
-class Drawer {
-  domElement: HTMLCanvasElement;
-  context: CanvasRenderingContext2D;
-  figures: Drawable[];
-  resizeObserver: ResizeObserver;
-
-  constructor(domElement: HTMLCanvasElement) {
-    this.domElement = domElement;
-    this.context = domElement.getContext('2d');
-    this.figures = [];
-    this.resizeObserver = new ResizeObserver(() => this.refresh());
-    this.resizeObserver.observe(this.domElement);
+  constructor({
+    domElement,
+    viewConfig,
+    storage
+  }: DrawerConfigInterface) {
+    this._domElement = domElement;
+    this._viewConfig = viewConfig;
+    this._storage = storage;
+    this._context = domElement.getContext('2d');
+    this._resizeObserver = this._initResizeObserver();
     this.refresh();
   }
 
-  addFigure(figure: Drawable): void {
-    this.figures.push(figure);
+  public draw(): void {
+    this._storage.list.forEach(item => item.draw(this));
   }
 
-  draw(): void {
-    this.figures
-      .sort((lhs, rhs) => lhs.config.zIndex - rhs.config.zIndex)
-      .forEach(figure => figure.draw(this));
-  }
-
-  refresh(): void {
-    if (this.domElement.width !== this.width) {
-      this.domElement.width = this.width;
+  public refresh(): void {
+    if (this._domElement.width !== this.width) {
+      this._domElement.width = this.width;
     }
 
-    if (this.domElement.height !== this.height) {
-      this.domElement.height = this.height;
+    if (this._domElement.height !== this.height) {
+      this._domElement.height = this.height;
     }
 
     this.draw();
+  }
 
-    console.log(this.width, this.height);
+  get viewConfig(): ViewConfigInterface {
+    return this._viewConfig;
+  }
+
+  get context(): CanvasRenderingContext2D {
+    return this._context;
   }
 
   get width(): number {
-    return this.domElement.clientWidth;
+    return this._domElement.clientWidth;
   }
 
   get height(): number {
-    return this.domElement.clientHeight;
+    return this._domElement.clientHeight;
+  }
+
+  protected _initResizeObserver(): ResizeObserver {
+    const observer = new ResizeObserver(() => this.refresh());
+    observer.observe(this._domElement);
+
+    return observer;
   }
 }
 
 export default Drawer;
-export { Drawable, DrawableConfig };

@@ -1,28 +1,34 @@
-import Drawer, { DrawableConfig, Drawable } from "../drawer";
-import Vector from "../structs/vector";
+import {
+  LinkedDataType,
+  VectorArrayType,
+  DrawableInterface,
+  DrawerInterface,
+  BasicFigureDrawableConfigInterface,
+} from "../types";
+import Drawable from "../structs/drawable";
 
-interface RectConfig extends DrawableConfig {
-  position: Vector;
-  size: Vector;
+interface RectConfigInterface extends BasicFigureDrawableConfigInterface {
+  position: VectorArrayType;
+  size: VectorArrayType;
 }
 
-class Rect extends Drawable {
-  config: RectConfig;
+class Rect extends Drawable implements DrawableInterface {
+  config: RectConfigInterface;
 
-  constructor(config: RectConfig) {
-    super(config);
+  constructor(config: RectConfigInterface, data: LinkedDataType | null = null) {
+    super(config, data);
   }
 
-  draw(drawer: Drawer): void {
-    drawer.context.fillRect(
-      this.config.position.x,
-      this.config.position.y,
-      this.config.size.x,
-      this.config.size.y
-    );
-    return;
+  draw(drawer: DrawerInterface): void {
+    drawer.context.beginPath();
+    drawer.context.strokeStyle = this.config.strokeStyle;
+    drawer.context.fillStyle = this.config.fillStyle;
+    drawer.context.lineWidth = this.config.lineWidth;
+    drawer.context.fillRect(...this.config.position, ...this.config.size);
+    drawer.context.strokeRect(...this.config.position, ...this.config.size);
+    drawer.context.closePath();
   }
 }
 
 export default Rect;
-export { RectConfig };
+export { RectConfigInterface };
