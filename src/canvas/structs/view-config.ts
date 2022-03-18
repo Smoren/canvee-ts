@@ -26,6 +26,21 @@ export default class ViewConfig implements ViewConfigObservableInterface {
     this._handlerMap[actorName] = handler;
   }
 
+  update({ scale, offset }: ViewConfigInterface): void {
+    const isChanged = !areArraysEqual(scale, this._scale) || !areArraysEqual(offset, this._offset);
+
+    this._muteHandlers = true;
+    this._scale[0] = scale[0];
+    this._scale[1] = scale[1];
+    this._offset[0] = offset[0];
+    this._offset[1] = offset[1];
+    this._muteHandlers = false;
+
+    if (isChanged) {
+      this._processHandlers();
+    }
+  }
+
   get scale(): VectorArrayType {
     return this._scale;
   }

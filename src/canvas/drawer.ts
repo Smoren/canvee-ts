@@ -29,12 +29,17 @@ class Drawer implements DrawerInterface {
 
     this._initResizeObserver();
     this._initViewConfigObserver();
+    this._initMouseEvents();
 
     this.refresh();
   }
 
   public draw(): void {
+    this._context.save();
+    this._context.scale(...this._viewConfig.scale);
+    this._context.translate(...this._viewConfig.offset);
     this._storage.list.forEach(item => item.draw(this));
+    this._context.restore();
   }
 
   public refresh(): void {
@@ -79,6 +84,25 @@ class Drawer implements DrawerInterface {
 
   protected _initViewConfigObserver(): void {
     this._viewConfig.onViewChange(this._actorName, () => this.refresh());
+  }
+
+  protected _initMouseEvents(): void {
+    // TODO тоже перенести куда-нибудь
+    this._domElement.addEventListener('wheel', (event) => {
+      if (event.ctrlKey) {
+        let scale = this._viewConfig.scale[0];
+        scale += event.deltaY * -0.01;
+        scale = Math.min(Math.max(.125, scale), 4);
+        this._viewConfig.scale = [scale, scale];
+        // TODO очевидно надо, чтобы место под курсором мыши оставалось неподвижным
+      } else if (event.shiftKey) {
+        this._viewConfig.offset[0] -= event.deltaY;
+      } else {
+        this._viewConfig.offset[1] -= event.deltaY;
+      }
+
+      event.preventDefault();
+    });
   }
 }
 
