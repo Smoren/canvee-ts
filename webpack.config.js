@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
     entry: './src/app.ts',
+    mode: 'development',
     module: {
         rules: [
             {
@@ -18,6 +19,12 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
-    mode: "development",
     devtool: 'inline-source-map',
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'public'),
+        },
+        compress: true,
+        port: 9000,
+    },
 };
