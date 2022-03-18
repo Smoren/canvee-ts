@@ -7,6 +7,10 @@ export interface VectorInterface {
   toArray(): VectorArrayType;
 }
 
+export interface ObservableInterface {
+  onChange(handler: (target: unknown) => void): void;
+}
+
 export interface BaseDrawableConfigInterface {
   zIndex: number;
 }
@@ -31,21 +35,27 @@ export interface DrawableStorageInterface {
 }
 
 export interface ViewConfigInterface {
-  scale: number;
+  scale: VectorArrayType;
   offset: VectorArrayType;
+}
+
+export interface ViewConfigObservableInterface extends ObservableInterface {
+  scale: VectorArrayType;
+  offset: VectorArrayType;
+  onChange(handler: (target: ViewConfigObservableInterface) => void): void;
 }
 
 export interface DrawerConfigInterface {
   domElement: HTMLCanvasElement,
-  viewConfig: ViewConfigInterface,
+  viewConfig: ViewConfigObservableInterface,
   storage: DrawableStorageInterface
 }
 
 export interface DrawerInterface {
+  viewConfig: ViewConfigInterface;
+  context: CanvasRenderingContext2D;
+  width: number;
+  height: number;
   draw(): void;
   refresh(): void;
-  get viewConfig(): ViewConfigInterface;
-  get context(): CanvasRenderingContext2D;
-  get width(): number;
-  get height(): number;
 }

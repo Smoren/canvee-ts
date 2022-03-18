@@ -1,7 +1,8 @@
 import Drawer from "./canvas/drawer";
 import Rect from "./canvas/figures/rect";
 import DrawableStorage from "./canvas/structs/drawable-storage";
-import { ViewConfigInterface } from "./canvas/types";
+import { ViewConfigObservableInterface } from "./canvas/types";
+import ViewConfig from "./canvas/structs/view-config";
 
 const storage = new DrawableStorage([]);
 storage.add(new Rect({
@@ -13,10 +14,11 @@ storage.add(new Rect({
   lineWidth: 3,
 }));
 
-const viewConfig: ViewConfigInterface = {
-  scale: 1,
+const viewConfig: ViewConfigObservableInterface = new ViewConfig({
+  scale: [1, 1],
   offset: [0, 0],
-};
+});
+console.log(viewConfig);
 
 const drawer: Drawer = new Drawer({
   domElement: document.getElementById('canvas') as HTMLCanvasElement,

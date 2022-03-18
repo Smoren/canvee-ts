@@ -1,8 +1,14 @@
-import { DrawableStorageInterface, DrawerConfigInterface, DrawerInterface, ViewConfigInterface } from "./types";
+import {
+  DrawableStorageInterface,
+  DrawerConfigInterface,
+  DrawerInterface,
+  ViewConfigInterface,
+  ViewConfigObservableInterface
+} from "./types";
 
 class Drawer implements DrawerInterface {
   protected _domElement: HTMLCanvasElement;
-  protected _viewConfig: ViewConfigInterface;
+  protected _viewConfig: ViewConfigObservableInterface;
   protected _storage: DrawableStorageInterface;
   protected _context: CanvasRenderingContext2D;
   protected _resizeObserver: ResizeObserver;
@@ -16,7 +22,10 @@ class Drawer implements DrawerInterface {
     this._viewConfig = viewConfig;
     this._storage = storage;
     this._context = domElement.getContext('2d');
-    this._resizeObserver = this._initResizeObserver();
+
+    this._initResizeObserver();
+    this._initViewConfigObserver();
+
     this.refresh();
   }
 
@@ -32,6 +41,8 @@ class Drawer implements DrawerInterface {
     if (this._domElement.height !== this.height) {
       this._domElement.height = this.height;
     }
+
+    console.log('refreshed');
 
     this.draw();
   }
@@ -52,11 +63,13 @@ class Drawer implements DrawerInterface {
     return this._domElement.clientHeight;
   }
 
-  protected _initResizeObserver(): ResizeObserver {
-    const observer = new ResizeObserver(() => this.refresh());
-    observer.observe(this._domElement);
+  protected _initResizeObserver(): void {
+    this._resizeObserver = new ResizeObserver(() => this.refresh());
+    this._resizeObserver.observe(this._domElement);
+  }
 
-    return observer;
+  protected _initViewConfigObserver(): void {
+    this._viewConfig.onChange(() => this.refresh());
   }
 }
 
