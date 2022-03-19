@@ -43,6 +43,8 @@ export interface ViewConfigInterface {
 export interface ViewConfigObservableInterface extends ViewObservableInterface {
   scale: VectorArrayType;
   offset: VectorArrayType;
+  transposeForward(coords: VectorArrayType): VectorArrayType;
+  transposeBackward(coords: VectorArrayType): VectorArrayType;
   onViewChange(actorName: string, handler: (target: ViewConfigObservableInterface) => void): void;
 }
 

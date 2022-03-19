@@ -22,8 +22,18 @@ export default class ViewConfig implements ViewConfigObservableInterface {
     });
   }
 
-  onViewChange(actorName: string, handler: (target: ViewConfig) => void): void {
+  public onViewChange(actorName: string, handler: (target: ViewConfig) => void): void {
     this._handlerMap[actorName] = handler;
+  }
+
+  public transposeForward(inputCoords: VectorArrayType): VectorArrayType {
+    const [x, y] = inputCoords;
+    return [(x - this._offset[0])/this._scale[0], (y - this._offset[1])/this._scale[1]];
+  }
+
+  public transposeBackward(inputCoords: VectorArrayType): VectorArrayType {
+    const [x, y] = inputCoords;
+    return [x*this._scale[0] + this._offset[0], y*this._scale[1] + this._offset[1]];
   }
 
   update({ scale, offset }: ViewConfigInterface): void {

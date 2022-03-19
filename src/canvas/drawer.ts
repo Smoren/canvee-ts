@@ -1,7 +1,7 @@
 import {
   DrawableStorageInterface,
   DrawerConfigInterface,
-  DrawerInterface,
+  DrawerInterface, VectorArrayType,
   ViewConfigInterface,
   ViewConfigObservableInterface
 } from "./types";
@@ -36,8 +36,8 @@ class Drawer implements DrawerInterface {
 
   public draw(): void {
     this._context.save();
-    this._context.scale(...this._viewConfig.scale);
     this._context.translate(...this._viewConfig.offset);
+    this._context.scale(...this._viewConfig.scale);
     this._storage.list.forEach(item => item.draw(this));
     this._context.restore();
   }
@@ -88,7 +88,7 @@ class Drawer implements DrawerInterface {
 
   protected _initMouseEvents(): void {
     // TODO тоже перенести куда-нибудь
-    this._domElement.addEventListener('wheel', (event) => {
+    this._domElement.addEventListener('wheel', (event: WheelEvent) => {
       if (event.ctrlKey) {
         let scale = this._viewConfig.scale[0];
         scale += event.deltaY * -0.01;
@@ -102,6 +102,13 @@ class Drawer implements DrawerInterface {
       }
 
       event.preventDefault();
+    });
+
+    this._domElement.addEventListener('click', (event: PointerEvent) => {
+      const coords1: VectorArrayType = [event.offsetX, event.offsetY];
+      const coords2: VectorArrayType = this._viewConfig.transposeForward(coords1);
+      const coords3: VectorArrayType = this._viewConfig.transposeBackward(coords2);
+      console.log(coords1, coords2, coords3);
     });
   }
 }
