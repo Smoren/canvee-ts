@@ -8,6 +8,7 @@ import {
 
 /**
  * Canvas drawer
+ * @public
  */
 export default class Drawer implements DrawerInterface {
   protected _subscriberName: string = 'Drawer';
@@ -19,9 +20,9 @@ export default class Drawer implements DrawerInterface {
 
   /**
    * Drawer constructor
-   * @param {HTMLCanvasElement} domElement canvas DOM element
-   * @param {ViewConfigObservableInterface} viewConfig view config
-   * @param {DrawableStorageInterface} storage drawable objects storage
+   * @param domElement - canvas DOM element
+   * @param viewConfig - view config
+   * @param storage - drawable objects storage
    */
   constructor({
     domElement,

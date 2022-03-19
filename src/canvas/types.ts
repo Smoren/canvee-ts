@@ -1,60 +1,65 @@
 /**
  * Simple 2d vector by array
+ * @public
  */
 export type VectorArrayType = [number, number];
 
 /**
  * On change handler for ViewObservable objects
- * @param {object} target observable object
- * @param {object | null} extra some extra data
+ * @public
+ * @param target - observable object
+ * @param extra - some extra data
  */
 export type ViewObservableHandlerType = (target: unknown, extra: Record<string, unknown> | null) => void;
 
 /**
  * Observable interface for objects affects the canvas view
+ * @public
  */
 export interface ViewObservableInterface {
   /**
    * Registers handlers for events when view has changed
-   * @param {string} subscriberName who is subscriber
-   * @param {ViewObservableHandlerType} handler handler callback
+   * @param subscriberName - who is subscriber
+   * @param handler - handler callback
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void;
 }
 
 /**
  * Helper for managing observable logic
+ * @public
  */
 export interface ObserveHelperInterface {
   /**
    * Registers handlers for events when observable parts have changed
-   * @param {string} subscriberName who is subscriber
-   * @param {ViewObservableHandlerType} handler handler callback
+   * @param subscriberName - who is subscriber
+   * @param handler - handler callback
    */
   onChange(subscriberName: string, handler: ViewObservableHandlerType): void;
 
   /**
    * Process all registered handlers with muting logic
-   * @param {object | null} extra extra data
+   * @param extra - extra data
    */
   processWithMuteHandlers(extra?: Record<string, unknown> | null): boolean;
 
   /**
    * Do action in callback wrapping it with muting logic
-   * @param {(mutedBefore: boolean, manager: ObserveHelperInterface) => void} action action to do
+   * @param action - action to do
    */
   withMuteHandlers(action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void): boolean;
 
   /**
    * Process all registered handlers
-   * @param {boolean} isMuted is already muted flag
-   * @param {object | null} extra
+   * @param isMuted - is already muted flag
+   * @param extra - linked extra data
    */
   processHandlers(isMuted: boolean, extra?: Record<string, unknown> | null): boolean;
 }
 
 /**
  * Config for base drawable objects
+ * @public
  */
 export interface DrawableConfigInterface {
   /**
@@ -65,6 +70,7 @@ export interface DrawableConfigInterface {
 
 /**
  * Config for basic drawable figures
+ * @public
  */
 export interface BasicFigureDrawableConfigInterface extends DrawableConfigInterface {
   /**
@@ -83,11 +89,13 @@ export interface BasicFigureDrawableConfigInterface extends DrawableConfigInterf
 
 /**
  * Extra data that is linked to drawable object
+ * @public
  */
 export type LinkedDataType = Record<string, unknown>;
 
 /**
  * Interface for drawable objects
+ * @public
  */
 export interface DrawableInterface extends ViewObservableInterface {
   /**
@@ -101,14 +109,14 @@ export interface DrawableInterface extends ViewObservableInterface {
 
   /**
    * Draws the object view on canvas
-   * @param {DrawerInterface} drawer drawer object
+   * @param drawer - drawer object
    */
   draw(drawer: DrawerInterface): void;
 
   /**
    * Registers handlers for events when it needs to update view
-   * @param {string} subscriberName who is subscriber
-   * @param {ViewObservableHandlerType} handler handler callback
+   * @param subscriberName - who is subscriber
+   * @param handler - handler callback
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void;
 }
@@ -117,6 +125,7 @@ export interface DrawableInterface extends ViewObservableInterface {
 
 /**
  * Interface for storage of drawable objects
+ * @public
  */
 export interface DrawableStorageInterface extends ViewObservableInterface {
   /**
@@ -126,13 +135,14 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
 
   /**
    * Adds a new drawable object to the storage
-   * @param {DrawableInterface} item new drawable object
+   * @param item - new drawable object
    */
   add(item: DrawableInterface): void;
 }
 
 /**
  * View config interface
+ * @public
  */
 export interface ViewConfigInterface {
   /**
@@ -151,29 +161,31 @@ export interface ViewConfigInterface {
 
 /**
  * Interface for observable config for showing on canvas
+ * @public
  */
 export interface ViewConfigObservableInterface extends ViewConfigInterface, ViewObservableInterface {
   /**
    * Transposes coords with applying scale and offset
-   * @param {VectorArrayType} coords
+   * @param coords - coords to transpose
    */
   transposeForward(coords: VectorArrayType): VectorArrayType;
   /**
    * Transposes coords back using scale and offset
-   * @param {VectorArrayType} coords
+   * @param coords - coords to transpose
    */
   transposeBackward(coords: VectorArrayType): VectorArrayType;
 
   /**
    * Registers handlers for events when view has changed
-   * @param {string} subscriberName who is subscriber
-   * @param {function} handler handler callback
+   * @param subscriberName - who is subscriber
+   * @param handler - handler callback
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void;
 }
 
 /**
  * Interface for config of drawer
+ * @public
  */
 export interface DrawerConfigInterface {
   /**
@@ -192,6 +204,7 @@ export interface DrawerConfigInterface {
 
 /**
  * Drawer interface
+ * @public
  */
 export interface DrawerInterface {
   /**

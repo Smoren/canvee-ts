@@ -9,14 +9,16 @@ import Drawable from "../structs/drawable";
 
 /**
  * Interface for config of rect figure
+ * @public
  */
-interface RectConfigInterface extends BasicFigureDrawableConfigInterface {
+export interface RectConfigInterface extends BasicFigureDrawableConfigInterface {
   position: VectorArrayType;
   size: VectorArrayType;
 }
 
 /**
  * Rect figure
+ * @public
  */
 export default class Rect extends Drawable implements DrawableInterface {
   /**
@@ -26,8 +28,8 @@ export default class Rect extends Drawable implements DrawableInterface {
 
   /**
    * Rect constructor
-   * @param {RectConfigInterface} config
-   * @param {LinkedDataType} data
+   * @param config - view config
+   * @param data - linked extra data
    */
   constructor(config: RectConfigInterface, data: LinkedDataType = {}) {
     super(config, data);
@@ -46,5 +48,3 @@ export default class Rect extends Drawable implements DrawableInterface {
     drawer.context.closePath();
   }
 }
-
-export { RectConfigInterface };

@@ -10,6 +10,7 @@ import ObserveHelper from "../helpers/observe-helper";
 
 /**
  * Abstract class for drawable objects
+ * @public
  */
 export default abstract class Drawable implements DrawableInterface {
   /**
@@ -42,7 +43,7 @@ export default abstract class Drawable implements DrawableInterface {
 
   /**
    * View config setter
-   * @param {DrawableConfigInterface} config
+   * @param config - view config
    */
   public set config(config: DrawableConfigInterface) {
     const isChanged = !areArraysEqual(Object.entries(config), Object.entries(this._config));
@@ -76,8 +77,8 @@ export default abstract class Drawable implements DrawableInterface {
 
   /**
    * Drawable constructor
-   * @param {DrawableConfigInterface} config view config
-   * @param {LinkedDataType} data linked extra data
+   * @param config - view config
+   * @param data - linked extra data
    * @protected
    */
   protected constructor(config: DrawableConfigInterface, data: LinkedDataType = {}) {

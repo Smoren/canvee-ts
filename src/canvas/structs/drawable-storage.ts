@@ -8,6 +8,7 @@ import ObserveHelper from "../helpers/observe-helper";
 
 /**
  * Storage for drawable objects
+ * @public
  */
 export default class DrawableStorage implements DrawableStorageInterface {
   /**

@@ -2,6 +2,7 @@ import { ObserveHelperInterface, ViewObservableHandlerType } from "../types";
 
 /**
  * Helper for observable logic
+ * @public
  */
 export default class ObserveHelper implements ObserveHelperInterface {
     /**

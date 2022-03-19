@@ -10,6 +10,7 @@ import ObserveHelper from "../helpers/observe-helper";
 
 /**
  * Config for objects drawable on canvas
+ * @public
  */
 export default class ViewConfig implements ViewConfigObservableInterface {
   /**
@@ -35,9 +36,9 @@ export default class ViewConfig implements ViewConfigObservableInterface {
 
   /**
    * ViewConfig constructor
-   * @param {VectorArrayType} scale scale
-   * @param {VectorArrayType} offset offset
-   * @param {number} gridStep grid step
+   * @param scale - scale
+   * @param offset - offset
+   * @param gridStep - grid step
    */
   constructor({ scale, offset, gridStep }: ViewConfigInterface) {
     this._observeHelper = new ObserveHelper();
@@ -83,9 +84,9 @@ export default class ViewConfig implements ViewConfigObservableInterface {
 
   /**
    * Updates all the data in config
-   * @param {VectorArrayType} scale scale
-   * @param {VectorArrayType} offset offset
-   * @param {number} gridStep grid step
+   * @param scale - scale
+   * @param offset - offset
+   * @param gridStep - grid step
    */
   update({ scale, offset, gridStep }: ViewConfigInterface): void {
     const isChanged = !areArraysEqual(scale, this._scale) || !areArraysEqual(offset, this._offset);
@@ -108,7 +109,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
 
   /**
    * Scale setter
-   * @param {VectorArrayType} scale scale
+   * @param scale - scale
    */
   set scale(scale: VectorArrayType) {
     const isChanged = !areArraysEqual(scale, this._scale);
@@ -129,7 +130,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
 
   /**
    * Offset setter
-   * @param {VectorArrayType} offset
+   * @param offset - offset
    */
   set offset(offset: VectorArrayType) {
     const isChanged = !areArraysEqual(offset, this._offset);
@@ -150,7 +151,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
 
   /**
    * Grid step setter
-   * @param {number} gridStep grid step
+   * @param gridStep - grid step
    */
   set gridStep(gridStep: number) {
     const isChanged = gridStep !== this._gridStep;
