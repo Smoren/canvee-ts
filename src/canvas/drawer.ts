@@ -43,7 +43,7 @@ export default class Drawer implements DrawerInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc DrawerInterface.draw}
    */
   public draw(): void {
     this._context.save();
@@ -54,7 +54,7 @@ export default class Drawer implements DrawerInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc DrawerInterface.refresh}
    */
   public refresh(): void {
     if (this._domElement.width !== this.width) {
@@ -72,7 +72,7 @@ export default class Drawer implements DrawerInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc DrawerInterface.clear}
    */
   clear(): void {
     this._context.clearRect(0, 0, this.width, this.height);

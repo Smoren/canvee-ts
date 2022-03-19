@@ -17,7 +17,7 @@ export default class ObserveHelper implements ObserveHelperInterface {
     protected _muteHandlers: boolean = false;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc ObserveHelperInterface.onChange}
      */
     public onChange(
         subscriberName: string,
@@ -27,7 +27,7 @@ export default class ObserveHelper implements ObserveHelperInterface {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc ObserveHelperInterface.processWithMuteHandlers}
      */
     public processWithMuteHandlers(
         extra: Record<string, unknown> | null = null
@@ -38,7 +38,7 @@ export default class ObserveHelper implements ObserveHelperInterface {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc ObserveHelperInterface.withMuteHandlers}
      */
     public withMuteHandlers(
         action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void
@@ -55,7 +55,7 @@ export default class ObserveHelper implements ObserveHelperInterface {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc ObserveHelperInterface.processHandlers}
      */
     public processHandlers(
         isMuted: boolean,

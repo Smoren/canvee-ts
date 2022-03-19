@@ -50,7 +50,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc DrawableStorageInterface.add}
    */
   public add(item: DrawableInterface): void {
     item.onViewChange(this._subscriberName, (target, extra) => {
@@ -61,7 +61,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc DrawableStorageInterface.onViewChange}
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
     this._observeHelper.onChange(subscriberName, handler);

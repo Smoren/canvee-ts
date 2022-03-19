@@ -22,7 +22,8 @@ export interface RectConfigInterface extends BasicFigureDrawableConfigInterface 
  */
 export default class Rect extends Drawable implements DrawableInterface {
   /**
-   * @inheritDoc
+   * View config
+   * @protected
    */
   protected _config: RectConfigInterface;
 
@@ -36,7 +37,7 @@ export default class Rect extends Drawable implements DrawableInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc DrawableInterface.draw}
    */
   draw(drawer: DrawerInterface): void {
     drawer.context.beginPath();

@@ -60,14 +60,14 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc ViewConfigObservableInterface.onViewChange}
    */
   public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
     this._observeHelper.onChange(subscriberName, handler);
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc ViewConfigObservableInterface.transposeForward}
    */
   public transposeForward(coords: VectorArrayType): VectorArrayType {
     const [x, y] = coords;
@@ -75,7 +75,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc ViewConfigObservableInterface.transposeBackward}
    */
   public transposeBackward(coords: VectorArrayType): VectorArrayType {
     const [x, y] = coords;

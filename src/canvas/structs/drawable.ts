@@ -30,7 +30,7 @@ export default abstract class Drawable implements DrawableInterface {
   protected _observeHelper: ObserveHelperInterface;
 
   /**
-   * @inheritDoc
+   * {@inheritDoc DrawableInterface.draw}
    */
   public abstract draw(drawer: DrawerInterface): void;
 
@@ -69,7 +69,7 @@ export default abstract class Drawable implements DrawableInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc DrawableInterface.onViewChange}
    */
   public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
     this._observeHelper.onChange(subscriberName, handler);
