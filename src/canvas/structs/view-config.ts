@@ -1,6 +1,6 @@
 import { ObserveManagerInterface, VectorArrayType, ViewConfigInterface, ViewConfigObservableInterface } from "../types";
 import { areArraysEqual } from "../helpers/base";
-import ObserveManager from "../helpers/observe-manager";
+import ObserveHelper from "../helpers/observe-helper";
 
 export default class ViewConfig implements ViewConfigObservableInterface {
   protected _scale: VectorArrayType;
@@ -9,7 +9,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   protected _observeManager: ObserveManagerInterface;
 
   constructor({ scale, offset, gridStep }: ViewConfigInterface) {
-    this._observeManager = new ObserveManager();
+    this._observeManager = new ObserveHelper();
     this._scale = new Proxy(scale, {
       set: (target: VectorArrayType, index, value): boolean => {
         target[index as keyof VectorArrayType] = value;

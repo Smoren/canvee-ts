@@ -1,6 +1,6 @@
 import { ObserveManagerInterface } from "../types";
 
-export default class ObserveManager implements ObserveManagerInterface {
+export default class ObserveHelper implements ObserveManagerInterface {
     protected _handlerMap: Record<string, (target: unknown) => void> = {};
     protected _muteHandlers: boolean = false;
 
