@@ -5,10 +5,10 @@ export default class ObserveHelper implements ObserveHelperInterface {
     protected _muteHandlers: boolean = false;
 
     public onChange(
-        actorName: string,
+        subscriberName: string,
         handler: ViewObservableHandlerType
     ): void {
-        this._handlerMap[actorName] = handler;
+        this._handlerMap[subscriberName] = handler;
     }
 
     public processWithMuteHandlers(

@@ -33,8 +33,8 @@ export default class ViewConfig implements ViewConfigObservableInterface {
     this._gridStep = gridStep;
   }
 
-  public onViewChange(actorName: string, handler: ViewObservableHandlerType): void {
-    this._observeHelper.onChange(actorName, handler);
+  public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
+    this._observeHelper.onChange(subscriberName, handler);
   }
 
   public transposeForward(coords: VectorArrayType): VectorArrayType {

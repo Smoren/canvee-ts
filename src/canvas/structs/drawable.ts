@@ -39,8 +39,8 @@ export default abstract class Drawable implements DrawableInterface {
     return this._data;
   }
 
-  public onViewChange(actorName: string, handler: ViewObservableHandlerType): void {
-    this._observeHelper.onChange(actorName, handler);
+  public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
+    this._observeHelper.onChange(subscriberName, handler);
   }
 
   protected constructor(config: DrawableConfigInterface, data: LinkedDataType = {}) {

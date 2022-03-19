@@ -7,7 +7,7 @@ import {
 import ObserveHelper from "../helpers/observe-helper";
 
 export default class DrawableStorage implements DrawableStorageInterface {
-  protected _actorName: 'DrawableStorage';
+  protected _subscriberName: 'DrawableStorage';
   protected _list: DrawableInterface[];
   protected _observeHelper: ObserveHelperInterface;
 
@@ -16,7 +16,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
     this._list = [];
     this._sort();
 
-    this._observeHelper.onChange(this._actorName, (target, extra) => {
+    this._observeHelper.onChange(this._subscriberName, (target, extra) => {
       if (extra !== null && extra.hasOwnProperty('zIndexChanged') && extra.zIndexChanged) {
         this._sort();
       }
@@ -28,15 +28,15 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   public add(item: DrawableInterface): void {
-    item.onViewChange(this._actorName, (target, extra) => {
+    item.onViewChange(this._subscriberName, (target, extra) => {
       return this._observeHelper.processWithMuteHandlers(extra);
     });
     this._list.push(item);
     this._sort();
   }
 
-  onViewChange(actorName: string, handler: ViewObservableHandlerType): void {
-    this._observeHelper.onChange(actorName, handler);
+  onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
+    this._observeHelper.onChange(subscriberName, handler);
   }
 
   protected _sort(): void {

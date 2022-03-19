@@ -7,7 +7,7 @@ import {
 } from "./types";
 
 class Drawer implements DrawerInterface {
-  protected _actorName: string = 'Drawer';
+  protected _subscriberName: string = 'Drawer';
   protected _domElement: HTMLCanvasElement;
   protected _viewConfig: ViewConfigObservableInterface;
   protected _storage: DrawableStorageInterface;
@@ -81,11 +81,11 @@ class Drawer implements DrawerInterface {
   }
 
   protected _initViewConfigObserver(): void {
-    this._viewConfig.onViewChange(this._actorName, () => this.refresh());
+    this._viewConfig.onViewChange(this._subscriberName, () => this.refresh());
   }
 
   protected _initStorageObserver(): void {
-    this._storage.onViewChange(this._actorName, () => this.refresh());
+    this._storage.onViewChange(this._subscriberName, () => this.refresh());
   }
 
   protected _initMouseEvents(): void {
