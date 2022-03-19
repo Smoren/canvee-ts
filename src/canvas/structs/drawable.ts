@@ -16,15 +16,13 @@ export default abstract class Drawable implements DrawableInterface {
   public set config(config: DrawableConfigInterface) {
     const isChanged = !areArraysEqual(Object.entries(config), Object.entries(this._config));
 
-    this._muteHandlers = true;
-    Object.entries(config).forEach(([key, value]) => {
-      this._config[key as keyof DrawableConfigInterface] = value;
-    });
-    this._muteHandlers = false;
+    this._withMuteHandlers((mutedBefore => {
+      Object.entries(config).forEach(([key, value]) => {
+        this._config[key as keyof DrawableConfigInterface] = value;
+      });
 
-    if (isChanged) {
-      this._processHandlers();
-    }
+      this._processHandlers(!isChanged || mutedBefore);
+    }))
   }
 
   public get data(): LinkedDataType {
@@ -39,19 +37,35 @@ export default abstract class Drawable implements DrawableInterface {
     this._config = new Proxy(config, {
       set: (target: DrawableConfigInterface, index, value): boolean => {
         target[index as keyof DrawableConfigInterface] = value;
-        return this._processHandlers();
+        return this._withMuteHandlers((mutedBefore: boolean) => {
+          return this._processHandlers(mutedBefore);
+        });
       },
     });
     this._data = new Proxy(data, {
       set: (target: LinkedDataType, index, value): boolean => {
         target[index as keyof LinkedDataType] = value;
-        return this._processHandlers();
+        return this._withMuteHandlers((mutedBefore: boolean) => {
+          return this._processHandlers(mutedBefore);
+        });
       },
     });
   }
 
-  protected _processHandlers(): boolean {
-    if (!this._muteHandlers) {
+  protected _withMuteHandlers(action: (mutedBefore: boolean) => void): boolean {
+    if (this._muteHandlers) {
+      action(true);
+    } else {
+      this._muteHandlers = true;
+      action(false);
+      this._muteHandlers = false;
+    }
+
+    return true;
+  }
+
+  protected _processHandlers(isMuted: boolean): boolean {
+    if (!isMuted) {
       Object.values(this._handlerMap)
         .forEach(handler => handler(this));
     }

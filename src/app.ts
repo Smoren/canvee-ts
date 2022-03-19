@@ -26,6 +26,7 @@ console.log(storage);
 const viewConfig: ViewConfigObservableInterface = new ViewConfig({
   scale: [1, 1],
   offset: [0, 0],
+  gridStep: 1,
 });
 console.log(viewConfig);
 

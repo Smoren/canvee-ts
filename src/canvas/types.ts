@@ -38,11 +38,10 @@ export interface DrawableStorageInterface {
 export interface ViewConfigInterface {
   scale: VectorArrayType;
   offset: VectorArrayType;
+  gridStep: number;
 }
 
-export interface ViewConfigObservableInterface extends ViewObservableInterface {
-  scale: VectorArrayType;
-  offset: VectorArrayType;
+export interface ViewConfigObservableInterface extends ViewConfigInterface, ViewObservableInterface {
   transposeForward(coords: VectorArrayType): VectorArrayType;
   transposeBackward(coords: VectorArrayType): VectorArrayType;
   onViewChange(actorName: string, handler: (target: ViewConfigObservableInterface) => void): void;
