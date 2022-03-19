@@ -11,11 +11,35 @@ import {
  * @public
  */
 export default class Drawer implements DrawerInterface {
+  /**
+   * Name of class to use as subscriber name in observable logic
+   * @protected
+   */
   protected _subscriberName: string = 'Drawer';
+  /**
+   * Canvas DOM element
+   * @protected
+   */
   protected _domElement: HTMLCanvasElement;
+  /**
+   * View config
+   * @protected
+   */
   protected _viewConfig: ViewConfigObservableInterface;
+  /**
+   * Drawable objects storage
+   * @protected
+   */
   protected _storage: DrawableStorageInterface;
+  /**
+   * Canvas drawing context
+   * @protected
+   */
   protected _context: CanvasRenderingContext2D;
+  /**
+   * Resize observer object
+   * @protected
+   */
   protected _resizeObserver: ResizeObserver;
 
   /**
