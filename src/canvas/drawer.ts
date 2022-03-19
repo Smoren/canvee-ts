@@ -98,14 +98,24 @@ export default class Drawer implements DrawerInterface {
   /**
    * {@inheritDoc DrawerInterface.clear}
    */
-  clear(): void {
+  public clear(): void {
     this._context.clearRect(0, 0, this.width, this.height);
+  }
+
+  /**
+   * Returns bounds of canvas frame
+   */
+  public getBounds(): [VectorArrayType, VectorArrayType] {
+    return [
+      this._viewConfig.transposeForward([0, 0]),
+      this._viewConfig.transposeForward([this.width, this.height]),
+    ];
   }
 
   /**
    * View config getter
    */
-  get viewConfig(): ViewConfigInterface {
+  get viewConfig(): ViewConfigObservableInterface {
     return this._viewConfig;
   }
 
@@ -180,7 +190,8 @@ export default class Drawer implements DrawerInterface {
       const coords: VectorArrayType = [event.offsetX, event.offsetY];
       const coords1: VectorArrayType = this._viewConfig.transposeForward(coords);
       const coords2: VectorArrayType = this._viewConfig.transposeBackward(coords1);
-      console.log(coords, coords1, coords2);
+      console.log('mouse coords', coords);
+      console.log('real coords', coords1);
 
       event.preventDefault();
     });

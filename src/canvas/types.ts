@@ -48,6 +48,11 @@ export interface VectorInterface {
   inverse(): VectorInterface;
 
   /**
+   * Reverses vector
+   */
+  reverse(): VectorInterface;
+
+  /**
    * Returns the length of vector
    */
   len(): number;
@@ -283,7 +288,7 @@ export interface DrawerInterface {
   /**
    * View config
    */
-  viewConfig: ViewConfigInterface;
+  viewConfig: ViewConfigObservableInterface;
   /**
    * Drawing context
    */
@@ -311,4 +316,9 @@ export interface DrawerInterface {
    * Clears canvas
    */
   clear(): void;
+
+  /**
+   * Returns bounds of canvas frame
+   */
+  getBounds(): [VectorArrayType, VectorArrayType];
 }

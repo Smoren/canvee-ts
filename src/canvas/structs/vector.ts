@@ -79,6 +79,16 @@ export default class Vector implements VectorInterface {
   }
 
   /**
+   * Reverses vector
+   */
+  reverse(): Vector {
+    this.x = 1/this.x;
+    this.y = 1/this.y;
+
+    return this;
+  }
+
+  /**
    * Returns the length of vector
    */
   len(): number {

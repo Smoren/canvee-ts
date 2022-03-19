@@ -3,8 +3,16 @@ import Rect from "./canvas/figures/rect";
 import DrawableStorage from "./canvas/structs/drawable-storage";
 import { ViewConfigObservableInterface } from "./canvas/types";
 import ViewConfig from "./canvas/structs/view-config";
+import Grid from "./canvas/figures/grid";
 
 const storage = new DrawableStorage();
+storage.add(new Grid({
+  zIndex: -Infinity,
+  mainLineColor: '#bbb',
+  subLineColor: '#dedede',
+  lineWidth: 1,
+  linesInBlock: 5,
+}));
 storage.add(new Rect({
   position: [10, 20],
   size: [100, 30],
@@ -34,7 +42,7 @@ console.log(storage);
 const viewConfig: ViewConfigObservableInterface = new ViewConfig({
   scale: [1, 1],
   offset: [0, 0],
-  gridStep: 1,
+  gridStep: 15,
 });
 console.log(viewConfig);
 
