@@ -42,27 +42,34 @@ export default class Grid extends Drawable implements DrawableInterface {
    * {@inheritDoc DrawableInterface.draw}
    */
   draw(drawer: DrawerInterface): void {
-    // TODO сетка должна листаться вместе с канвасом, а не стоять на месте
-
     drawer.context.save();
     drawer.context.beginPath();
 
     const [fromBound, toBound] = drawer.getBounds();
-    let scale = drawer.viewConfig.scale[0];
+    const scale = drawer.viewConfig.scale[0];
 
     drawer.context.lineWidth = this._config.lineWidth / scale;
 
     let step = drawer.viewConfig.gridStep;
 
     if(scale < 1) {
-      scale = 1/scale;
-      step = step*(Math.pow(2, Math.round(Math.log2(scale))));
+      step = step*(Math.pow(2, Math.round(Math.log2(1/scale))));
     } else {
       step = step/(Math.pow(2, Math.round(Math.log2(scale))));
     }
 
+    const mainLineDistance = step*this._config.linesInBlock;
+    let xGap = (fromBound[0] % mainLineDistance);
+    if(xGap < 0) {
+      xGap += mainLineDistance;
+    }
+    let yGap = (fromBound[1] % mainLineDistance);
+    if(yGap < 0) {
+      yGap += mainLineDistance;
+    }
+
     let j=0;
-    for(let i=fromBound[1]; i<=toBound[1]; i+=step) {
+    for(let i=fromBound[1]-yGap; i<=toBound[1]; i+=step) {
       const color = (j++ % this._config.linesInBlock === 0)
         ? this._config.mainLineColor
         : this._config.subLineColor;
@@ -70,7 +77,8 @@ export default class Grid extends Drawable implements DrawableInterface {
     }
 
     j=0;
-    for(let i=fromBound[0]; i<=toBound[0]; i+=step) {
+    for(let i=fromBound[0]-xGap; i<=toBound[0]; i+=step) {
+      if(!j) console.log(i);
       const color = (j++ % this._config.linesInBlock === 0)
         ? this._config.mainLineColor
         : this._config.subLineColor;
