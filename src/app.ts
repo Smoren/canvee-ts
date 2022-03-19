@@ -5,38 +5,39 @@ import { ViewConfigObservableInterface } from "./canvas/types";
 import ViewConfig from "./canvas/structs/view-config";
 import Grid from "./canvas/figures/grid";
 
-const storage = new DrawableStorage();
-storage.add(new Grid({
-  zIndex: -Infinity,
-  mainLineColor: '#bbb',
-  subLineColor: '#dedede',
-  lineWidth: 1,
-  linesInBlock: 5,
-}));
-storage.add(new Rect({
-  position: [10, 20],
-  size: [100, 30],
-  zIndex: 1,
-  fillStyle: 'green',
-  strokeStyle: 'black',
-  lineWidth: 3,
-}));
-storage.add(new Rect({
-  position: [10, 25],
-  size: [50, 50],
-  zIndex: 1,
-  fillStyle: 'blue',
-  strokeStyle: 'black',
-  lineWidth: 3,
-}));
-storage.add(new Rect({
-  position: [700, 250],
-  size: [150, 100],
-  zIndex: 1,
-  fillStyle: 'blue',
-  strokeStyle: 'black',
-  lineWidth: 3,
-}));
+const storage = new DrawableStorage([
+  new Grid({
+    zIndex: -Infinity,
+    mainLineColor: '#bbb',
+    subLineColor: '#dedede',
+    lineWidth: 1,
+    linesInBlock: 5,
+  }),
+  new Rect({
+    position: [10, 20],
+    size: [100, 30],
+    zIndex: 1,
+    fillStyle: 'green',
+    strokeStyle: 'black',
+    lineWidth: 3,
+  }),
+  new Rect({
+    position: [10, 25],
+    size: [50, 50],
+    zIndex: 1,
+    fillStyle: 'blue',
+    strokeStyle: 'black',
+    lineWidth: 3,
+  }),
+  new Rect({
+    position: [700, 250],
+    size: [150, 100],
+    zIndex: 1,
+    fillStyle: 'blue',
+    strokeStyle: 'black',
+    lineWidth: 3,
+  })
+]);
 console.log(storage);
 
 const viewConfig: ViewConfigObservableInterface = new ViewConfig({
@@ -52,3 +53,15 @@ const drawer: Drawer = new Drawer({
   storage,
 });
 drawer.draw();
+
+setTimeout(() => {
+  storage.add(new Rect({
+    position: [100, 25],
+    size: [50, 30],
+    zIndex: 1,
+    fillStyle: 'red',
+    strokeStyle: 'black',
+    lineWidth: 3,
+  }));
+  console.log('asdas')
+}, 1000);

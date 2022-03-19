@@ -20,7 +20,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * List of stored drawable objects
    * @protected
    */
-  protected _list: DrawableInterface[];
+  protected _list: DrawableInterface[] = [];
   /**
    * Helper for observable logic
    * @protected
@@ -29,10 +29,11 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
   /**
    * Drawable constructor
+   * @param items - batch list to add
    */
-  constructor() {
+  constructor(items: DrawableInterface[]) {
     this._observeHelper = new ObserveHelper();
-    this._list = [];
+    this.addBatch(items);
     this._sort();
 
     this._observeHelper.onChange(this._subscriberName, (target, extra) => {
@@ -58,6 +59,21 @@ export default class DrawableStorage implements DrawableStorageInterface {
     });
     this._list.push(item);
     this._sort();
+    this._observeHelper.processWithMuteHandlers();
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.add}
+   */
+  public addBatch(items: DrawableInterface[]): void {
+    items.forEach(item => {
+      item.onViewChange(this._subscriberName, (target, extra) => {
+        return this._observeHelper.processWithMuteHandlers(extra);
+      });
+      this._list.push(item);
+    });
+    this._sort();
+    this._observeHelper.processWithMuteHandlers();
   }
 
   /**

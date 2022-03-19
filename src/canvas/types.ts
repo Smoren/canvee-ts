@@ -209,6 +209,11 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
    * @param item - new drawable object
    */
   add(item: DrawableInterface): void;
+
+  /**
+   * Adds the list of drawable objects to the storage
+   */
+  addBatch(items: DrawableInterface[]): void;
 }
 
 /**
