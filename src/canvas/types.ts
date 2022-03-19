@@ -6,7 +6,7 @@ export type VectorArrayType = [number, number];
 /**
  * On change handler for ViewObservable objects
  * @param {object} target observable object
- * @param {object} extra some extra data
+ * @param {object | null} extra some extra data
  */
 export type ViewObservableHandlerType = (target: unknown, extra: Record<string, unknown> | null) => void;
 
@@ -17,7 +17,7 @@ export interface ViewObservableInterface {
   /**
    * Registers handlers for events when view has changed
    * @param {string} subscriberName who is subscriber
-   * @param {function} handler handler callback
+   * @param {ViewObservableHandlerType} handler handler callback
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void;
 }
@@ -35,20 +35,20 @@ export interface ObserveHelperInterface {
 
   /**
    * Process all registered handlers with muting logic
-   * @param {object} extra extra data
+   * @param {object | null} extra extra data
    */
   processWithMuteHandlers(extra?: Record<string, unknown> | null): boolean;
 
   /**
    * Do action in callback wrapping it with muting logic
-   * @param {function} action action to do
+   * @param {(mutedBefore: boolean, manager: ObserveHelperInterface) => void} action action to do
    */
   withMuteHandlers(action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void): boolean;
 
   /**
    * Process all registered handlers
    * @param {boolean} isMuted is already muted flag
-   * @param {object} extra
+   * @param {object | null} extra
    */
   processHandlers(isMuted: boolean, extra?: Record<string, unknown> | null): boolean;
 }
