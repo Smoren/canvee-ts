@@ -182,11 +182,6 @@ export default class Drawer implements DrawerInterface {
       const coords2: VectorArrayType = this._viewConfig.transposeBackward(coords1);
       console.log(coords, coords1, coords2);
 
-      // const scale: VectorArrayType = [...this._viewConfig.scale];
-      // scale[0] *= 1.1;
-      // scale[1] *= 1.1;
-      // this._viewConfig.updateScaleInCursorContext(scale, coords);
-
       event.preventDefault();
     });
   }
