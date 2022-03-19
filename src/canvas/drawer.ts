@@ -165,7 +165,7 @@ export default class Drawer implements DrawerInterface {
       if (event.ctrlKey) {
         let scale = this._viewConfig.scale[0];
         scale += event.deltaY * -0.002;
-        scale = Math.min(Math.max(0.001, scale), 100);;
+        scale = Math.min(Math.max(0.001, scale), 100);
         this._viewConfig.updateScaleInCursorContext([scale, scale], [event.offsetX, event.offsetY]);
       } else if (event.shiftKey) {
         this._viewConfig.offset[0] -= event.deltaY;
@@ -183,6 +183,37 @@ export default class Drawer implements DrawerInterface {
       console.log(coords, coords1, coords2);
 
       event.preventDefault();
+    });
+
+    let mouseDownCoords: VectorArrayType | null = null;
+
+    this._domElement.addEventListener('mousedown', (event: MouseEvent) => {
+      mouseDownCoords = [event.offsetX, event.offsetY];
+      this._domElement.style.cursor = 'grabbing';
+    });
+
+    this._domElement.addEventListener('mousemove', (event: MouseEvent) => {
+      if (mouseDownCoords === null) {
+        if (event.shiftKey) {
+          this._domElement.style.cursor = 'ew-resize';
+        } else if (event.ctrlKey) {
+          this._domElement.style.cursor = 'crosshair';
+        } else {
+          this._domElement.style.cursor = 'default';
+        }
+
+        return;
+      }
+
+      const mouseMoveCoords: VectorArrayType = [event.offsetX, event.offsetY];
+      const difference: VectorArrayType = [mouseDownCoords[0]-mouseMoveCoords[0], mouseDownCoords[1]-mouseMoveCoords[1]];
+      this._viewConfig.offset = [this._viewConfig.offset[0]-difference[0], this._viewConfig.offset[1]-difference[1]];
+      mouseDownCoords = mouseMoveCoords;
+    });
+
+    this._domElement.addEventListener('mouseup', (event: MouseEvent) => {
+      mouseDownCoords = null;
+      this._domElement.style.cursor = 'default';
     });
   }
 }
