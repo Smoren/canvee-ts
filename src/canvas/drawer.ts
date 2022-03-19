@@ -6,7 +6,10 @@ import {
   ViewConfigObservableInterface
 } from "./types";
 
-class Drawer implements DrawerInterface {
+/**
+ * Canvas drawer
+ */
+export default class Drawer implements DrawerInterface {
   protected _subscriberName: string = 'Drawer';
   protected _domElement: HTMLCanvasElement;
   protected _viewConfig: ViewConfigObservableInterface;
@@ -14,6 +17,12 @@ class Drawer implements DrawerInterface {
   protected _context: CanvasRenderingContext2D;
   protected _resizeObserver: ResizeObserver;
 
+  /**
+   * Drawer constructor
+   * @param {HTMLCanvasElement} domElement canvas DOM element
+   * @param {ViewConfigObservableInterface} viewConfig view config
+   * @param {DrawableStorageInterface} storage drawable objects storage
+   */
   constructor({
     domElement,
     viewConfig,
@@ -32,6 +41,9 @@ class Drawer implements DrawerInterface {
     this.refresh();
   }
 
+  /**
+   * @inheritDoc
+   */
   public draw(): void {
     this._context.save();
     this._context.translate(...this._viewConfig.offset);
@@ -40,6 +52,9 @@ class Drawer implements DrawerInterface {
     this._context.restore();
   }
 
+  /**
+   * @inheritDoc
+   */
   public refresh(): void {
     if (this._domElement.width !== this.width) {
       this._domElement.width = this.width;
@@ -55,39 +70,70 @@ class Drawer implements DrawerInterface {
     this.draw();
   }
 
+  /**
+   * @inheritDoc
+   */
   clear(): void {
     this._context.clearRect(0, 0, this.width, this.height);
   }
 
+  /**
+   * View config getter
+   */
   get viewConfig(): ViewConfigInterface {
     return this._viewConfig;
   }
 
+  /**
+   * Canvas context getter
+   */
   get context(): CanvasRenderingContext2D {
     return this._context;
   }
 
+  /**
+   * Canvas width getter
+   */
   get width(): number {
     return this._domElement.clientWidth;
   }
 
+  /**
+   * Canvas height getter
+   */
   get height(): number {
     return this._domElement.clientHeight;
   }
 
+  /**
+   * Initiates canvas resize observer
+   * @protected
+   */
   protected _initResizeObserver(): void {
     this._resizeObserver = new ResizeObserver(() => this.refresh());
     this._resizeObserver.observe(this._domElement);
   }
 
+  /**
+   * Initiates view config observer
+   * @protected
+   */
   protected _initViewConfigObserver(): void {
     this._viewConfig.onViewChange(this._subscriberName, () => this.refresh());
   }
 
+  /**
+   * Initiates storage observer
+   * @protected
+   */
   protected _initStorageObserver(): void {
     this._storage.onViewChange(this._subscriberName, () => this.refresh());
   }
 
+  /**
+   * Initiates mouse events observer
+   * @protected
+   */
   protected _initMouseEvents(): void {
     // TODO тоже перенести куда-нибудь
     this._domElement.addEventListener('wheel', (event: WheelEvent) => {
@@ -114,5 +160,3 @@ class Drawer implements DrawerInterface {
     });
   }
 }
-
-export default Drawer;

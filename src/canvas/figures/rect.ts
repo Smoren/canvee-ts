@@ -7,18 +7,35 @@ import {
 } from "../types";
 import Drawable from "../structs/drawable";
 
+/**
+ * Interface for config of rect figure
+ */
 interface RectConfigInterface extends BasicFigureDrawableConfigInterface {
   position: VectorArrayType;
   size: VectorArrayType;
 }
 
-class Rect extends Drawable implements DrawableInterface {
+/**
+ * Rect figure
+ */
+export default class Rect extends Drawable implements DrawableInterface {
+  /**
+   * @inheritDoc
+   */
   protected _config: RectConfigInterface;
 
+  /**
+   * Rect constructor
+   * @param {RectConfigInterface} config
+   * @param {LinkedDataType} data
+   */
   constructor(config: RectConfigInterface, data: LinkedDataType = {}) {
     super(config, data);
   }
 
+  /**
+   * @inheritDoc
+   */
   draw(drawer: DrawerInterface): void {
     drawer.context.beginPath();
     drawer.context.strokeStyle = this._config.strokeStyle;
@@ -30,5 +47,4 @@ class Rect extends Drawable implements DrawableInterface {
   }
 }
 
-export default Rect;
 export { RectConfigInterface };

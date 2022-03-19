@@ -8,17 +8,42 @@ import {
 import { areArraysEqual } from "../helpers/base";
 import ObserveHelper from "../helpers/observe-helper";
 
+/**
+ * Abstract class for drawable objects
+ */
 export default abstract class Drawable implements DrawableInterface {
+  /**
+   * View config
+   * @protected
+   */
   protected _config: DrawableConfigInterface;
+  /**
+   * Extra linked data
+   * @protected
+   */
   protected _data: LinkedDataType;
+  /**
+   * Observe helper
+   * @protected
+   */
   protected _observeHelper: ObserveHelperInterface;
 
+  /**
+   * @inheritDoc
+   */
   public abstract draw(drawer: DrawerInterface): void;
 
+  /**
+   * View config getter
+   */
   public get config(): DrawableConfigInterface {
     return this._config;
   }
 
+  /**
+   * View config setter
+   * @param {DrawableConfigInterface} config
+   */
   public set config(config: DrawableConfigInterface) {
     const isChanged = !areArraysEqual(Object.entries(config), Object.entries(this._config));
 
@@ -35,14 +60,26 @@ export default abstract class Drawable implements DrawableInterface {
     }))
   }
 
+  /**
+   * Linked data getter
+   */
   public get data(): LinkedDataType {
     return this._data;
   }
 
+  /**
+   * @inheritDoc
+   */
   public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
     this._observeHelper.onChange(subscriberName, handler);
   }
 
+  /**
+   * Drawable constructor
+   * @param {DrawableConfigInterface} config view config
+   * @param {LinkedDataType} data linked extra data
+   * @protected
+   */
   protected constructor(config: DrawableConfigInterface, data: LinkedDataType = {}) {
     this._observeHelper = new ObserveHelper();
     this._config = new Proxy(config, {

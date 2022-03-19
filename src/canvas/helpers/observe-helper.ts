@@ -1,9 +1,23 @@
 import { ObserveHelperInterface, ViewObservableHandlerType } from "../types";
 
+/**
+ * Helper for observable logic
+ */
 export default class ObserveHelper implements ObserveHelperInterface {
-    protected _handlerMap: Record<string, (target: unknown, extra: Record<string, unknown> | null) => void> = {};
+    /**
+     * Handlers mapped by subscribers
+     * @protected
+     */
+    protected _handlerMap: Record<string, ViewObservableHandlerType> = {};
+    /**
+     * Flag for muting handlers
+     * @protected
+     */
     protected _muteHandlers: boolean = false;
 
+    /**
+     * @inheritDoc
+     */
     public onChange(
         subscriberName: string,
         handler: ViewObservableHandlerType
@@ -11,6 +25,9 @@ export default class ObserveHelper implements ObserveHelperInterface {
         this._handlerMap[subscriberName] = handler;
     }
 
+    /**
+     * @inheritDoc
+     */
     public processWithMuteHandlers(
         extra: Record<string, unknown> | null = null
     ): boolean {
@@ -19,6 +36,9 @@ export default class ObserveHelper implements ObserveHelperInterface {
         });
     }
 
+    /**
+     * @inheritDoc
+     */
     public withMuteHandlers(
         action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void
     ): boolean {
@@ -33,6 +53,9 @@ export default class ObserveHelper implements ObserveHelperInterface {
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public processHandlers(
         isMuted: boolean,
         extra: Record<string, unknown> | null = null

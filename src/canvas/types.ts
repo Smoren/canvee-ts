@@ -58,7 +58,7 @@ export interface ObserveHelperInterface {
  */
 export interface DrawableConfigInterface {
   /**
-   * @property {number} zIndex Z-index
+   * Z-index
    */
   zIndex: number;
 }
@@ -68,15 +68,15 @@ export interface DrawableConfigInterface {
  */
 export interface BasicFigureDrawableConfigInterface extends DrawableConfigInterface {
   /**
-   * @property {string} strokeStyle Stroke style
+   * Stroke style
    */
   strokeStyle: string;
   /**
-   * @property {string} fillStyle Fill style
+   * Fill style
    */
   fillStyle: string;
   /**
-   * @property {number} lineWidth Line width
+   * Line width
    */
   lineWidth: number;
 }
@@ -91,11 +91,11 @@ export type LinkedDataType = Record<string, unknown>;
  */
 export interface DrawableInterface extends ViewObservableInterface {
   /**
-   * @property {DrawableConfigInterface} config View config
+   * View config
    */
   config: DrawableConfigInterface;
   /**
-   * @property {LinkedDataType} config View config
+   * View config
    */
   data: LinkedDataType;
 
@@ -120,7 +120,7 @@ export interface DrawableInterface extends ViewObservableInterface {
  */
 export interface DrawableStorageInterface extends ViewObservableInterface {
   /**
-   * @property {DrawableInterface[]} list list of drawable objects
+   * List of drawable objects
    */
   list: DrawableInterface[];
 
@@ -136,15 +136,15 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
  */
 export interface ViewConfigInterface {
   /**
-   * @property {VectorArrayType} scale scale
+   * Scale
    */
   scale: VectorArrayType;
   /**
-   * @property {VectorArrayType} offset offset
+   * Offset
    */
   offset: VectorArrayType;
   /**
-   * @property {number} gridStep gridStep
+   * Grid step
    */
   gridStep: number;
 }
@@ -177,15 +177,15 @@ export interface ViewConfigObservableInterface extends ViewConfigInterface, View
  */
 export interface DrawerConfigInterface {
   /**
-   * @property {HTMLCanvasElement} domElement DOM element of canvas
+   * DOM element of canvas
    */
   domElement: HTMLCanvasElement,
   /**
-   * @property {ViewConfigObservableInterface} viewConfig view config
+   * View config
    */
   viewConfig: ViewConfigObservableInterface,
   /**
-   * @property {DrawableStorageInterface} storage storage of drawable objects
+   * Storage of drawable objects
    */
   storage: DrawableStorageInterface
 }
@@ -195,19 +195,19 @@ export interface DrawerConfigInterface {
  */
 export interface DrawerInterface {
   /**
-   * @property {ViewConfigInterface} viewConfig view config
+   * View config
    */
   viewConfig: ViewConfigInterface;
   /**
-   * @property {CanvasRenderingContext2D} context drawing context
+   * Drawing context
    */
   context: CanvasRenderingContext2D;
   /**
-   * @property {number} width current canvas element width
+   * Current canvas element width
    */
   width: number;
   /**
-   * @property {number} height current canvas element height
+   * Current canvas element height
    */
   height: number;
 
