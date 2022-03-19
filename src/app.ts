@@ -13,6 +13,14 @@ storage.add(new Rect({
   strokeStyle: 'black',
   lineWidth: 3,
 }));
+storage.add(new Rect({
+  position: [100, 250],
+  size: [50, 50],
+  zIndex: 1,
+  fillStyle: 'blue',
+  strokeStyle: 'black',
+  lineWidth: 3,
+}));
 console.log(storage);
 
 const viewConfig: ViewConfigObservableInterface = new ViewConfig({
