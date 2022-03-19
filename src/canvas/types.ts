@@ -7,15 +7,17 @@ export interface VectorInterface {
   toArray(): VectorArrayType;
 }
 
+export type ViewObservableHandlerType = (target: unknown, extra: Record<string, unknown> | null) => void;
+
 export interface ViewObservableInterface {
-  onViewChange(actorName: string, handler: (target: unknown) => void): void;
+  onViewChange(actorName: string, handler: ViewObservableHandlerType): void;
 }
 
 export interface ObserveHelperInterface {
-  onChange(actorName: string, handler: (target: unknown) => void): void;
-  processWithMuteHandlers(): boolean;
+  onChange(actorName: string, handler: ViewObservableHandlerType): void;
+  processWithMuteHandlers(extra?: Record<string, unknown> | null): boolean;
   withMuteHandlers(action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void): boolean;
-  processHandlers(isMuted: boolean): boolean;
+  processHandlers(isMuted: boolean, extra?: Record<string, unknown> | null): boolean;
 }
 
 export interface DrawableConfigInterface {
@@ -34,10 +36,12 @@ export interface DrawableInterface extends ViewObservableInterface {
   config: DrawableConfigInterface;
   data: LinkedDataType
   draw(drawer: DrawerInterface): void;
-  onViewChange(actorName: string, handler: (target: DrawableInterface) => void): void;
+  onViewChange(actorName: string, handler: ViewObservableHandlerType): void;
 }
 
-export interface DrawableStorageInterface {
+// TODO DrawableGroupInterface
+
+export interface DrawableStorageInterface extends ViewObservableInterface {
   get list(): DrawableInterface[];
   add(item: DrawableInterface): void;
 }
@@ -51,7 +55,7 @@ export interface ViewConfigInterface {
 export interface ViewConfigObservableInterface extends ViewConfigInterface, ViewObservableInterface {
   transposeForward(coords: VectorArrayType): VectorArrayType;
   transposeBackward(coords: VectorArrayType): VectorArrayType;
-  onViewChange(actorName: string, handler: (target: ViewConfigObservableInterface) => void): void;
+  onViewChange(actorName: string, handler: ViewObservableHandlerType): void;
 }
 
 export interface DrawerConfigInterface {

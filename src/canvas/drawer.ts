@@ -24,11 +24,9 @@ class Drawer implements DrawerInterface {
     this._storage = storage;
     this._context = domElement.getContext('2d');
 
-    // TODO перенести в storage, сделав его тоже observable
-    this._storage.list.forEach(item => item.onViewChange(this._actorName, () => this.refresh()));
-
     this._initResizeObserver();
     this._initViewConfigObserver();
+    this._initStorageObserver();
     this._initMouseEvents();
 
     this.refresh();
@@ -84,6 +82,10 @@ class Drawer implements DrawerInterface {
 
   protected _initViewConfigObserver(): void {
     this._viewConfig.onViewChange(this._actorName, () => this.refresh());
+  }
+
+  protected _initStorageObserver(): void {
+    this._storage.onViewChange(this._actorName, () => this.refresh());
   }
 
   protected _initMouseEvents(): void {

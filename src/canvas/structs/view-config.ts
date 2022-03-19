@@ -1,4 +1,10 @@
-import { ObserveHelperInterface, VectorArrayType, ViewConfigInterface, ViewConfigObservableInterface } from "../types";
+import {
+  ObserveHelperInterface,
+  VectorArrayType,
+  ViewConfigInterface,
+  ViewConfigObservableInterface,
+  ViewObservableHandlerType
+} from "../types";
 import { areArraysEqual } from "../helpers/base";
 import ObserveHelper from "../helpers/observe-helper";
 
@@ -12,20 +18,22 @@ export default class ViewConfig implements ViewConfigObservableInterface {
     this._observeHelper = new ObserveHelper();
     this._scale = new Proxy(scale, {
       set: (target: VectorArrayType, index, value): boolean => {
+        const isChanged = target[index as keyof VectorArrayType] !== value;
         target[index as keyof VectorArrayType] = value;
-        return this._observeHelper.processWithMuteHandlers();
+        return isChanged ? this._observeHelper.processWithMuteHandlers() : true;
       },
     });
     this._offset = new Proxy(offset, {
       set: (target: VectorArrayType, index, value): boolean => {
+        const isChanged = target[index as keyof VectorArrayType] !== value;
         target[index as keyof VectorArrayType] = value;
-        return this._observeHelper.processWithMuteHandlers();
+        return isChanged ? this._observeHelper.processWithMuteHandlers() : true;
       },
     });
     this._gridStep = gridStep;
   }
 
-  public onViewChange(actorName: string, handler: (target: ViewConfig) => void): void {
+  public onViewChange(actorName: string, handler: ViewObservableHandlerType): void {
     this._observeHelper.onChange(actorName, handler);
   }
 

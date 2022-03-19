@@ -4,7 +4,7 @@ import DrawableStorage from "./canvas/structs/drawable-storage";
 import { ViewConfigObservableInterface } from "./canvas/types";
 import ViewConfig from "./canvas/structs/view-config";
 
-const storage = new DrawableStorage([]);
+const storage = new DrawableStorage();
 storage.add(new Rect({
   position: [10, 20],
   size: [100, 30],
@@ -14,7 +14,7 @@ storage.add(new Rect({
   lineWidth: 3,
 }));
 storage.add(new Rect({
-  position: [100, 250],
+  position: [10, 25],
   size: [50, 50],
   zIndex: 1,
   fillStyle: 'blue',

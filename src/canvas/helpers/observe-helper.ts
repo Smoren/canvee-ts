@@ -1,20 +1,27 @@
-import { ObserveHelperInterface } from "../types";
+import { ObserveHelperInterface, ViewObservableHandlerType } from "../types";
 
 export default class ObserveHelper implements ObserveHelperInterface {
-    protected _handlerMap: Record<string, (target: unknown) => void> = {};
+    protected _handlerMap: Record<string, (target: unknown, extra: Record<string, unknown> | null) => void> = {};
     protected _muteHandlers: boolean = false;
 
-    public onChange(actorName: string, handler: (target: unknown) => void): void {
+    public onChange(
+        actorName: string,
+        handler: ViewObservableHandlerType
+    ): void {
         this._handlerMap[actorName] = handler;
     }
 
-    public processWithMuteHandlers(): boolean {
+    public processWithMuteHandlers(
+        extra: Record<string, unknown> | null = null
+    ): boolean {
         return this.withMuteHandlers((mutedBefore: boolean) => {
-            return this.processHandlers(mutedBefore);
+            return this.processHandlers(mutedBefore, extra);
         });
     }
 
-    public withMuteHandlers(action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void): boolean {
+    public withMuteHandlers(
+        action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void
+    ): boolean {
         if (this._muteHandlers) {
             action(true, this);
         } else {
@@ -26,10 +33,13 @@ export default class ObserveHelper implements ObserveHelperInterface {
         return true;
     }
 
-    public processHandlers(isMuted: boolean): boolean {
+    public processHandlers(
+        isMuted: boolean,
+        extra: Record<string, unknown> | null = null
+    ): boolean {
         if (!isMuted) {
             Object.values(this._handlerMap)
-                .forEach(handler => handler(this));
+                .forEach(handler => handler(this, extra));
         }
 
         return true;
