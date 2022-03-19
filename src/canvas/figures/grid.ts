@@ -68,21 +68,24 @@ export default class Grid extends Drawable implements DrawableInterface {
       yGap += mainLineDistance;
     }
 
-    let j=0;
-    for(let i=fromBound[1]-yGap; i<=toBound[1]; i+=step) {
-      const color = (j++ % this._config.linesInBlock === 0)
-        ? this._config.mainLineColor
-        : this._config.subLineColor;
-      this._drawHorizontalLine(i, drawer, color, [fromBound, toBound]);
+    {
+      let j=0;
+      for(let i=fromBound[1]-yGap; i<=toBound[1]; i+=step) {
+        const color = (j++ % this._config.linesInBlock === 0)
+          ? this._config.mainLineColor
+          : this._config.subLineColor;
+        this._drawHorizontalLine(i, drawer, color, [fromBound, toBound]);
+      }
     }
 
-    j=0;
-    for(let i=fromBound[0]-xGap; i<=toBound[0]; i+=step) {
-      if(!j) console.log(i);
-      const color = (j++ % this._config.linesInBlock === 0)
-        ? this._config.mainLineColor
-        : this._config.subLineColor;
-      this._drawVerticalLine(i, drawer, color, [fromBound, toBound]);
+    {
+      let j=0;
+      for(let i=fromBound[0]-xGap; i<=toBound[0]; i+=step) {
+        const color = (j++ % this._config.linesInBlock === 0)
+          ? this._config.mainLineColor
+          : this._config.subLineColor;
+        this._drawVerticalLine(i, drawer, color, [fromBound, toBound]);
+      }
     }
 
     drawer.context.closePath();
