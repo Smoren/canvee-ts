@@ -107,3 +107,12 @@ export default class Vector implements VectorInterface {
     return [this.x, this.y];
   }
 }
+
+/**
+ * Creates new vector
+ * @public
+ * @param coords - coordinates of new vector
+ */
+export function createVector(coords: VectorArrayType): Vector {
+  return new Vector(coords);
+}

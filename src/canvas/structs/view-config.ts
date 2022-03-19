@@ -7,6 +7,7 @@ import {
 } from "../types";
 import { areArraysEqual } from "../helpers/base";
 import ObserveHelper from "../helpers/observe-helper";
+import { createVector } from "./vector";
 
 /**
  * Config for objects drawable on canvas
@@ -89,11 +90,11 @@ export default class ViewConfig implements ViewConfigObservableInterface {
     const isChanged = !areArraysEqual(newScale, this._scale);
 
     this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
-      const oldScalePosition = this.transposeForward(cursorCoords);
+      const oldScalePosition = createVector(this.transposeForward(cursorCoords));
       this.scale = newScale;
-      const newScalePosition = this.transposeForward(cursorCoords);
-      const difference = [newScalePosition[0] - oldScalePosition[0], newScalePosition[1] - oldScalePosition[1]];
-      this.offset = this.transposeBackward([difference[0], difference[1]]);
+      const newScalePosition = createVector(this.transposeForward(cursorCoords));
+      const difference = newScalePosition.clone().sub(oldScalePosition);
+      this.offset = this.transposeBackward(difference.toArray());
 
       manager.processHandlers(!isChanged || mutedBefore);
     });

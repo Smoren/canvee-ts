@@ -2,6 +2,8 @@
  * Simple 2d vector by array
  * @public
  */
+import Vector from "./structs/vector";
+
 export type VectorArrayType = [number, number];
 
 /**
