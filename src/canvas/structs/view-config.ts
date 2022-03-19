@@ -1,4 +1,4 @@
-import { ObserveManagerInterface, VectorArrayType, ViewConfigInterface, ViewConfigObservableInterface } from "../types";
+import { ObserveHelperInterface, VectorArrayType, ViewConfigInterface, ViewConfigObservableInterface } from "../types";
 import { areArraysEqual } from "../helpers/base";
 import ObserveHelper from "../helpers/observe-helper";
 
@@ -6,27 +6,27 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   protected _scale: VectorArrayType;
   protected _offset: VectorArrayType;
   protected _gridStep: number;
-  protected _observeManager: ObserveManagerInterface;
+  protected _observeHelper: ObserveHelperInterface;
 
   constructor({ scale, offset, gridStep }: ViewConfigInterface) {
-    this._observeManager = new ObserveHelper();
+    this._observeHelper = new ObserveHelper();
     this._scale = new Proxy(scale, {
       set: (target: VectorArrayType, index, value): boolean => {
         target[index as keyof VectorArrayType] = value;
-        return this._observeManager.processWithMuteHandlers();
+        return this._observeHelper.processWithMuteHandlers();
       },
     });
     this._offset = new Proxy(offset, {
       set: (target: VectorArrayType, index, value): boolean => {
         target[index as keyof VectorArrayType] = value;
-        return this._observeManager.processWithMuteHandlers();
+        return this._observeHelper.processWithMuteHandlers();
       },
     });
     this._gridStep = gridStep;
   }
 
   public onViewChange(actorName: string, handler: (target: ViewConfig) => void): void {
-    this._observeManager.onChange(actorName, handler);
+    this._observeHelper.onChange(actorName, handler);
   }
 
   public transposeForward(coords: VectorArrayType): VectorArrayType {
@@ -42,7 +42,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   update({ scale, offset, gridStep }: ViewConfigInterface): void {
     const isChanged = !areArraysEqual(scale, this._scale) || !areArraysEqual(offset, this._offset);
 
-    this._observeManager.withMuteHandlers((mutedBefore: boolean, manager: ObserveManagerInterface) => {
+    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
       this.scale = scale;
       this.offset = offset;
       this.gridStep = gridStep;
@@ -58,7 +58,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   set scale(scale: VectorArrayType) {
     const isChanged = !areArraysEqual(scale, this._scale);
 
-    this._observeManager.withMuteHandlers((mutedBefore: boolean, manager: ObserveManagerInterface) => {
+    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
       this._scale[0] = scale[0];
       this._scale[1] = scale[1];
       manager.processHandlers(!isChanged || mutedBefore);
@@ -72,7 +72,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   set offset(offset: VectorArrayType) {
     const isChanged = !areArraysEqual(offset, this._offset);
 
-    this._observeManager.withMuteHandlers((mutedBefore: boolean, manager: ObserveManagerInterface) => {
+    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
       this._offset[0] = offset[0];
       this._offset[1] = offset[1];
       manager.processHandlers(!isChanged || mutedBefore);
@@ -86,7 +86,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   set gridStep(gridStep: number) {
     const isChanged = gridStep !== this._gridStep;
 
-    this._observeManager.withMuteHandlers((mutedBefore: boolean, manager: ObserveManagerInterface) => {
+    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
       this._gridStep = gridStep;
       manager.processHandlers(!isChanged || mutedBefore);
     });

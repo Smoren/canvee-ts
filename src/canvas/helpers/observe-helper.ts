@@ -1,6 +1,6 @@
-import { ObserveManagerInterface } from "../types";
+import { ObserveHelperInterface } from "../types";
 
-export default class ObserveHelper implements ObserveManagerInterface {
+export default class ObserveHelper implements ObserveHelperInterface {
     protected _handlerMap: Record<string, (target: unknown) => void> = {};
     protected _muteHandlers: boolean = false;
 
@@ -14,7 +14,7 @@ export default class ObserveHelper implements ObserveManagerInterface {
         });
     }
 
-    public withMuteHandlers(action: (mutedBefore: boolean, manager: ObserveManagerInterface) => void): boolean {
+    public withMuteHandlers(action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void): boolean {
         if (this._muteHandlers) {
             action(true, this);
         } else {
