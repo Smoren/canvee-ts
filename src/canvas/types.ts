@@ -176,6 +176,13 @@ export interface ViewConfigObservableInterface extends ViewConfigInterface, View
   transposeBackward(coords: VectorArrayType): VectorArrayType;
 
   /**
+   * Update scale in cursor context (the place under the cursor will be fixed)
+   * @param scale - scale
+   * @param cursorCoords - cursor coords
+   */
+  updateScaleInCursorContext(scale: VectorArrayType, cursorCoords: VectorArrayType): void;
+
+  /**
    * Registers handlers for events when view has changed
    * @param subscriberName - who is subscriber
    * @param handler - handler callback

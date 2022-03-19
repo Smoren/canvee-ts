@@ -83,6 +83,23 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   }
 
   /**
+   * {@inheritDoc ViewConfigObservableInterface.updateScaleInCursorContext}
+   */
+  public updateScaleInCursorContext(newScale: VectorArrayType, cursorCoords: VectorArrayType): void {
+    const isChanged = !areArraysEqual(newScale, this._scale);
+
+    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
+      const oldScalePosition = this.transposeForward(cursorCoords);
+      this.scale = newScale;
+      const newScalePosition = this.transposeForward(cursorCoords);
+      const difference = [newScalePosition[0] - oldScalePosition[0], newScalePosition[1] - oldScalePosition[1]];
+      this.offset = this.transposeBackward([difference[0], difference[1]]);
+
+      manager.processHandlers(!isChanged || mutedBefore);
+    });
+  }
+
+  /**
    * Updates all the data in config
    * @param scale - scale
    * @param offset - offset

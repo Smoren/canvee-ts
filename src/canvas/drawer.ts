@@ -164,10 +164,9 @@ export default class Drawer implements DrawerInterface {
     this._domElement.addEventListener('wheel', (event: WheelEvent) => {
       if (event.ctrlKey) {
         let scale = this._viewConfig.scale[0];
-        scale += event.deltaY * -0.01;
-        scale = Math.min(Math.max(.125, scale), 4);
-        this._viewConfig.scale = [scale, scale];
-        // TODO очевидно надо, чтобы место под курсором мыши оставалось неподвижным
+        scale += event.deltaY * -0.002;
+        scale = Math.min(Math.max(0.001, scale), 100);;
+        this._viewConfig.updateScaleInCursorContext([scale, scale], [event.offsetX, event.offsetY]);
       } else if (event.shiftKey) {
         this._viewConfig.offset[0] -= event.deltaY;
       } else {
@@ -178,10 +177,17 @@ export default class Drawer implements DrawerInterface {
     });
 
     this._domElement.addEventListener('click', (event: PointerEvent) => {
-      const coords1: VectorArrayType = [event.offsetX, event.offsetY];
-      const coords2: VectorArrayType = this._viewConfig.transposeForward(coords1);
-      const coords3: VectorArrayType = this._viewConfig.transposeBackward(coords2);
-      console.log(coords1, coords2, coords3);
+      const coords: VectorArrayType = [event.offsetX, event.offsetY];
+      const coords1: VectorArrayType = this._viewConfig.transposeForward(coords);
+      const coords2: VectorArrayType = this._viewConfig.transposeBackward(coords1);
+      console.log(coords, coords1, coords2);
+
+      // const scale: VectorArrayType = [...this._viewConfig.scale];
+      // scale[0] *= 1.1;
+      // scale[1] *= 1.1;
+      // this._viewConfig.updateScaleInCursorContext(scale, coords);
+
+      event.preventDefault();
     });
   }
 }
