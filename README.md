@@ -1,4 +1,4 @@
-# Genetic Fourier function approximation
+# Canvas
 
 ### Install
 
