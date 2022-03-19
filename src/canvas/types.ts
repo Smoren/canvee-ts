@@ -11,6 +11,13 @@ export interface ViewObservableInterface {
   onViewChange(actorName: string, handler: (target: unknown) => void): void;
 }
 
+export interface ObserveManagerInterface {
+  onChange(actorName: string, handler: (target: unknown) => void): void;
+  processWithMuteHandlers(): boolean;
+  withMuteHandlers(action: (mutedBefore: boolean, manager: ObserveManagerInterface) => void): boolean;
+  processHandlers(isMuted: boolean): boolean;
+}
+
 export interface DrawableConfigInterface {
   zIndex: number;
 }
