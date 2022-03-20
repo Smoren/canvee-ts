@@ -11,6 +11,11 @@ import { createVector } from "./vector";
 
 export default class DrawableGroup extends Drawable implements DrawableGroupInterface {
   /**
+   * Name of class to use as subscriber name in observable logic
+   * @protected
+   */
+  protected _subscriberName: 'DrawableGroup';
+  /**
    * List of objects in group
    * @protected
    */
@@ -31,6 +36,10 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
   ) {
     super(id, config, data);
 
+    this._observeHelper.onChange(this._subscriberName, (target) => {
+      console.log('asdasd', target);
+    });
+
     // TODO нужен ли здесь Proxy?
     this._list = new Proxy(list as DrawableInterface[], {
       set: (target: DrawableInterface[], index, value): boolean => {
@@ -41,23 +50,6 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
   }
 
   /**
-   * {@inheritDoc DrawableInterface.setPosition}
-   */
-  public setPosition(coords: VectorArrayType) {
-    const difference = createVector(coords)
-      .sub(createVector(this._config.position))
-      .toArray();
-
-    this._observeHelper.withMuteHandlers(() => {
-      this._list.forEach((item) => {
-        item.movePosition(difference);
-      });
-    });
-
-    super.setPosition(coords);
-  }
-
-  /**
    * {@inheritDoc DrawableInterface.draw}
    */
   public draw(drawer: DrawerInterface): void {
@@ -65,9 +57,12 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
       return;
     }
 
+    drawer.context.save();
+    drawer.context.translate(...this.config.position);
     this._list.forEach((item) => {
       item.draw(drawer);
     });
+    drawer.context.restore();
   }
 
   /**

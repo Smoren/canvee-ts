@@ -10,6 +10,7 @@ import ObserveHelper from "../helpers/observe-helper";
 import { updateFileWithText } from "ts-loader/dist/servicesHost";
 import DrawableGroup from "./drawable-group";
 import { getMinPosition } from "../helpers/base";
+import { createVector } from "./vector";
 
 /**
  * Storage for drawable objects
@@ -162,13 +163,22 @@ export default class DrawableStorage implements DrawableStorageInterface {
    */
   public group(ids: DrawableIdType[]): DrawableGroup {
     const groupItems = this.delete({ idsOnly: ids });
+    const minPosition = getMinPosition(groupItems.map(item => item.config.position));
 
     const config: DrawableConfigInterface = {
-      position: getMinPosition(groupItems.map(item => item.config.position)),
+      position: minPosition,
       zIndex: Math.max(...groupItems.map(item => item.config.zIndex)),
       visible: true,
       selectable: true,
     };
+
+    this._observeHelper.withMuteHandlers(() => {
+      groupItems.forEach(item => {
+        item.movePosition(
+          createVector(minPosition).inverse().toArray()
+        )
+      });
+    });
 
     const groupId = 'group-'+(new Date()).getTime()+'-'+Math.floor(Math.random()*100000);
     const group = new DrawableGroup(groupId, config, {}, groupItems);
@@ -182,6 +192,13 @@ export default class DrawableStorage implements DrawableStorageInterface {
    */
   public ungroup(groupId: DrawableIdType): void {
     const group: DrawableGroup = this.deleteById(groupId) as DrawableGroup;
+
+    this._observeHelper.withMuteHandlers(() => {
+      group.list.forEach(item => {
+        item.movePosition(group.config.position)
+      });
+    });
+
     this.addBatch(group.list);
   }
 
