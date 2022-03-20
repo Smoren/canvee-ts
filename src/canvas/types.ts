@@ -152,6 +152,14 @@ export interface DrawableConfigInterface {
  */
 export interface BasicFigureDrawableConfigInterface extends DrawableConfigInterface {
   /**
+   * Position vector
+   */
+  position: VectorArrayType;
+  /**
+   * Figure size vector
+   */
+  size: VectorArrayType;
+  /**
    * Stroke style
    */
   strokeStyle: string;

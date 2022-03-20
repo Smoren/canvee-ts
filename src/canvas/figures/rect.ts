@@ -12,14 +12,7 @@ import Drawable from "../structs/drawable";
  * @public
  */
 export interface RectConfigInterface extends BasicFigureDrawableConfigInterface {
-  /**
-   * Position vector
-   */
-  position: VectorArrayType;
-  /**
-   * Size vector
-   */
-  size: VectorArrayType;
+
 }
 
 /**
