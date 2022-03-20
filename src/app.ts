@@ -4,6 +4,7 @@ import DrawableStorage from "./canvas/structs/drawable-storage";
 import { DrawableInterface, ViewConfigObservableInterface } from "./canvas/types";
 import ViewConfig from "./canvas/structs/view-config";
 import Grid from "./canvas/figures/grid";
+import Svg from "./canvas/figures/svg";
 
 const storage = new DrawableStorage([
   new Grid(1, {
@@ -44,7 +45,18 @@ const storage = new DrawableStorage([
     fillStyle: 'blue',
     strokeStyle: 'black',
     lineWidth: 3,
-  })
+  }),
+  new Svg(5, {
+    position: [300, 550],
+    size: [150, 100],
+    zIndex: 1,
+    visible: true,
+    selectable: false,
+    data: "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>",
+    fillStyle: 'blue', // TODO не нужны
+    strokeStyle: 'black',
+    lineWidth: 3,
+  }),
 ]);
 
 console.log(storage);
@@ -85,7 +97,7 @@ setTimeout(() => {
     typesExcept: ['Grid'],
     extraFilter: item => item.config.zIndex === 0,
   });
-  storage.add(new Rect(5, {
+  storage.add(new Rect(50, {
     position: [100, 25],
     size: [50, 30],
     zIndex: 1,
