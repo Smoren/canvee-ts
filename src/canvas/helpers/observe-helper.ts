@@ -20,10 +20,17 @@ export default class ObserveHelper implements ObserveHelperInterface {
      * {@inheritDoc ObserveHelperInterface.onChange}
      */
     public onChange(
-        subscriberName: string,
-        handler: ViewObservableHandlerType
+      subscriberName: string,
+      handler: ViewObservableHandlerType
     ): void {
         this._handlerMap[subscriberName] = handler;
+    }
+
+    /**
+     * {@inheritDoc ObserveHelperInterface.offChange}
+     */
+    public offChange(subscriberName: string): void {
+        delete this._handlerMap[subscriberName];
     }
 
     /**

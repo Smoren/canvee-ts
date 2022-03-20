@@ -8,6 +8,7 @@ import {
 } from "../types";
 import { areArraysEqual } from "../helpers/base";
 import ObserveHelper from "../helpers/observe-helper";
+import { createVector } from "./vector";
 
 /**
  * Abstract class for drawable objects
@@ -39,6 +40,24 @@ export default abstract class Drawable implements DrawableInterface {
    * @protected
    */
   protected _observeHelper: ObserveHelperInterface;
+
+  /**
+   * {@inheritDoc DrawableInterface.setPosition}
+   */
+  public setPosition(coords: VectorArrayType): void {
+    this._config.position = coords;
+  }
+
+  /**
+   * {@inheritDoc DrawableInterface.movePosition}
+   */
+  public movePosition(offset: VectorArrayType): void {
+    this.setPosition(
+      createVector(this._config.position)
+        .add(createVector(offset))
+        .toArray()
+    );
+  }
 
   /**
    * {@inheritDoc DrawableInterface.draw}
@@ -98,6 +117,13 @@ export default abstract class Drawable implements DrawableInterface {
    */
   public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
     this._observeHelper.onChange(subscriberName, handler);
+  }
+
+  /**
+   * {@inheritDoc DrawableInterface.offViewChange}
+   */
+  public offViewChange(subscriberName: string): void {
+    this._observeHelper.offChange(subscriberName);
   }
 
   /**

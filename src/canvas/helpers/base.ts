@@ -4,6 +4,8 @@
  * @param lhs - first array to compare
  * @param rhs - second array to compare
  */
+import { VectorArrayType } from "../types";
+
 export function areArraysEqual(lhs: Array<unknown>, rhs: Array<unknown>): boolean {
   return lhs.length === rhs.length && lhs.every((v, i) => v === rhs[i]);
 }
@@ -37,4 +39,24 @@ export function createUrlFromBlob(blob: Blob): string {
   const URL = window.URL || window.webkitURL || window;
   // @ts-ignore
   return URL.createObjectURL(blob);
+}
+
+/**
+ * Finds and returns minimal (left-top) position
+ * @param positions
+ */
+export function getMinPosition(positions: VectorArrayType[]): VectorArrayType {
+  let minX: number = Infinity;
+  let minY: number = Infinity;
+
+  positions.forEach(position => {
+    if (position[0] < minX) {
+      minX = position[0];
+    }
+    if (position[1] < minY) {
+      minY = position[1];
+    }
+  });
+
+  return [minX, minY];
 }

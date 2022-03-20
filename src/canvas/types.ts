@@ -1,3 +1,5 @@
+import DrawableGroup from "./structs/drawable-group";
+
 /**
  * Simple 2d vector by array
  * @public
@@ -101,11 +103,17 @@ export interface ViewObservableInterface {
  */
 export interface ObserveHelperInterface {
   /**
-   * Registers handlers for events when observable parts have changed
+   * Registers handler for events when observable parts have changed
    * @param subscriberName - who is subscriber
    * @param handler - handler callback
    */
   onChange(subscriberName: string, handler: ViewObservableHandlerType): void;
+
+  /**
+   * Unregisters handler for events
+   * @param subscriberName - who is subscriber
+   */
+  offChange(subscriberName: string): void;
 
   /**
    * Process all registered handlers with muting logic
@@ -133,6 +141,10 @@ export interface ObserveHelperInterface {
  */
 export interface DrawableConfigInterface {
   /**
+   * Position vector
+   */
+  position: VectorArrayType;
+  /**
    * Z-index
    */
   zIndex: number;
@@ -151,10 +163,6 @@ export interface DrawableConfigInterface {
  * @public
  */
 export interface BasicFigureDrawableConfigInterface extends DrawableConfigInterface {
-  /**
-   * Position vector
-   */
-  position: VectorArrayType;
   /**
    * Figure size vector
    */
@@ -213,14 +221,40 @@ export interface DrawableInterface extends ViewObservableInterface {
   draw(drawer: DrawerInterface): void;
 
   /**
-   * Registers handlers for events when it needs to update view
+   * Registers handler for events when it needs to update view
    * @param subscriberName - who is subscriber
    * @param handler - handler callback
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void;
+
+  /**
+   * Unregisters handler for events
+   * @param subscriberName - who is subscriber
+   */
+  offViewChange(subscriberName: string): void;
+
+  /**
+   * Sets a new object position
+   * @param coords - new position coords
+   */
+  setPosition(coords: VectorArrayType): void;
+
+  /**
+   * Moves object position
+   * @param offset - vector to change position
+   */
+  movePosition(offset: VectorArrayType): void;
 }
 
-// TODO DrawableGroupInterface
+/**
+ * Interface for group of drawable objects
+ */
+export interface DrawableGroupInterface extends DrawableInterface {
+  /**
+   * List of objects in group
+   */
+  list: DrawableInterface[];
+}
 
 /**
  * Filter callback for finding objects in storage
@@ -278,6 +312,18 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
    * @throws Error if object is not found
    */
   findById(id: DrawableIdType): DrawableInterface;
+
+  /**
+   * Make a group from objects by IDs
+   * @param ids - id list of objects to group
+   */
+  group(ids: DrawableIdType[]): DrawableGroup
+
+  /**
+   * Ungroup objects
+   * @param groupId - group ID
+   */
+  ungroup(groupId: DrawableIdType): void;
 
   /**
    * Deletes objects found by config from storage

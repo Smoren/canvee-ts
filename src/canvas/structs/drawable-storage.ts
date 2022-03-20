@@ -4,10 +4,12 @@ import {
   DrawableInterface,
   DrawableStorageInterface,
   ObserveHelperInterface,
-  ViewObservableHandlerType, DrawableStorageFilterConfigInterface,
+  ViewObservableHandlerType, DrawableStorageFilterConfigInterface, DrawableConfigInterface,
 } from "../types";
 import ObserveHelper from "../helpers/observe-helper";
 import { updateFileWithText } from "ts-loader/dist/servicesHost";
+import DrawableGroup from "./drawable-group";
+import { getMinPosition } from "../helpers/base";
 
 /**
  * Storage for drawable objects
@@ -105,7 +107,9 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
     if(index !== -1) {
       this._observeHelper.processWithMuteHandlers();
-      return this._list.splice(index, 1)[0];
+      const deletedItem = this._list.splice(index, 1)[0];
+      deletedItem.offViewChange(this._subscriberName);
+      return deletedItem;
     }
 
     // TODO customize exception
@@ -151,6 +155,34 @@ export default class DrawableStorage implements DrawableStorageInterface {
     }
     // TODO customize exception
     throw new Error(`cannot find object with id '${id}'`);
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.group}
+   */
+  public group(ids: DrawableIdType[]): DrawableGroup {
+    const groupItems = this.delete({ idsOnly: ids });
+
+    const config: DrawableConfigInterface = {
+      position: getMinPosition(groupItems.map(item => item.config.position)),
+      zIndex: Math.max(...groupItems.map(item => item.config.zIndex)),
+      visible: true,
+      selectable: true,
+    };
+
+    const groupId = 'group-'+(new Date()).getTime()+'-'+Math.floor(Math.random()*100000);
+    const group = new DrawableGroup(groupId, config, {}, groupItems);
+    this.add(group);
+
+    return group;
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.ungroup}
+   */
+  public ungroup(groupId: DrawableIdType): void {
+    const group: DrawableGroup = this.deleteById(groupId) as DrawableGroup;
+    this.addBatch(group.list);
   }
 
   /**

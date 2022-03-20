@@ -5,9 +5,11 @@ import { DrawableInterface, ViewConfigObservableInterface } from "./canvas/types
 import ViewConfig from "./canvas/structs/view-config";
 import Grid from "./canvas/figures/grid";
 import Svg from "./canvas/figures/svg";
+import DrawableGroup from "./canvas/structs/drawable-group";
 
 const storage = new DrawableStorage([
   new Grid(1, {
+    position: [0, 0],
     zIndex: -Infinity,
     visible: true,
     selectable: false,
@@ -57,7 +59,40 @@ const storage = new DrawableStorage([
     strokeStyle: 'black',
     lineWidth: 3,
   }),
+  new Rect(6, {
+    position: [300, 300],
+    size: [30, 30],
+    zIndex: 1,
+    visible: true,
+    selectable: false,
+    fillStyle: 'transparent',
+    strokeStyle: 'blue',
+    lineWidth: 3,
+  }),
+  new Rect(7, {
+    position: [350, 300],
+    size: [30, 30],
+    zIndex: 1,
+    visible: true,
+    selectable: false,
+    fillStyle: 'transparent',
+    strokeStyle: 'blue',
+    lineWidth: 3,
+  }),
+  new Rect(8, {
+    position: [300, 350],
+    size: [30, 30],
+    zIndex: 1,
+    visible: true,
+    selectable: false,
+    fillStyle: 'transparent',
+    strokeStyle: 'blue',
+    lineWidth: 3,
+  }),
 ]);
+
+const group = storage.group([6, 7, 8]);
+// storage.ungroup(group.id);
 
 console.log(storage);
 
