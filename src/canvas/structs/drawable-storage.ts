@@ -1,10 +1,13 @@
 import {
+  DrawableStorageFilterCallbackType,
+  DrawableIdType,
   DrawableInterface,
   DrawableStorageInterface,
   ObserveHelperInterface,
-  ViewObservableHandlerType,
+  ViewObservableHandlerType, DrawableStorageFilterConfigInterface,
 } from "../types";
 import ObserveHelper from "../helpers/observe-helper";
+import { updateFileWithText } from "ts-loader/dist/servicesHost";
 
 /**
  * Storage for drawable objects
@@ -77,10 +80,100 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   /**
+   * Deletes objects found by config from storage
+   * @param config
+   */
+  public delete(config: DrawableStorageFilterConfigInterface): DrawableInterface[] {
+    const result: DrawableInterface[] = [];
+
+    this._observeHelper.withMuteHandlers(() => {
+      this.find(config).forEach(item => {
+        result.push(this.deleteById(item.id));
+      });
+    });
+
+    this._observeHelper.processWithMuteHandlers();
+    return result;
+  }
+
+  /**
+   * Deletes object by ID from storage
+   * @param id
+   */
+  public deleteById(id: DrawableIdType): DrawableInterface {
+    const index = this._list.findIndex(item => item.id === id);
+
+    if(index !== -1) {
+      this._observeHelper.processWithMuteHandlers();
+      return this._list.splice(index, 1)[0];
+    }
+
+    // TODO customize exception
+    throw new Error(`cannot find object with id '${id}'`);
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.clear}
+   */
+  clear(): void {
+    this._list.length = 0;
+    this._observeHelper.processWithMuteHandlers();
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.find}
+   */
+  public find(config: DrawableStorageFilterConfigInterface): DrawableInterface[] {
+    return this._find(item => {
+      if (config.idsOnly && config.idsOnly.indexOf(item.id) === -1) {
+        return false;
+      } else if (config.idsExcept && config.idsExcept.indexOf(item.id) !== -1) {
+        return false;
+      }
+
+      if (config.typesOnly && config.typesOnly.indexOf(item.type) === -1) {
+        return false;
+      } else if (config.typesExcept && config.typesExcept.indexOf(item.type) !== -1) {
+        return false;
+      }
+
+      return !(config.extraFilter && !config.extraFilter(item));
+    });
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.findById}
+   */
+  public findById(id: DrawableIdType): DrawableInterface {
+    const foundItems = this._find(candidate => candidate.id === id);
+    if (foundItems.length) {
+      return foundItems[0];
+    }
+    // TODO customize exception
+    throw new Error(`cannot find object with id '${id}'`);
+  }
+
+  /**
    * {@inheritDoc DrawableStorageInterface.onViewChange}
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
     this._observeHelper.onChange(subscriberName, handler);
+  }
+
+  /**
+   * Find objects in storage by filter callback function
+   * @param filter - filter callback function
+   */
+  protected _find(filter: DrawableStorageFilterCallbackType): DrawableInterface[] {
+    const result: DrawableInterface[] = [];
+
+    this._list.forEach((item) => {
+      if (filter(item)) {
+        result.push(item);
+      }
+    })
+
+    return result;
   }
 
   /**

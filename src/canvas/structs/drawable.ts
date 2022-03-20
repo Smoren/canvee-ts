@@ -1,5 +1,6 @@
 import {
   DrawableConfigInterface,
+  DrawableIdType,
   DrawableInterface,
   DrawerInterface,
   LinkedDataType,
@@ -13,6 +14,16 @@ import ObserveHelper from "../helpers/observe-helper";
  * @public
  */
 export default abstract class Drawable implements DrawableInterface {
+  /**
+   * Object ID
+   * @protected
+   */
+  protected _id: DrawableIdType;
+  /**
+   * Object type
+   * @protected
+   */
+  protected _type: string;
   /**
    * View config
    * @protected
@@ -33,6 +44,20 @@ export default abstract class Drawable implements DrawableInterface {
    * {@inheritDoc DrawableInterface.draw}
    */
   public abstract draw(drawer: DrawerInterface): void;
+
+  /**
+   * ID getter
+   */
+  public get id(): DrawableIdType {
+    return this._id;
+  }
+
+  /**
+   * Type getter
+   */
+  public get type(): string {
+    return this._type;
+  }
 
   /**
    * View config getter
@@ -77,11 +102,13 @@ export default abstract class Drawable implements DrawableInterface {
 
   /**
    * Drawable constructor
+   * @param id - object ID
    * @param config - view config
    * @param data - linked extra data
    * @protected
    */
-  protected constructor(config: DrawableConfigInterface, data: LinkedDataType = {}) {
+  protected constructor(id: DrawableIdType, config: DrawableConfigInterface, data: LinkedDataType = {}) {
+    this._id = id;
     this._observeHelper = new ObserveHelper();
     this._config = new Proxy(config, {
       set: (target: DrawableConfigInterface, index, value): boolean => {

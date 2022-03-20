@@ -74,7 +74,6 @@ export interface VectorInterface {
   toArray(): VectorArrayType;
 }
 
-
 /**
  * On change handler for ViewObservable objects
  * @public
@@ -165,10 +164,23 @@ export interface BasicFigureDrawableConfigInterface extends DrawableConfigInterf
 export type LinkedDataType = Record<string, unknown>;
 
 /**
+ * Drawable object ID
+ */
+export type DrawableIdType = string | number;
+
+/**
  * Interface for drawable objects
  * @public
  */
 export interface DrawableInterface extends ViewObservableInterface {
+  /**
+   * Element ID
+   */
+  id: DrawableIdType;
+  /**
+   * Object type
+   */
+  type: string;
   /**
    * View config
    */
@@ -195,6 +207,24 @@ export interface DrawableInterface extends ViewObservableInterface {
 // TODO DrawableGroupInterface
 
 /**
+ * Filter callback for finding objects in storage
+ * @public
+ */
+export type DrawableStorageFilterCallbackType = (candidate: DrawableInterface) => boolean;
+
+/**
+ * Filter config for finding objects in storage
+ * @public
+ */
+export interface DrawableStorageFilterConfigInterface {
+  idsOnly?: DrawableIdType[];
+  idsExcept?: DrawableIdType[];
+  typesOnly?: string[];
+  typesExcept?: string[];
+  extraFilter?: DrawableStorageFilterCallbackType,
+}
+
+/**
  * Interface for storage of drawable objects
  * @public
  */
@@ -214,6 +244,36 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
    * Adds the list of drawable objects to the storage
    */
   addBatch(items: DrawableInterface[]): void;
+
+  /**
+   * Clears the storage
+   */
+  clear(): void;
+
+  /**
+   * Find objects in storage by filter config
+   * @param config - filter config object
+   */
+  find(config: DrawableStorageFilterConfigInterface): DrawableInterface[];
+
+  /**
+   * Returns one object found by ID
+   * @param id - object ID
+   * @throws Error if object is not found
+   */
+  findById(id: DrawableIdType): DrawableInterface;
+
+  /**
+   * Deletes objects found by config from storage
+   * @param config
+   */
+  delete(config: DrawableStorageFilterConfigInterface): DrawableInterface[];
+
+  /**
+   * Deletes object by ID from storage
+   * @param id
+   */
+  deleteById(id: DrawableIdType): DrawableInterface;
 }
 
 /**

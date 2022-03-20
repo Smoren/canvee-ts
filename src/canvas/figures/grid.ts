@@ -3,7 +3,7 @@ import {
   DrawableInterface,
   DrawerInterface,
   VectorArrayType,
-  DrawableConfigInterface,
+  DrawableConfigInterface, DrawableIdType,
 } from "../types";
 import Drawable from "../structs/drawable";
 
@@ -24,6 +24,11 @@ export interface GridConfigInterface extends DrawableConfigInterface {
  */
 export default class Grid extends Drawable implements DrawableInterface {
   /**
+   * Object type
+   * @protected
+   */
+  protected _type: string = 'Grid';
+  /**
    * View config
    * @protected
    */
@@ -31,11 +36,12 @@ export default class Grid extends Drawable implements DrawableInterface {
 
   /**
    * Grid constructor
+   * @param id - object ID
    * @param config - view config
    * @param data - linked extra data
    */
-  constructor(config: GridConfigInterface, data: LinkedDataType = {}) {
-    super(config, data);
+  constructor(id: DrawableIdType, config: GridConfigInterface, data: LinkedDataType = {}) {
+    super(id, config, data);
   }
 
   /**

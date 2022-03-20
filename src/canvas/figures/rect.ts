@@ -3,7 +3,7 @@ import {
   VectorArrayType,
   DrawableInterface,
   DrawerInterface,
-  BasicFigureDrawableConfigInterface,
+  BasicFigureDrawableConfigInterface, DrawableIdType,
 } from "../types";
 import Drawable from "../structs/drawable";
 
@@ -28,6 +28,11 @@ export interface RectConfigInterface extends BasicFigureDrawableConfigInterface 
  */
 export default class Rect extends Drawable implements DrawableInterface {
   /**
+   * Object type
+   * @protected
+   */
+  protected _type: string = 'Rect';
+  /**
    * View config
    * @protected
    */
@@ -35,11 +40,12 @@ export default class Rect extends Drawable implements DrawableInterface {
 
   /**
    * Rect constructor
+   * @param id - object ID
    * @param config - view config
    * @param data - linked extra data
    */
-  constructor(config: RectConfigInterface, data: LinkedDataType = {}) {
-    super(config, data);
+  constructor(id: DrawableIdType, config: RectConfigInterface, data: LinkedDataType = {}) {
+    super(id, config, data);
   }
 
   /**

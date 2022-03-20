@@ -1,19 +1,19 @@
 import Drawer from "./canvas/drawer";
 import Rect from "./canvas/figures/rect";
 import DrawableStorage from "./canvas/structs/drawable-storage";
-import { ViewConfigObservableInterface } from "./canvas/types";
+import { DrawableInterface, ViewConfigObservableInterface } from "./canvas/types";
 import ViewConfig from "./canvas/structs/view-config";
 import Grid from "./canvas/figures/grid";
 
 const storage = new DrawableStorage([
-  new Grid({
+  new Grid(1, {
     zIndex: -Infinity,
     mainLineColor: '#bbb',
     subLineColor: '#dedede',
     lineWidth: 1,
     linesInBlock: 5,
   }),
-  new Rect({
+  new Rect(2, {
     position: [10, 20],
     size: [100, 30],
     zIndex: 1,
@@ -21,7 +21,7 @@ const storage = new DrawableStorage([
     strokeStyle: 'black',
     lineWidth: 3,
   }),
-  new Rect({
+  new Rect(3, {
     position: [10, 25],
     size: [50, 50],
     zIndex: 1,
@@ -29,7 +29,7 @@ const storage = new DrawableStorage([
     strokeStyle: 'black',
     lineWidth: 3,
   }),
-  new Rect({
+  new Rect(4, {
     position: [700, 250],
     size: [150, 100],
     zIndex: 1,
@@ -38,6 +38,7 @@ const storage = new DrawableStorage([
     lineWidth: 3,
   })
 ]);
+
 console.log(storage);
 
 const viewConfig: ViewConfigObservableInterface = new ViewConfig({
@@ -55,7 +56,26 @@ const drawer: Drawer = new Drawer({
 drawer.draw();
 
 setTimeout(() => {
-  storage.add(new Rect({
+  const batch: DrawableInterface[] = [];
+  for (let i=0; i<1000; ++i) {
+    batch.push(new Rect(i+100, {
+      position: [Math.random()*drawer.width, Math.random()*drawer.height],
+      size: [30+Math.random()*100, 30+Math.random()*100],
+      zIndex: 0,
+      fillStyle: 'white',
+      strokeStyle: 'green',
+      lineWidth: 1,
+    }));
+  }
+  storage.addBatch(batch);
+}, 30);
+
+setTimeout(() => {
+  storage.delete({
+    typesExcept: ['Grid'],
+    extraFilter: item => item.config.zIndex === 0,
+  });
+  storage.add(new Rect(5, {
     position: [100, 25],
     size: [50, 30],
     zIndex: 1,
@@ -63,5 +83,4 @@ setTimeout(() => {
     strokeStyle: 'black',
     lineWidth: 3,
   }));
-  console.log('asdas')
 }, 1000);
