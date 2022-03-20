@@ -136,6 +136,14 @@ export interface DrawableConfigInterface {
    * Z-index
    */
   zIndex: number;
+  /**
+   * Visibility flag
+   */
+  visible: boolean;
+  /**
+   * Selectable flag
+   */
+  selectable: boolean;
 }
 
 /**

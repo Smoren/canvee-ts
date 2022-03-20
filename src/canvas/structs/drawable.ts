@@ -77,7 +77,7 @@ export default abstract class Drawable implements DrawableInterface {
       const isZIndexChanged = config.zIndex !== this._config.zIndex;
 
       Object.entries(config).forEach(([key, value]) => {
-        this._config[key as keyof DrawableConfigInterface] = value;
+        (this._config[key as keyof DrawableConfigInterface] as unknown) = value as unknown;
       });
 
       manager.processHandlers(!isChanged || mutedBefore, {
@@ -113,7 +113,7 @@ export default abstract class Drawable implements DrawableInterface {
     this._config = new Proxy(config, {
       set: (target: DrawableConfigInterface, index, value): boolean => {
         const isChanged = target[index as keyof DrawableConfigInterface] !== value;
-        target[index as keyof DrawableConfigInterface] = value;
+        (target[index as keyof DrawableConfigInterface] as unknown) = value as unknown;
         return isChanged ? this._observeHelper.processWithMuteHandlers({
           zIndexChanged: index === 'zIndex',
         }) : true;
