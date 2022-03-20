@@ -167,7 +167,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
     const config: DrawableConfigInterface = {
       position: minPosition,
-      zIndex: Math.max(...groupItems.map(item => item.config.zIndex)),
+      zIndex: Math.max(...groupItems.map(item => item.config.zIndex))+1,
       visible: true,
       selectable: true,
     };
