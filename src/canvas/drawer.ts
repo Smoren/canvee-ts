@@ -4,6 +4,7 @@ import {
   DrawerInterface, VectorArrayType,
   ViewConfigObservableInterface
 } from "./types";
+import imageCacheHelper from "./helpers/image-cache-helper";
 
 /**
  * Canvas drawer
@@ -60,6 +61,7 @@ export default class Drawer implements DrawerInterface {
     this._initResizeObserver();
     this._initViewConfigObserver();
     this._initStorageObserver();
+    this._initImageCacheObserver();
     this._initMouseEvents();
 
     this.refresh();
@@ -166,6 +168,16 @@ export default class Drawer implements DrawerInterface {
    */
   protected _initStorageObserver(): void {
     this._storage.onViewChange(this._subscriberName, () => this.refresh());
+  }
+
+  /**
+   * Initiates image cache observer
+   * @protected
+   */
+  protected _initImageCacheObserver(): void {
+    imageCacheHelper.subscribe(this._subscriberName, () => {
+      this.refresh();
+    });
   }
 
   /**

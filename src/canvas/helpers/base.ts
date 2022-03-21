@@ -1,4 +1,5 @@
 import { VectorArrayType } from "../types";
+import MD5 from "crypto-js/md5";
 
 /**
  * Returns true if arrays are equal and false else
@@ -62,4 +63,8 @@ export function getMinPosition(positions: VectorArrayType[]): VectorArrayType {
   });
 
   return [minX, minY];
+}
+
+export function hashString(input: string): string {
+  return MD5(input).toString();
 }

@@ -6,6 +6,7 @@ import {
 } from "../types";
 import Drawable from "../structs/drawable";
 import { createBlob, createUrlFromBlob } from "../helpers/base";
+import imageCacheHelper from "../helpers/image-cache-helper";
 
 /**
  * Interface for config of rect figure
@@ -52,26 +53,30 @@ export default class Svg extends Drawable implements DrawableInterface {
   /**
    * {@inheritDoc DrawableInterface.draw}
    */
-  draw(drawer: DrawerInterface): void {
+  public draw(drawer: DrawerInterface): void {
+    if (!this._tryDraw(drawer)) {
+      this._img = imageCacheHelper.add(this._config.data, 'image/svg+xml', (img) => {
+        this._img = img;
+      });
+      this._tryDraw(drawer);
+      return;
+    }
+  }
+
+  /**
+   *
+   * @param drawer
+   * @protected
+   */
+  protected _tryDraw(drawer: DrawerInterface): boolean {
     if (this._img !== null) {
       drawer.context.beginPath();
       drawer.context.drawImage(this._img, ...this._config.position);
       drawer.context.closePath();
 
-      return;
+      return true;
     }
 
-    // const svgElement: SVGElement = createElementFromHTML(this._config.data) as SVGElement;
-    const blob: Blob = createBlob(this._config.data, 'image/svg+xml');
-    const url: string = createUrlFromBlob(blob);
-    const img = new Image();
-    img.src = url;
-
-    img.addEventListener('load', () => {
-      // TODO возможно следует придумать более элегантное решение
-      // как вариант, сделать единое хранилище всех ранее загруженных IMG
-      this._img = img;
-      this._observeHelper.processWithMuteHandlers();
-    });
+    return false;
   }
 }
