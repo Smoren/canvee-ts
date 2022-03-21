@@ -132,13 +132,13 @@ export default class DrawableStorage implements DrawableStorageInterface {
     return this._find(item => {
       if (config.idsOnly && config.idsOnly.indexOf(item.id) === -1) {
         return false;
-      } else if (config.idsExcept && config.idsExcept.indexOf(item.id) !== -1) {
+      } else if (config.idsExclude && config.idsExclude.indexOf(item.id) !== -1) {
         return false;
       }
 
       if (config.typesOnly && config.typesOnly.indexOf(item.type) === -1) {
         return false;
-      } else if (config.typesExcept && config.typesExcept.indexOf(item.type) !== -1) {
+      } else if (config.typesExclude && config.typesExclude.indexOf(item.type) !== -1) {
         return false;
       }
 
@@ -206,8 +206,15 @@ export default class DrawableStorage implements DrawableStorageInterface {
   /**
    * {@inheritDoc DrawableStorageInterface.onViewChange}
    */
-  onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
+  public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
     this._observeHelper.onChange(subscriberName, handler);
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.offViewChange}
+   */
+  public offViewChange(subscriberName: string): void {
+    this._observeHelper.offChange(subscriberName);
   }
 
   /**

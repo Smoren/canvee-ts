@@ -68,6 +68,13 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   }
 
   /**
+   * {@inheritDoc DrawableStorageInterface.offViewChange}
+   */
+  public offViewChange(subscriberName: string): void {
+    this._observeHelper.offChange(subscriberName);
+  }
+
+  /**
    * {@inheritDoc ViewConfigObservableInterface.transposeForward}
    */
   public transposeForward(coords: VectorArrayType): VectorArrayType {
@@ -110,7 +117,7 @@ export default class ViewConfig implements ViewConfigObservableInterface {
    * @param offset - offset
    * @param gridStep - grid step
    */
-  update({ scale, offset, gridStep }: ViewConfigInterface): void {
+  public update({ scale, offset, gridStep }: ViewConfigInterface): void {
     const isChanged = !areArraysEqual(scale, this._scale) || !areArraysEqual(offset, this._offset);
 
     this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {

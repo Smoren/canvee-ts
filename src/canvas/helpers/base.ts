@@ -1,11 +1,11 @@
+import { VectorArrayType } from "../types";
+
 /**
  * Returns true if arrays are equal and false else
  * @public
  * @param lhs - first array to compare
  * @param rhs - second array to compare
  */
-import { VectorArrayType } from "../types";
-
 export function areArraysEqual(lhs: Array<unknown>, rhs: Array<unknown>): boolean {
   return lhs.length === rhs.length && lhs.every((v, i) => v === rhs[i]);
 }
@@ -24,6 +24,7 @@ export function createElementFromHTML(htmlString: string): unknown {
 
 /**
  * Creates blob from text
+ * @public
  * @param data - text
  * @param type - type
  */
@@ -33,6 +34,7 @@ export function createBlob(data: string, type: string): Blob {
 
 /**
  * Creates URL from blob
+ * @public
  * @param blob - blob
  */
 export function createUrlFromBlob(blob: Blob): string {
@@ -43,6 +45,7 @@ export function createUrlFromBlob(blob: Blob): string {
 
 /**
  * Finds and returns minimal (left-top) position
+ * @public
  * @param positions
  */
 export function getMinPosition(positions: VectorArrayType[]): VectorArrayType {

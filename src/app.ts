@@ -128,7 +128,7 @@ setTimeout(() => {
 
 setTimeout(() => {
   storage.delete({
-    typesExcept: ['Grid'],
+    typesExclude: ['Grid'],
     extraFilter: item => item.config.zIndex === 0,
   });
   storage.add(new Rect(50, {

@@ -49,6 +49,11 @@ export default abstract class Drawable implements DrawableInterface {
   }
 
   /**
+   * {@inheritDoc DrawableInterface.draw}
+   */
+  public abstract draw(drawer: DrawerInterface): void;
+
+  /**
    * {@inheritDoc DrawableInterface.movePosition}
    */
   public movePosition(offset: VectorArrayType): void {
@@ -58,11 +63,6 @@ export default abstract class Drawable implements DrawableInterface {
         .toArray()
     );
   }
-
-  /**
-   * {@inheritDoc DrawableInterface.draw}
-   */
-  public abstract draw(drawer: DrawerInterface): void;
 
   /**
    * ID getter
@@ -102,7 +102,7 @@ export default abstract class Drawable implements DrawableInterface {
       manager.processHandlers(!isChanged || mutedBefore, {
         zIndexChanged: isZIndexChanged,
       });
-    }))
+    }));
   }
 
   /**

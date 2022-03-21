@@ -93,6 +93,12 @@ export interface ViewObservableInterface {
    * @param handler - handler callback
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void;
+
+  /**
+   * Unregisters handler for events
+   * @param subscriberName - who is subscriber
+   */
+  offViewChange(subscriberName: string): void;
 }
 
 /**
@@ -271,9 +277,9 @@ export type DrawableStorageFilterCallbackType = (candidate: DrawableInterface) =
  */
 export interface DrawableStorageFilterConfigInterface {
   idsOnly?: DrawableIdType[];
-  idsExcept?: DrawableIdType[];
+  idsExclude?: DrawableIdType[];
   typesOnly?: string[];
-  typesExcept?: string[];
+  typesExclude?: string[];
   extraFilter?: DrawableStorageFilterCallbackType,
 }
 
@@ -370,6 +376,7 @@ export interface ViewConfigObservableInterface extends ViewConfigInterface, View
    * @param coords - coords to transpose
    */
   transposeForward(coords: VectorArrayType): VectorArrayType;
+
   /**
    * Transposes coords back using scale and offset
    * @param coords - coords to transpose
