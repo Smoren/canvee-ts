@@ -4,7 +4,9 @@ import {
   DrawableInterface,
   DrawerInterface,
   LinkedDataType,
-  ObserveHelperInterface, VectorArrayType, ViewObservableHandlerType,
+  ObserveHelperInterface,
+  VectorArrayType,
+  ViewObservableHandlerType,
 } from "../types";
 import { areArraysEqual } from "../helpers/base";
 import ObserveHelper from "../helpers/observe-helper";

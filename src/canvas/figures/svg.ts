@@ -5,7 +5,6 @@ import {
   BasicFigureDrawableConfigInterface, DrawableIdType,
 } from "../types";
 import Drawable from "../structs/drawable";
-import { createBlob, createUrlFromBlob } from "../helpers/base";
 import imageCacheHelper from "../helpers/image-cache-helper";
 
 /**

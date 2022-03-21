@@ -1,5 +1,10 @@
 import { createBlob, createUrlFromBlob, hashString } from '../helpers/base';
-import { HashKeyType, ImageCacheInterface, OnLoadHandlerType, OnTotalLoadHandlerType } from "../types";
+import {
+  HashKeyType,
+  ImageCacheInterface,
+  OnLoadHandlerType,
+  OnTotalLoadHandlerType,
+} from "../types";
 
 /**
  * Cache helper for images

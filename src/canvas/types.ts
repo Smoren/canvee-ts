@@ -1,5 +1,3 @@
-import { createBlob, createUrlFromBlob, hashString } from "./helpers/base";
-
 /**
  * Simple 2d vector by array
  * @public

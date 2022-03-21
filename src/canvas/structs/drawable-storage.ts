@@ -4,10 +4,11 @@ import {
   DrawableInterface,
   DrawableStorageInterface,
   ObserveHelperInterface,
-  ViewObservableHandlerType, DrawableStorageFilterConfigInterface, DrawableConfigInterface,
+  ViewObservableHandlerType,
+  DrawableStorageFilterConfigInterface,
+  DrawableConfigInterface,
 } from "../types";
 import ObserveHelper from "../helpers/observe-helper";
-import { updateFileWithText } from "ts-loader/dist/servicesHost";
 import DrawableGroup from "./drawable-group";
 import { getMinPosition } from "../helpers/base";
 import { createVector } from "./vector";
