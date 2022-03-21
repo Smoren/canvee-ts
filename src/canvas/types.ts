@@ -1,5 +1,3 @@
-import DrawableGroup from "./structs/drawable-group";
-
 /**
  * Simple 2d vector by array
  * @public
@@ -317,7 +315,7 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
    * Make a group from objects by IDs
    * @param ids - id list of objects to group
    */
-  group(ids: DrawableIdType[]): DrawableGroup
+  group(ids: DrawableIdType[]): DrawableGroupInterface
 
   /**
    * Ungroup objects
