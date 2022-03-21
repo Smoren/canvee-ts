@@ -71,6 +71,11 @@ export function getMinPosition(positions: VectorArrayType[]): VectorArrayType {
   return [minX, minY];
 }
 
+/**
+ * Creates an MD5 hash from string
+ * @public
+ * @param input
+ */
 export function hashString(input: string): string {
   return MD5(input).toString();
 }
