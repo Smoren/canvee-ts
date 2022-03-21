@@ -64,7 +64,6 @@ const storage = new DrawableStorage([
     zIndex: 1,
     visible: true,
     selectable: false,
-    // eslint-disable-line
     data: "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>", // eslint-disable-line
     fillStyle: 'blue', // TODO не нужны
     strokeStyle: 'black',
