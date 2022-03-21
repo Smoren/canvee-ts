@@ -35,7 +35,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
   /**
    * Drawable constructor
-   * @param items - batch list to add
+   * @param items - batch list to cache
    */
   constructor(items: DrawableInterface[]) {
     this._observeHelper = new ObserveHelper();
@@ -57,7 +57,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   /**
-   * {@inheritDoc DrawableStorageInterface.add}
+   * {@inheritDoc DrawableStorageInterface.cache}
    */
   public add(item: DrawableInterface): void {
     item.onViewChange(this._subscriberName, (target, extra) => {
@@ -69,7 +69,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   /**
-   * {@inheritDoc DrawableStorageInterface.add}
+   * {@inheritDoc DrawableStorageInterface.cache}
    */
   public addBatch(items: DrawableInterface[]): void {
     items.forEach(item => {

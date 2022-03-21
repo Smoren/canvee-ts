@@ -26,7 +26,7 @@ export default class Vector implements VectorInterface {
 
   /**
    * Add another vector to this vector
-   * @param v - vector to add
+   * @param v - vector to cache
    */
   add(v: Vector): Vector {
     this.x += v.x;

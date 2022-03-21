@@ -1,8 +1,8 @@
 {
-  "name": "genetic-fourier-function-approx",
+  "name": "canvas-ts",
   "version": "0.0.1",
-  "description": "Genetic algorithm for functions approximation by Fourier series",
-  "main": "index.js",
+  "description": "Canvas ts",
+  "main": "app.js",
   "dependencies": {
     "crypto-js": "^4.1.1"
   },

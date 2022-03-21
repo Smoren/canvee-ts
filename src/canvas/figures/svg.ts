@@ -55,7 +55,7 @@ export default class Svg extends Drawable implements DrawableInterface {
    */
   public draw(drawer: DrawerInterface): void {
     if (!this._tryDraw(drawer)) {
-      this._img = imageCacheHelper.add(this._config.data, 'image/svg+xml', (img) => {
+      this._img = imageCacheHelper.cache(this._config.data, 'image/svg+xml', (img) => {
         this._img = img;
       });
       this._tryDraw(drawer);
@@ -64,7 +64,7 @@ export default class Svg extends Drawable implements DrawableInterface {
   }
 
   /**
-   *
+   * Tries to draw the figure if the image is ready
    * @param drawer
    * @protected
    */

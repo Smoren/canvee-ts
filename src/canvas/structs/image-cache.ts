@@ -1,24 +1,50 @@
 import { createBlob, createUrlFromBlob, hashString } from '../helpers/base';
+import { HashKeyType, ImageCacheInterface, OnLoadHandlerType, OnTotalLoadHandlerType } from "../types";
 
-type OnLoadHandlerType = (image: HTMLImageElement) => void;
-type OnTotalLoadHandlerType = () => void;
-type HashKeyType = string;
-
-export default class ImageCache {
+/**
+ * Cache helper for images
+ * @public
+ */
+export default class ImageCache implements ImageCacheInterface {
+  /**
+   * Map of the preloaded images
+   * @protected
+   */
   protected _imageMap: Record<HashKeyType, HTMLImageElement> = {};
+  /**
+   * Map of the running processes
+   * @protected
+   */
   protected _processMap: Record<HashKeyType, boolean> = {};
+  /**
+   * Map of the buffered handlers
+   * @protected
+   */
   protected _handlers: Record<HashKeyType, Array<OnLoadHandlerType>> = {};
+  /**
+   * Map of the handlers for subscribed objects
+   * @protected
+   */
   protected _totalHandlers: Record<HashKeyType, OnTotalLoadHandlerType> = {};
 
-  subscribe(subscriberName: string, handler: OnTotalLoadHandlerType): void {
+  /**
+   * {@inheritDoc ImageCacheInterface.subscribe}
+   */
+  public subscribe(subscriberName: string, handler: OnTotalLoadHandlerType): void {
     this._totalHandlers[subscriberName] = handler;
   }
 
-  unsubscribe(subscriberName: string): void {
+  /**
+   * {@inheritDoc ImageCacheInterface.unsubscribe}
+   */
+  public unsubscribe(subscriberName: string): void {
     delete this._totalHandlers[subscriberName];
   }
 
-  public add(
+  /**
+   * {@inheritDoc ImageCacheInterface.cache}
+   */
+  public cache(
     source: string,
     type: string,
     callback: OnLoadHandlerType | null = null
@@ -69,6 +95,12 @@ export default class ImageCache {
     return null;
   }
 
+  /**
+   * Creates a hash for image data and type and returns it as string
+   * @param source - source data of image
+   * @param type - mime type
+   * @protected
+   */
   protected _getKey(source: string, type: string): HashKeyType {
     return hashString(`${source}_${type}`);
   }

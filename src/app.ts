@@ -163,7 +163,7 @@ setTimeout(() => {
 //     typesExclude: ['Grid'],
 //     extraFilter: item => item.config.zIndex === 0,
 //   });
-//   storage.add(new Rect(50, {
+//   storage.cache(new Rect(50, {
 //     position: [100, 25],
 //     size: [50, 30],
 //     zIndex: 1,
