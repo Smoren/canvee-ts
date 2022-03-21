@@ -2,7 +2,6 @@ import {
   DrawableStorageInterface,
   DrawerConfigInterface,
   DrawerInterface, VectorArrayType,
-  ViewConfigInterface,
   ViewConfigObservableInterface
 } from "./types";
 
@@ -174,7 +173,7 @@ export default class Drawer implements DrawerInterface {
    * @protected
    */
   protected _initMouseEvents(): void {
-    // TODO тоже перенести куда-нибудь
+    // TODO перенести куда-нибудь
     this._domElement.addEventListener('wheel', (event: WheelEvent) => {
       if (event.ctrlKey) {
         let scale = this._viewConfig.scale[0];

@@ -1,12 +1,11 @@
 import {
   LinkedDataType,
-  VectorArrayType,
   DrawableInterface,
   DrawerInterface,
   BasicFigureDrawableConfigInterface, DrawableIdType,
 } from "../types";
 import Drawable from "../structs/drawable";
-import { createBlob, createElementFromHTML, createUrlFromBlob } from "../helpers/base";
+import { createBlob, createUrlFromBlob } from "../helpers/base";
 
 /**
  * Interface for config of rect figure

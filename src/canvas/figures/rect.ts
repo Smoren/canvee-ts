@@ -1,6 +1,5 @@
 import {
   LinkedDataType,
-  VectorArrayType,
   DrawableInterface,
   DrawerInterface,
   BasicFigureDrawableConfigInterface, DrawableIdType,

@@ -5,7 +5,6 @@ import { DrawableInterface, ViewConfigObservableInterface } from "./canvas/types
 import ViewConfig from "./canvas/structs/view-config";
 import Grid from "./canvas/figures/grid";
 import Svg from "./canvas/figures/svg";
-import DrawableGroup from "./canvas/structs/drawable-group";
 
 const storage = new DrawableStorage([
   new Grid(1, {
@@ -60,7 +59,7 @@ const storage = new DrawableStorage([
     lineWidth: 3,
   }),
   new Rect(6, {
-    position: [300, 300],
+    position: [350, 350],
     size: [30, 30],
     zIndex: 1,
     visible: true,

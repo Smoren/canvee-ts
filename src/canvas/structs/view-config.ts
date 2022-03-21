@@ -89,6 +89,10 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   public updateScaleInCursorContext(newScale: VectorArrayType, cursorCoords: VectorArrayType): void {
     const isChanged = !areArraysEqual(newScale, this._scale);
 
+    if (!isChanged) {
+      return;
+    }
+
     this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
       const oldScalePosition = createVector(this.transposeForward(cursorCoords));
       this.scale = newScale;

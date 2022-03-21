@@ -4,10 +4,9 @@ import {
   DrawableIdType,
   DrawableInterface,
   DrawerInterface,
-  LinkedDataType, VectorArrayType
+  LinkedDataType,
 } from "../types";
 import Drawable from "./drawable";
-import { createVector } from "./vector";
 
 export default class DrawableGroup extends Drawable implements DrawableGroupInterface {
   /**
@@ -36,8 +35,10 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
   ) {
     super(id, config, data);
 
-    this._observeHelper.onChange(this._subscriberName, (target) => {
-      console.log('asdasd', target);
+    list.forEach(item => {
+      item.onViewChange(this._subscriberName, () => {
+        return this._observeHelper.processWithMuteHandlers();
+      })
     });
 
     // TODO нужен ли здесь Proxy?
@@ -53,16 +54,23 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    * {@inheritDoc DrawableInterface.draw}
    */
   public draw(drawer: DrawerInterface): void {
-    if (!this._config.visible) {
-      return;
-    }
-
     drawer.context.save();
     drawer.context.translate(...this.config.position);
     this._list.forEach((item) => {
-      item.draw(drawer);
+      if (item.config.visible) {
+        item.draw(drawer);
+      }
     });
     drawer.context.restore();
+  }
+
+  /**
+   * {@inheritDoc DrawableInterface.destruct}
+   */
+  public destruct(): void {
+    this._list.forEach(item => {
+      item.offViewChange(this._subscriberName);
+    });
   }
 
   /**

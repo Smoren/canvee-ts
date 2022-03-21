@@ -252,6 +252,11 @@ export interface DrawableGroupInterface extends DrawableInterface {
    * List of objects in group
    */
   list: DrawableInterface[];
+
+  /**
+   * Do some work to destruct group
+   */
+  destruct(): void;
 }
 
 /**

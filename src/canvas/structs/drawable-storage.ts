@@ -107,9 +107,9 @@ export default class DrawableStorage implements DrawableStorageInterface {
     const index = this._list.findIndex(item => item.id === id);
 
     if(index !== -1) {
-      this._observeHelper.processWithMuteHandlers();
       const deletedItem = this._list.splice(index, 1)[0];
       deletedItem.offViewChange(this._subscriberName);
+      this._observeHelper.processWithMuteHandlers();
       return deletedItem;
     }
 
@@ -200,6 +200,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
     });
 
     this.addBatch(group.list);
+    group.destruct();
   }
 
   /**
