@@ -1,4 +1,5 @@
 const path = require('path');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     entry: './src/app.ts',
@@ -27,4 +28,7 @@ module.exports = {
         compress: true,
         port: 9001,
     },
+    plugins: [new ESLintPlugin({
+        files: 'src/**/*.ts',
+    })],
 };

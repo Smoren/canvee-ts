@@ -2,9 +2,9 @@ import {
   DrawableStorageInterface,
   DrawerConfigInterface,
   DrawerInterface, VectorArrayType,
-  ViewConfigObservableInterface
-} from "./types";
-import imageCacheHelper from "./helpers/image-cache-helper";
+  ViewConfigObservableInterface,
+} from './types';
+import imageCacheHelper from './helpers/image-cache-helper';
 
 /**
  * Canvas drawer
@@ -51,7 +51,7 @@ export default class Drawer implements DrawerInterface {
   constructor({
     domElement,
     viewConfig,
-    storage
+    storage,
   }: DrawerConfigInterface) {
     this._domElement = domElement;
     this._viewConfig = viewConfig;
@@ -74,7 +74,7 @@ export default class Drawer implements DrawerInterface {
     this._context.save();
     this._context.translate(...this._viewConfig.offset);
     this._context.scale(...this._viewConfig.scale);
-    this._storage.list.forEach(item => {
+    this._storage.list.forEach((item) => {
       if (item.config.visible) {
         item.draw(this);
       }
@@ -204,7 +204,7 @@ export default class Drawer implements DrawerInterface {
     this._domElement.addEventListener('click', (event: PointerEvent) => {
       const coords: VectorArrayType = [event.offsetX, event.offsetY];
       const coords1: VectorArrayType = this._viewConfig.transposeForward(coords);
-      const coords2: VectorArrayType = this._viewConfig.transposeBackward(coords1);
+      // const coords2: VectorArrayType = this._viewConfig.transposeBackward(coords1);
       console.log('mouse coords', coords);
       console.log('real coords', coords1);
 
@@ -232,12 +232,15 @@ export default class Drawer implements DrawerInterface {
       }
 
       const mouseMoveCoords: VectorArrayType = [event.offsetX, event.offsetY];
-      const difference: VectorArrayType = [mouseDownCoords[0]-mouseMoveCoords[0], mouseDownCoords[1]-mouseMoveCoords[1]];
+      const difference: VectorArrayType = [
+        mouseDownCoords[0]-mouseMoveCoords[0],
+        mouseDownCoords[1]-mouseMoveCoords[1],
+      ];
       this._viewConfig.offset = [this._viewConfig.offset[0]-difference[0], this._viewConfig.offset[1]-difference[1]];
       mouseDownCoords = mouseMoveCoords;
     });
 
-    this._domElement.addEventListener('mouseup', (event: MouseEvent) => {
+    this._domElement.addEventListener('mouseup', () => {
       mouseDownCoords = null;
       this._domElement.style.cursor = 'default';
     });

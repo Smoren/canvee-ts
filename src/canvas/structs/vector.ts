@@ -1,4 +1,4 @@
-import { VectorArrayType, VectorInterface } from "../types";
+import { VectorArrayType, VectorInterface } from '../types';
 
 /**
  * Vector class

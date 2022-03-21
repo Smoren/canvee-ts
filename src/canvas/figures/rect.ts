@@ -3,8 +3,8 @@ import {
   DrawableInterface,
   DrawerInterface,
   BasicFigureDrawableConfigInterface, DrawableIdType,
-} from "../types";
-import Drawable from "../structs/drawable";
+} from '../types';
+import Drawable from '../structs/drawable';
 
 /**
  * Interface for config of rect figure

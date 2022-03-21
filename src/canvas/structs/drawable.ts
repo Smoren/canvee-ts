@@ -7,10 +7,10 @@ import {
   ObserveHelperInterface,
   VectorArrayType,
   ViewObservableHandlerType,
-} from "../types";
-import { areArraysEqual } from "../helpers/base";
-import ObserveHelper from "../helpers/observe-helper";
-import { createVector } from "./vector";
+} from '../types';
+import ObserveHelper from '../helpers/observe-helper';
+import { areArraysEqual } from '../helpers/base';
+import { createVector } from './vector';
 
 /**
  * Abstract class for drawable objects
@@ -62,7 +62,7 @@ export default abstract class Drawable implements DrawableInterface {
     this.setPosition(
       createVector(this._config.position)
         .add(createVector(offset))
-        .toArray()
+        .toArray(),
     );
   }
 

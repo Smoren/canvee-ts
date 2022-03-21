@@ -3,11 +3,11 @@ import {
   VectorArrayType,
   ViewConfigInterface,
   ViewConfigObservableInterface,
-  ViewObservableHandlerType
-} from "../types";
-import { areArraysEqual } from "../helpers/base";
-import ObserveHelper from "../helpers/observe-helper";
-import { createVector } from "./vector";
+  ViewObservableHandlerType,
+} from '../types';
+import { areArraysEqual } from '../helpers/base';
+import ObserveHelper from '../helpers/observe-helper';
+import { createVector } from './vector';
 
 /**
  * Config for objects drawable on canvas

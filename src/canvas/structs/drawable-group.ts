@@ -5,8 +5,8 @@ import {
   DrawableInterface,
   DrawerInterface,
   LinkedDataType,
-} from "../types";
-import Drawable from "./drawable";
+} from '../types';
+import Drawable from './drawable';
 
 export default class DrawableGroup extends Drawable implements DrawableGroupInterface {
   /**
@@ -31,14 +31,12 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
     id: DrawableIdType,
     config: DrawableConfigInterface,
     data: LinkedDataType = {},
-    list: DrawableInterface[]
+    list: DrawableInterface[] = [],
   ) {
     super(id, config, data);
 
-    list.forEach(item => {
-      item.onViewChange(this._subscriberName, () => {
-        return this._observeHelper.processWithMuteHandlers();
-      })
+    list.forEach((item) => {
+      item.onViewChange(this._subscriberName, () => this._observeHelper.processWithMuteHandlers());
     });
 
     // TODO нужен ли здесь Proxy?
@@ -68,7 +66,7 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    * {@inheritDoc DrawableInterface.destruct}
    */
   public destruct(): void {
-    this._list.forEach(item => {
+    this._list.forEach((item) => {
       item.offViewChange(this._subscriberName);
     });
   }

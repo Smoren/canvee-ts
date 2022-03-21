@@ -3,9 +3,9 @@ import {
   DrawableInterface,
   DrawerInterface,
   BasicFigureDrawableConfigInterface, DrawableIdType,
-} from "../types";
-import Drawable from "../structs/drawable";
-import imageCacheHelper from "../helpers/image-cache-helper";
+} from '../types';
+import Drawable from '../structs/drawable';
+import imageCacheHelper from '../helpers/image-cache-helper';
 
 /**
  * Interface for config of rect figure
@@ -58,7 +58,6 @@ export default class Svg extends Drawable implements DrawableInterface {
         this._img = img;
       });
       this._tryDraw(drawer);
-      return;
     }
   }
 

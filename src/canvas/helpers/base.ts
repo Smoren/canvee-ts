@@ -1,5 +1,5 @@
-import { VectorArrayType } from "../types";
-import MD5 from "crypto-js/md5";
+import MD5 from 'crypto-js/md5';
+import { VectorArrayType } from '../types';
 
 /**
  * Returns true if arrays are equal and false else
@@ -30,7 +30,14 @@ export function createElementFromHTML(htmlString: string): unknown {
  * @param type - type
  */
 export function createBlob(data: string, type: string): Blob {
-  return new Blob([data], {type: type});
+  return new Blob([data], { type });
+}
+
+/**
+ * Interface for understanding method createObjectURL()
+ */
+interface UrlInterface {
+  createObjectURL(blob: Blob): string;
 }
 
 /**
@@ -39,8 +46,7 @@ export function createBlob(data: string, type: string): Blob {
  * @param blob - blob
  */
 export function createUrlFromBlob(blob: Blob): string {
-  const URL = window.URL || window.webkitURL || window;
-  // @ts-ignore
+  const URL: UrlInterface = (window.URL || window.webkitURL || window) as UrlInterface;
   return URL.createObjectURL(blob);
 }
 
@@ -53,7 +59,7 @@ export function getMinPosition(positions: VectorArrayType[]): VectorArrayType {
   let minX: number = Infinity;
   let minY: number = Infinity;
 
-  positions.forEach(position => {
+  positions.forEach((position) => {
     if (position[0] < minX) {
       minX = position[0];
     }

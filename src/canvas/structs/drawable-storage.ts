@@ -7,11 +7,11 @@ import {
   ViewObservableHandlerType,
   DrawableStorageFilterConfigInterface,
   DrawableConfigInterface,
-} from "../types";
-import ObserveHelper from "../helpers/observe-helper";
-import DrawableGroup from "./drawable-group";
-import { getMinPosition } from "../helpers/base";
-import { createVector } from "./vector";
+} from '../types';
+import ObserveHelper from '../helpers/observe-helper';
+import DrawableGroup from './drawable-group';
+import { getMinPosition } from '../helpers/base';
+import { createVector } from './vector';
 
 /**
  * Storage for drawable objects
@@ -61,9 +61,10 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * {@inheritDoc DrawableStorageInterface.cache}
    */
   public add(item: DrawableInterface): void {
-    item.onViewChange(this._subscriberName, (target, extra) => {
-      return this._observeHelper.processWithMuteHandlers(extra);
-    });
+    item.onViewChange(
+      this._subscriberName,
+      (target, extra) => this._observeHelper.processWithMuteHandlers(extra),
+    );
     this._list.push(item);
     this._sort();
     this._observeHelper.processWithMuteHandlers();
@@ -73,10 +74,11 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * {@inheritDoc DrawableStorageInterface.cache}
    */
   public addBatch(items: DrawableInterface[]): void {
-    items.forEach(item => {
-      item.onViewChange(this._subscriberName, (target, extra) => {
-        return this._observeHelper.processWithMuteHandlers(extra);
-      });
+    items.forEach((item) => {
+      item.onViewChange(
+        this._subscriberName,
+        (target, extra) => this._observeHelper.processWithMuteHandlers(extra),
+      );
       this._list.push(item);
     });
     this._sort();
@@ -91,7 +93,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
     const result: DrawableInterface[] = [];
 
     this._observeHelper.withMuteHandlers(() => {
-      this.find(config).forEach(item => {
+      this.find(config).forEach((item) => {
         result.push(this.deleteById(item.id));
       });
     });
@@ -105,9 +107,9 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * @param id
    */
   public deleteById(id: DrawableIdType): DrawableInterface {
-    const index = this._list.findIndex(item => item.id === id);
+    const index = this._list.findIndex((item) => item.id === id);
 
-    if(index !== -1) {
+    if (index !== -1) {
       const deletedItem = this._list.splice(index, 1)[0];
       deletedItem.offViewChange(this._subscriberName);
       this._observeHelper.processWithMuteHandlers();
@@ -130,16 +132,18 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * {@inheritDoc DrawableStorageInterface.find}
    */
   public find(config: DrawableStorageFilterConfigInterface): DrawableInterface[] {
-    return this._find(item => {
+    return this._find((item) => {
       if (config.idsOnly && config.idsOnly.indexOf(item.id) === -1) {
         return false;
-      } else if (config.idsExclude && config.idsExclude.indexOf(item.id) !== -1) {
+      }
+      if (config.idsExclude && config.idsExclude.indexOf(item.id) !== -1) {
         return false;
       }
 
       if (config.typesOnly && config.typesOnly.indexOf(item.type) === -1) {
         return false;
-      } else if (config.typesExclude && config.typesExclude.indexOf(item.type) !== -1) {
+      }
+      if (config.typesExclude && config.typesExclude.indexOf(item.type) !== -1) {
         return false;
       }
 
@@ -151,7 +155,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * {@inheritDoc DrawableStorageInterface.findById}
    */
   public findById(id: DrawableIdType): DrawableInterface {
-    const foundItems = this._find(candidate => candidate.id === id);
+    const foundItems = this._find((candidate) => candidate.id === id);
     if (foundItems.length) {
       return foundItems[0];
     }
@@ -164,20 +168,20 @@ export default class DrawableStorage implements DrawableStorageInterface {
    */
   public group(ids: DrawableIdType[]): DrawableGroup {
     const groupItems = this.delete({ idsOnly: ids });
-    const minPosition = getMinPosition(groupItems.map(item => item.config.position));
+    const minPosition = getMinPosition(groupItems.map((item) => item.config.position));
 
     const config: DrawableConfigInterface = {
       position: minPosition,
-      zIndex: Math.max(...groupItems.map(item => item.config.zIndex))+1,
+      zIndex: Math.max(...groupItems.map((item) => item.config.zIndex))+1,
       visible: true,
       selectable: true,
     };
 
     this._observeHelper.withMuteHandlers(() => {
-      groupItems.forEach(item => {
+      groupItems.forEach((item) => {
         item.movePosition(
-          createVector(minPosition).inverse().toArray()
-        )
+          createVector(minPosition).inverse().toArray(),
+        );
       });
     });
 
@@ -195,8 +199,8 @@ export default class DrawableStorage implements DrawableStorageInterface {
     const group: DrawableGroup = this.deleteById(groupId) as DrawableGroup;
 
     this._observeHelper.withMuteHandlers(() => {
-      group.list.forEach(item => {
-        item.movePosition(group.config.position)
+      group.list.forEach((item) => {
+        item.movePosition(group.config.position);
       });
     });
 
@@ -229,7 +233,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
       if (filter(item)) {
         result.push(item);
       }
-    })
+    });
 
     return result;
   }

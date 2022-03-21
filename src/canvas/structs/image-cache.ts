@@ -4,7 +4,7 @@ import {
   ImageCacheInterface,
   OnLoadHandlerType,
   OnTotalLoadHandlerType,
-} from "../types";
+} from '../types';
 
 /**
  * Cache helper for images
@@ -52,7 +52,7 @@ export default class ImageCache implements ImageCacheInterface {
   public cache(
     source: string,
     type: string,
-    callback: OnLoadHandlerType | null = null
+    callback: OnLoadHandlerType | null = null,
   ): HTMLImageElement | null {
     const key = this._getKey(source, type);
 
@@ -93,7 +93,7 @@ export default class ImageCache implements ImageCacheInterface {
       }
 
       if (!Object.keys(this._processMap).length) {
-        Object.values(this._totalHandlers).forEach(handler => handler());
+        Object.values(this._totalHandlers).forEach((handler) => handler());
       }
     });
 

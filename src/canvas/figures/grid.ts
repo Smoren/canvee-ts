@@ -4,8 +4,8 @@ import {
   DrawerInterface,
   VectorArrayType,
   DrawableConfigInterface, DrawableIdType,
-} from "../types";
-import Drawable from "../structs/drawable";
+} from '../types';
+import Drawable from '../structs/drawable';
 
 /**
  * Interface for config of grid
@@ -58,25 +58,25 @@ export default class Grid extends Drawable implements DrawableInterface {
 
     let step = drawer.viewConfig.gridStep;
 
-    if(scale < 1) {
-      step = step*(Math.pow(2, Math.round(Math.log2(1/scale))));
+    if (scale < 1) {
+      step *= 2 ** Math.round(Math.log2(1 / scale));
     } else {
-      step = step/(Math.pow(2, Math.round(Math.log2(scale))));
+      step /= 2 ** Math.round(Math.log2(scale));
     }
 
-    const mainLineDistance = step*this._config.linesInBlock;
+    const mainLineDistance = step * this._config.linesInBlock;
     let xGap = (fromBound[0] % mainLineDistance);
-    if(xGap < 0) {
+    if (xGap < 0) {
       xGap += mainLineDistance;
     }
     let yGap = (fromBound[1] % mainLineDistance);
-    if(yGap < 0) {
+    if (yGap < 0) {
       yGap += mainLineDistance;
     }
 
     {
-      let j=0;
-      for(let i=fromBound[1]-yGap; i<=toBound[1]; i+=step) {
+      let j = 0;
+      for (let i=fromBound[1]-yGap; i<=toBound[1]; i+=step) {
         const color = (j++ % this._config.linesInBlock === 0)
           ? this._config.mainLineColor
           : this._config.subLineColor;
@@ -85,8 +85,8 @@ export default class Grid extends Drawable implements DrawableInterface {
     }
 
     {
-      let j=0;
-      for(let i=fromBound[0]-xGap; i<=toBound[0]; i+=step) {
+      let j = 0;
+      for (let i=fromBound[0]-xGap; i<=toBound[0]; i+=step) {
         const color = (j++ % this._config.linesInBlock === 0)
           ? this._config.mainLineColor
           : this._config.subLineColor;
@@ -110,7 +110,7 @@ export default class Grid extends Drawable implements DrawableInterface {
     yOffset: number,
     drawer: DrawerInterface,
     color: string,
-    [fromBound, toBound]: [VectorArrayType, VectorArrayType]
+    [fromBound, toBound]: [VectorArrayType, VectorArrayType],
   ) {
     const lineFrom = [fromBound[0], yOffset];
     const lineTo = [toBound[0], yOffset];
@@ -137,7 +137,7 @@ export default class Grid extends Drawable implements DrawableInterface {
     xOffset: number,
     drawer: DrawerInterface,
     color: string,
-    [fromBound, toBound]: [VectorArrayType, VectorArrayType]
+    [fromBound, toBound]: [VectorArrayType, VectorArrayType],
   ) {
     const lineFrom = [xOffset, fromBound[1]];
     const lineTo = [xOffset, toBound[1]];

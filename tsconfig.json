@@ -6,7 +6,10 @@
     "target": "es5",
     "moduleResolution": "node",
     "sourceMap": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "dom"
+    ]
   },
   "exclude": [
     "node_modules"
