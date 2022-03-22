@@ -99,8 +99,8 @@ export default class Grid extends Drawable implements DrawableInterface {
 
   /**
    * Draw horizontal line
+   * @param yOffset - vertical offset
    * @param drawer - drawer object
-   * @param xOffset - horizontal offset
    * @param color - color
    * @param fromBound - left-top bound
    * @param toBound - right-bottom bound

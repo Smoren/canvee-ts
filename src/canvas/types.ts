@@ -354,13 +354,13 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
 
   /**
    * Deletes objects found by config from storage
-   * @param config
+   * @param config - filter config
    */
   delete(config: DrawableStorageFilterConfigInterface): DrawableInterface[];
 
   /**
    * Deletes object by ID from storage
-   * @param id
+   * @param id - object ID
    */
   deleteById(id: DrawableIdType): DrawableInterface;
 }
@@ -510,7 +510,7 @@ export interface ImageCacheInterface {
 
   /**
    * Removes handler of subscriber
-   * @param subscriberName
+   * @param subscriberName - subscriber name
    */
   unsubscribe(subscriberName: string): void;
 

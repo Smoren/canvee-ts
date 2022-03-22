@@ -27,7 +27,6 @@
         "space-in-parens": "error",
         "no-multiple-empty-lines": "error",
         "prefer-const": "error",
-        "no-use-before-define": "error",
         "object-property-newline": "error",
         "tsdoc/syntax": "warn",
         "@typescript-eslint/no-inferrable-types": "off",
@@ -37,7 +36,8 @@
         "@typescript-eslint/lines-between-class-members": "off",
         "valid-jsdoc": "off",
         "no-prototype-builtins": "off",
-        "operator-linebreak": "off"
+        "operator-linebreak": "off",
+        "no-use-before-define": "off"
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

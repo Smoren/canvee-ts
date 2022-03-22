@@ -1,4 +1,4 @@
-import { DrawableInterface } from "../types";
+import { DrawableInterface } from '../types';
 
 /**
  * Checks if item is instance of PositionalDrawableInterface
