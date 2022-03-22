@@ -1,7 +1,8 @@
 import {
-  DrawableStorageInterface,
+  DrawerInterface,
   DrawerConfigInterface,
-  DrawerInterface, VectorArrayType,
+  DrawableStorageInterface,
+  VectorArrayType,
   ViewConfigObservableInterface,
 } from './types';
 import imageCacheHelper from './helpers/image-cache-helper';

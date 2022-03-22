@@ -145,10 +145,6 @@ export interface ObserveHelperInterface {
  */
 export interface DrawableConfigInterface {
   /**
-   * Position vector
-   */
-  position: VectorArrayType;
-  /**
    * Z-index
    */
   zIndex: number;
@@ -156,21 +152,28 @@ export interface DrawableConfigInterface {
    * Visibility flag
    */
   visible: boolean;
-  /**
-   * Selectable flag
-   */
-  selectable: boolean;
 }
 
 /**
- * Config for basic drawable figures
+ * Config for positional drawable objects
  * @public
  */
-export interface BasicFigureDrawableConfigInterface extends DrawableConfigInterface {
+export interface PositionalDrawableConfigInterface extends DrawableConfigInterface {
   /**
-   * Figure size vector
+   * Position vector
+   */
+  position: VectorArrayType;
+  /**
+   * Position vector
    */
   size: VectorArrayType;
+}
+
+/**
+ * Config for drawable figures with drawing styles
+ * @public
+ */
+export interface StylizedDrawableConfigInterface extends DrawableConfigInterface {
   /**
    * Stroke style
    */
@@ -236,6 +239,21 @@ export interface DrawableInterface extends ViewObservableInterface {
    * @param subscriberName - who is subscriber
    */
   offViewChange(subscriberName: string): void;
+}
+
+/**
+ * Interface for positional drawable objects
+ * @public
+ */
+export interface PositionalDrawableInterface extends DrawableInterface {
+  /**
+   * Interface belonging flag
+   */
+  isPositional: true;
+  /**
+   * View config
+   */
+  config: PositionalDrawableConfigInterface;
 
   /**
    * Sets a new object position

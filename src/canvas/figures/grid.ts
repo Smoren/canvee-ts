@@ -1,9 +1,10 @@
 import {
-  LinkedDataType,
   DrawableInterface,
+  DrawableConfigInterface,
+  DrawableIdType,
   DrawerInterface,
+  LinkedDataType,
   VectorArrayType,
-  DrawableConfigInterface, DrawableIdType,
 } from '../types';
 import Drawable from '../structs/drawable';
 

@@ -1,16 +1,18 @@
 import {
-  LinkedDataType,
-  DrawableInterface,
+  PositionalDrawableInterface,
+  PositionalDrawableConfigInterface,
+  StylizedDrawableConfigInterface,
+  DrawableIdType,
   DrawerInterface,
-  BasicFigureDrawableConfigInterface, DrawableIdType,
+  LinkedDataType,
 } from '../types';
-import Drawable from '../structs/drawable';
+import PositionalDrawable from "../structs/positional-drawable";
 
 /**
  * Interface for config of rect figure
  * @public
  */
-export interface RectConfigInterface extends BasicFigureDrawableConfigInterface {
+export interface RectConfigInterface extends PositionalDrawableConfigInterface, StylizedDrawableConfigInterface {
 
 }
 
@@ -18,7 +20,7 @@ export interface RectConfigInterface extends BasicFigureDrawableConfigInterface 
  * Rect figure
  * @public
  */
-export default class Rect extends Drawable implements DrawableInterface {
+export default class Rect extends PositionalDrawable implements PositionalDrawableInterface {
   /**
    * Object type
    * @protected

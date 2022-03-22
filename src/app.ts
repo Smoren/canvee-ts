@@ -8,10 +8,8 @@ import Svg from './canvas/figures/svg';
 
 const storage = new DrawableStorage([
   new Grid(1, {
-    position: [0, 0],
     zIndex: -Infinity,
     visible: true,
-    selectable: false,
     mainLineColor: '#bbb',
     subLineColor: '#dedede',
     lineWidth: 1,
@@ -22,7 +20,6 @@ const storage = new DrawableStorage([
     size: [100, 30],
     zIndex: 1,
     visible: true,
-    selectable: false,
     fillStyle: 'green',
     strokeStyle: 'black',
     lineWidth: 3,
@@ -32,7 +29,6 @@ const storage = new DrawableStorage([
     size: [50, 50],
     zIndex: 1,
     visible: true,
-    selectable: false,
     fillStyle: 'blue',
     strokeStyle: 'black',
     lineWidth: 3,
@@ -42,7 +38,6 @@ const storage = new DrawableStorage([
     size: [150, 100],
     zIndex: 1,
     visible: true,
-    selectable: false,
     fillStyle: 'blue',
     strokeStyle: 'black',
     lineWidth: 3,
@@ -52,29 +47,20 @@ const storage = new DrawableStorage([
     size: [150, 100],
     zIndex: 1,
     visible: true,
-    selectable: false,
     data: "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>", // eslint-disable-line
-    fillStyle: 'blue', // TODO не нужны
-    strokeStyle: 'black',
-    lineWidth: 3,
   }),
   new Svg(5, {
     position: [100, 550],
     size: [150, 100],
     zIndex: 1,
     visible: true,
-    selectable: false,
     data: "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>", // eslint-disable-line
-    fillStyle: 'blue', // TODO не нужны
-    strokeStyle: 'black',
-    lineWidth: 3,
   }),
   new Rect(6, {
     position: [350, 350],
     size: [30, 30],
     zIndex: 1,
     visible: true,
-    selectable: false,
     fillStyle: 'transparent',
     strokeStyle: 'blue',
     lineWidth: 3,
@@ -84,7 +70,6 @@ const storage = new DrawableStorage([
     size: [30, 30],
     zIndex: 1,
     visible: true,
-    selectable: false,
     fillStyle: 'transparent',
     strokeStyle: 'blue',
     lineWidth: 3,
@@ -94,7 +79,6 @@ const storage = new DrawableStorage([
     size: [30, 30],
     zIndex: 1,
     visible: true,
-    selectable: false,
     fillStyle: 'transparent',
     strokeStyle: 'blue',
     lineWidth: 3,
@@ -104,7 +88,6 @@ const storage = new DrawableStorage([
     size: [160, 160],
     zIndex: 0,
     visible: true,
-    selectable: false,
     fillStyle: 'green',
     strokeStyle: 'blue',
     lineWidth: 3,
@@ -139,7 +122,6 @@ drawer.draw();
 //       size: [30+Math.random()*100, 30+Math.random()*100],
 //       zIndex: 0,
 //       visible: true,
-//       selectable: false,
 //       fillStyle: 'white',
 //       strokeStyle: 'green',
 //       lineWidth: 1,
@@ -161,10 +143,6 @@ setTimeout(() => {
       data: Math.random() > 0.5 ? data1 : data2,
       zIndex: 0,
       visible: true,
-      selectable: false,
-      fillStyle: 'white',
-      strokeStyle: 'green',
-      lineWidth: 1,
     }));
   }
   storage.addBatch(batch);
@@ -175,12 +153,11 @@ setTimeout(() => {
 //     typesExclude: ['Grid'],
 //     extraFilter: item => item.config.zIndex === 0,
 //   });
-//   storage.cache(new Rect(50, {
+//   storage.add(new Rect(50, {
 //     position: [100, 25],
 //     size: [50, 30],
 //     zIndex: 1,
 //     visible: true,
-//     selectable: false,
 //     fillStyle: 'red',
 //     strokeStyle: 'black',
 //     lineWidth: 3,

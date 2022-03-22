@@ -1,8 +1,9 @@
 import {
-  DrawableConfigInterface,
   DrawableGroupInterface,
+  DrawableConfigInterface,
+  DrawableInterface,
   DrawableIdType,
-  DrawableInterface, DrawableStorageInterface,
+  DrawableStorageInterface,
   DrawerInterface,
   LinkedDataType,
 } from '../types';
@@ -26,17 +27,17 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    * @param id - group ID
    * @param config - config
    * @param data - extra data
-   * @param list - children of grouped objects
+   * @param children - children of grouped objects
    */
   constructor(
     id: DrawableIdType,
     config: DrawableConfigInterface,
     data: LinkedDataType = {},
-    list: DrawableInterface[] = [],
+    children: DrawableInterface[] = [],
   ) {
     super(id, config, data);
 
-    this._storage = new DrawableStorage(list);
+    this._storage = new DrawableStorage(this._processChildrenToGroup(children));
     this._storage.onViewChange(this._subscriberName, (target, extra) => {
       this._observeHelper.processWithMuteHandlers(extra);
     });
@@ -46,14 +47,11 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    * {@inheritDoc DrawableInterface.draw}
    */
   public draw(drawer: DrawerInterface): void {
-    drawer.context.save();
-    drawer.context.translate(...this.config.position);
     this._storage.list.forEach((item) => {
       if (item.config.visible) {
         item.draw(drawer);
       }
     });
-    drawer.context.restore();
   }
 
   /**
@@ -64,7 +62,7 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
       item.offViewChange(this._subscriberName);
     });
 
-    return this.children;
+    return this._processChildrenToUngroup(this.children);
   }
 
   /**
@@ -72,5 +70,19 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    */
   public get children(): DrawableInterface[] {
     return this._storage.list;
+  }
+
+  /**
+   * Some actions with children before grouping
+   */
+  protected _processChildrenToGroup(children: DrawableInterface[]): DrawableInterface[] {
+    return children;
+  }
+
+  /**
+   * Some actions with children before ungrouping
+   */
+  protected _processChildrenToUngroup(children: DrawableInterface[]): DrawableInterface[] {
+    return children;
   }
 }

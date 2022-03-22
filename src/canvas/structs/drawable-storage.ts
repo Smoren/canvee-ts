@@ -1,17 +1,19 @@
 import {
-  DrawableStorageFilterCallbackType,
-  DrawableIdType,
-  DrawableInterface,
   DrawableStorageInterface,
+  DrawableInterface,
+  DrawableIdType,
+  DrawableStorageFilterCallbackType,
+  DrawableStorageFilterConfigInterface,
+  PositionalDrawableInterface,
+  PositionalDrawableConfigInterface,
   ObserveHelperInterface,
   ViewObservableHandlerType,
-  DrawableStorageFilterConfigInterface,
-  DrawableConfigInterface,
 } from '../types';
 import ObserveHelper from '../helpers/observe-helper';
 import DrawableGroup from './drawable-group';
-import { getMinPosition } from '../helpers/base';
+import { getMaxPosition, getMinPosition } from '../helpers/base';
 import { createVector } from './vector';
+import PositionalDrawableGroup from "./positional-drawable-group";
 
 /**
  * Storage for drawable objects
@@ -44,7 +46,6 @@ export default class DrawableStorage implements DrawableStorageInterface {
     this._sort();
 
     this.onViewChange(this._subscriberName, (target, extra) => {
-      console.log('ds', extra)
       if (extra !== null && extra.hasOwnProperty('zIndexChanged') && extra.zIndexChanged) {
         this._sort();
       }
@@ -168,26 +169,21 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * {@inheritDoc DrawableStorageInterface.group}
    */
   public group(ids: DrawableIdType[]): DrawableGroup {
-    const groupItems = this.delete({ idsOnly: ids });
+    const groupItems = this.delete({ idsOnly: ids }) as PositionalDrawableInterface[];
     const minPosition = getMinPosition(groupItems.map((item) => item.config.position));
+    const maxPosition = getMaxPosition(groupItems.map((item) => item.config.position));
+    const groupSize = createVector(maxPosition).sub(createVector(minPosition)).toArray();
+    const groupZIndex = Math.max(...groupItems.map((item) => item.config.zIndex))+1;
 
-    const config: DrawableConfigInterface = {
+    const config: PositionalDrawableConfigInterface = {
       position: minPosition,
-      zIndex: Math.max(...groupItems.map((item) => item.config.zIndex))+1,
+      size: groupSize,
+      zIndex: groupZIndex,
       visible: true,
-      selectable: true,
     };
 
-    this._observeHelper.withMuteHandlers(() => {
-      groupItems.forEach((item) => {
-        item.movePosition(
-          createVector(minPosition).inverse().toArray(),
-        );
-      });
-    });
-
     const groupId = 'group-'+(new Date()).getTime()+'-'+Math.floor(Math.random()*100000);
-    const group = new DrawableGroup(groupId, config, {}, groupItems);
+    const group = new PositionalDrawableGroup(groupId, config, {}, groupItems);
     this.add(group);
 
     return group;
@@ -198,15 +194,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
    */
   public ungroup(groupId: DrawableIdType): void {
     const group: DrawableGroup = this.deleteById(groupId) as DrawableGroup;
-
-    this._observeHelper.withMuteHandlers(() => {
-      group.children.forEach((item) => {
-        item.movePosition(group.config.position);
-      });
-    });
-
-    this.addBatch(group.children);
-    group.destruct();
+    this.addBatch(group.destruct());
   }
 
   /**

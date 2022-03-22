@@ -72,6 +72,27 @@ export function getMinPosition(positions: VectorArrayType[]): VectorArrayType {
 }
 
 /**
+ * Finds and returns maximal (right-bottom) position
+ * @public
+ * @param positions
+ */
+export function getMaxPosition(positions: VectorArrayType[]): VectorArrayType {
+  let maxX: number = -Infinity;
+  let maxY: number = -Infinity;
+
+  positions.forEach((position) => {
+    if (position[0] > maxX) {
+      maxX = position[0];
+    }
+    if (position[1] > maxY) {
+      maxY = position[1];
+    }
+  });
+
+  return [maxX, maxY];
+}
+
+/**
  * Creates an MD5 hash from string
  * @public
  * @param input

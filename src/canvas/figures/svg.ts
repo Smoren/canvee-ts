@@ -1,17 +1,18 @@
 import {
-  LinkedDataType,
-  DrawableInterface,
+  PositionalDrawableInterface,
+  PositionalDrawableConfigInterface,
+  DrawableIdType,
   DrawerInterface,
-  BasicFigureDrawableConfigInterface, DrawableIdType,
+  LinkedDataType,
 } from '../types';
-import Drawable from '../structs/drawable';
+import PositionalDrawable from "../structs/positional-drawable";
 import imageCacheHelper from '../helpers/image-cache-helper';
 
 /**
  * Interface for config of rect figure
  * @public
  */
-export interface SvgConfigInterface extends BasicFigureDrawableConfigInterface {
+export interface SvgConfigInterface extends PositionalDrawableConfigInterface {
   /**
    * SVG data
    */
@@ -22,7 +23,7 @@ export interface SvgConfigInterface extends BasicFigureDrawableConfigInterface {
  * Svg figure
  * @public
  */
-export default class Svg extends Drawable implements DrawableInterface {
+export default class Svg extends PositionalDrawable implements PositionalDrawableInterface {
   /**
    * Object type
    * @protected

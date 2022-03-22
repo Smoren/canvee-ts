@@ -1,16 +1,14 @@
 import {
+  DrawableInterface,
   DrawableConfigInterface,
   DrawableIdType,
-  DrawableInterface,
   DrawerInterface,
   LinkedDataType,
   ObserveHelperInterface,
-  VectorArrayType,
   ViewObservableHandlerType,
 } from '../types';
 import ObserveHelper from '../helpers/observe-helper';
 import { areArraysEqual } from '../helpers/base';
-import { createVector } from './vector';
 
 /**
  * Abstract class for drawable objects
@@ -44,27 +42,9 @@ export default abstract class Drawable implements DrawableInterface {
   protected _observeHelper: ObserveHelperInterface;
 
   /**
-   * {@inheritDoc DrawableInterface.setPosition}
-   */
-  public setPosition(coords: VectorArrayType): void {
-    this._config.position = coords;
-  }
-
-  /**
    * {@inheritDoc DrawableInterface.draw}
    */
   public abstract draw(drawer: DrawerInterface): void;
-
-  /**
-   * {@inheritDoc DrawableInterface.movePosition}
-   */
-  public movePosition(offset: VectorArrayType): void {
-    this.setPosition(
-      createVector(this._config.position)
-        .add(createVector(offset))
-        .toArray(),
-    );
-  }
 
   /**
    * ID getter

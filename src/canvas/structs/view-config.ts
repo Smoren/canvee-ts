@@ -1,9 +1,9 @@
 import {
   ObserveHelperInterface,
-  VectorArrayType,
   ViewConfigInterface,
   ViewConfigObservableInterface,
   ViewObservableHandlerType,
+  VectorArrayType,
 } from '../types';
 import { areArraysEqual } from '../helpers/base';
 import ObserveHelper from '../helpers/observe-helper';
