@@ -99,9 +99,19 @@ const storage = new DrawableStorage([
     strokeStyle: 'blue',
     lineWidth: 3,
   }),
+  new Rect(9, {
+    position: [200, 200],
+    size: [160, 160],
+    zIndex: 0,
+    visible: true,
+    selectable: false,
+    fillStyle: 'green',
+    strokeStyle: 'blue',
+    lineWidth: 3,
+  }),
 ]);
 
-const group = storage.group([6, 7, 8]);
+const group = storage.group([6, 7, 8, 9]);
 console.log(group);
 // storage.ungroup(group.id);
 
@@ -139,6 +149,7 @@ drawer.draw();
 // }, 30);
 
 setTimeout(() => {
+  return;
   const batch: DrawableInterface[] = [];
   const data1 = "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>"; // eslint-disable-line
   const data2 = "<svg width='160' height='100' viewBox='0 0 160 100' fill='none' xmlns='http://www.w3.org/2000/svg'><ellipse fill='#c5c6e2' stroke-width='null' stroke-opacity='null' cx='79.886158' cy='87.456573' id='svg_26' rx='79.524073' ry='11.878226' stroke='black'/><rect stroke='black' fill='#c5c6e2' stroke-width='null' stroke-opacity='null' fill-opacity='null' x='0.333864' y='12.489766' width='158.998938' height='75.332903' id='svg_27'/><ellipse fill='#c5c6e2' stroke-width='null' stroke-opacity='null' cx='79.802826' cy='12.457003' id='svg_9' rx='79.524073' ry='11.878226' stroke='black'/><rect fill='#c5c6e2' stroke-width='null' stroke-opacity='0' fill-opacity='null' x='1.083856' y='85.239354' width='157.832294' height='3.666642' id='svg_30' stroke='#000000'/></svg>"; // eslint-disable-line

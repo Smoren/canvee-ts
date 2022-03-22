@@ -22,7 +22,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * Name of class to use as subscriber name in observable logic
    * @protected
    */
-  protected _subscriberName: 'DrawableStorage';
+  protected _subscriberName: string = 'DrawableStorage';
   /**
    * List of stored drawable objects
    * @protected
@@ -36,14 +36,15 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
   /**
    * Drawable constructor
-   * @param items - batch list to cache
+   * @param items - batch children to cache
    */
   constructor(items: DrawableInterface[]) {
     this._observeHelper = new ObserveHelper();
     this.addBatch(items);
     this._sort();
 
-    this._observeHelper.onChange(this._subscriberName, (target, extra) => {
+    this.onViewChange(this._subscriberName, (target, extra) => {
+      console.log('ds', extra)
       if (extra !== null && extra.hasOwnProperty('zIndexChanged') && extra.zIndexChanged) {
         this._sort();
       }
@@ -51,7 +52,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   /**
-   * Stored drawable objects list getter
+   * Stored drawable objects children getter
    */
   get list(): DrawableInterface[] {
     return this._list;
@@ -199,12 +200,12 @@ export default class DrawableStorage implements DrawableStorageInterface {
     const group: DrawableGroup = this.deleteById(groupId) as DrawableGroup;
 
     this._observeHelper.withMuteHandlers(() => {
-      group.list.forEach((item) => {
+      group.children.forEach((item) => {
         item.movePosition(group.config.position);
       });
     });
 
-    this.addBatch(group.list);
+    this.addBatch(group.children);
     group.destruct();
   }
 

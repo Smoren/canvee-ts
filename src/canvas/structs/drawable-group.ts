@@ -2,30 +2,31 @@ import {
   DrawableConfigInterface,
   DrawableGroupInterface,
   DrawableIdType,
-  DrawableInterface,
+  DrawableInterface, DrawableStorageInterface,
   DrawerInterface,
   LinkedDataType,
 } from '../types';
 import Drawable from './drawable';
+import DrawableStorage from '../structs/drawable-storage';
 
 export default class DrawableGroup extends Drawable implements DrawableGroupInterface {
   /**
    * Name of class to use as subscriber name in observable logic
    * @protected
    */
-  protected _subscriberName: 'DrawableGroup';
+  protected _subscriberName: string = 'DrawableGroup';
   /**
-   * List of objects in group
+   * Storage of the children objects
    * @protected
    */
-  protected _list: DrawableInterface[];
+  protected _storage: DrawableStorageInterface;
 
   /**
    * DrawableGroup constructor
    * @param id - group ID
    * @param config - config
    * @param data - extra data
-   * @param list - list of grouped objects
+   * @param list - children of grouped objects
    */
   constructor(
     id: DrawableIdType,
@@ -35,16 +36,9 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
   ) {
     super(id, config, data);
 
-    list.forEach((item) => {
-      item.onViewChange(this._subscriberName, () => this._observeHelper.processWithMuteHandlers());
-    });
-
-    // TODO нужен ли здесь Proxy?
-    this._list = new Proxy(list as DrawableInterface[], {
-      set: (target: DrawableInterface[], index, value): boolean => {
-        (target[index as keyof DrawableInterface[]] as unknown) = value as unknown;
-        return this._observeHelper.processWithMuteHandlers();
-      },
+    this._storage = new DrawableStorage(list);
+    this._storage.onViewChange(this._subscriberName, (target, extra) => {
+      this._observeHelper.processWithMuteHandlers(extra);
     });
   }
 
@@ -54,7 +48,7 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
   public draw(drawer: DrawerInterface): void {
     drawer.context.save();
     drawer.context.translate(...this.config.position);
-    this._list.forEach((item) => {
+    this._storage.list.forEach((item) => {
       if (item.config.visible) {
         item.draw(drawer);
       }
@@ -65,16 +59,18 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
   /**
    * {@inheritDoc DrawableInterface.destruct}
    */
-  public destruct(): void {
-    this._list.forEach((item) => {
+  public destruct(): DrawableInterface[] {
+    this._storage.list.forEach((item) => {
       item.offViewChange(this._subscriberName);
     });
+
+    return this.children;
   }
 
   /**
    * List getter
    */
-  public get list(): DrawableInterface[] {
-    return this._list;
+  public get children(): DrawableInterface[] {
+    return this._storage.list;
   }
 }

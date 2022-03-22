@@ -257,12 +257,12 @@ export interface DrawableGroupInterface extends DrawableInterface {
   /**
    * List of objects in group
    */
-  list: DrawableInterface[];
+  children: DrawableInterface[];
 
   /**
    * Do some work to destruct group
    */
-  destruct(): void;
+  destruct(): DrawableInterface[];
 }
 
 /**
@@ -300,7 +300,7 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
   add(item: DrawableInterface): void;
 
   /**
-   * Adds the list of drawable objects to the storage
+   * Adds the children of drawable objects to the storage
    */
   addBatch(items: DrawableInterface[]): void;
 
@@ -324,7 +324,7 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
 
   /**
    * Make a group from objects by IDs
-   * @param ids - id list of objects to group
+   * @param ids - id children of objects to group
    */
   group(ids: DrawableIdType[]): DrawableGroupInterface
 
