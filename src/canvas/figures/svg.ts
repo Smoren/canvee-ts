@@ -5,7 +5,7 @@ import {
   DrawerInterface,
   LinkedDataType,
 } from '../types';
-import PositionalDrawable from "../structs/positional-drawable";
+import PositionalDrawable from '../structs/positional-drawable';
 import imageCacheHelper from '../helpers/image-cache-helper';
 
 /**
@@ -26,17 +26,14 @@ export interface SvgConfigInterface extends PositionalDrawableConfigInterface {
 export default class Svg extends PositionalDrawable implements PositionalDrawableInterface {
   /**
    * Object type
-   * @protected
    */
   protected _type: string = 'Svg';
   /**
    * View config
-   * @protected
    */
   protected _config: SvgConfigInterface;
   /**
    * Image DOM element
-   * @protected
    */
   protected _img: HTMLImageElement | null = null;
 
@@ -64,8 +61,7 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
 
   /**
    * Tries to draw the figure if the image is ready
-   * @param drawer
-   * @protected
+   * @param drawer - drawer object
    */
   protected _tryDraw(drawer: DrawerInterface): boolean {
     if (this._img !== null) {

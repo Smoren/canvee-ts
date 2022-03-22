@@ -6,7 +6,7 @@ import {
   DrawerInterface,
   LinkedDataType,
 } from '../types';
-import PositionalDrawable from "../structs/positional-drawable";
+import PositionalDrawable from '../structs/positional-drawable';
 
 /**
  * Interface for config of rect figure
@@ -23,12 +23,10 @@ export interface RectConfigInterface extends PositionalDrawableConfigInterface, 
 export default class Rect extends PositionalDrawable implements PositionalDrawableInterface {
   /**
    * Object type
-   * @protected
    */
   protected _type: string = 'Rect';
   /**
    * View config
-   * @protected
    */
   protected _config: RectConfigInterface;
 

@@ -10,15 +10,16 @@ import {
 import Drawable from './drawable';
 import DrawableStorage from '../structs/drawable-storage';
 
+/**
+ * Drawable group class
+ */
 export default class DrawableGroup extends Drawable implements DrawableGroupInterface {
   /**
    * Name of class to use as subscriber name in observable logic
-   * @protected
    */
   protected _subscriberName: string = 'DrawableGroup';
   /**
    * Storage of the children objects
-   * @protected
    */
   protected _storage: DrawableStorageInterface;
 

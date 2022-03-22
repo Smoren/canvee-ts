@@ -4,7 +4,7 @@ import {
   VectorArrayType,
 } from '../types';
 import { createVector } from './vector';
-import Drawable from "./drawable";
+import Drawable from './drawable';
 
 /**
  * Abstract class for drawable positional objects
@@ -17,7 +17,6 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
   public isPositional: true = true;
   /**
    * View config
-   * @protected
    */
   protected _config: PositionalDrawableConfigInterface;
 

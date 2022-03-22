@@ -7,12 +7,10 @@ import { ObserveHelperInterface, ViewObservableHandlerType } from '../types';
 export default class ObserveHelper implements ObserveHelperInterface {
   /**
    * Handlers mapped by subscribers
-   * @protected
    */
   protected _handlerMap: Record<string, ViewObservableHandlerType> = {};
   /**
    * Flag for muting handlers
-   * @protected
    */
   protected _muteHandlers: boolean = false;
 

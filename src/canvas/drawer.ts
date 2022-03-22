@@ -14,32 +14,26 @@ import imageCacheHelper from './helpers/image-cache-helper';
 export default class Drawer implements DrawerInterface {
   /**
    * Name of class to use as subscriber name in observable logic
-   * @protected
    */
   protected _subscriberName: string = 'Drawer';
   /**
    * Canvas DOM element
-   * @protected
    */
   protected _domElement: HTMLCanvasElement;
   /**
    * View config
-   * @protected
    */
   protected _viewConfig: ViewConfigObservableInterface;
   /**
    * Drawable objects storage
-   * @protected
    */
   protected _storage: DrawableStorageInterface;
   /**
    * Canvas drawing context
-   * @protected
    */
   protected _context: CanvasRenderingContext2D;
   /**
    * Resize observer object
-   * @protected
    */
   protected _resizeObserver: ResizeObserver;
 
@@ -148,7 +142,6 @@ export default class Drawer implements DrawerInterface {
 
   /**
    * Initiates canvas resize observer
-   * @protected
    */
   protected _initResizeObserver(): void {
     this._resizeObserver = new ResizeObserver(() => this.refresh());
@@ -157,7 +150,6 @@ export default class Drawer implements DrawerInterface {
 
   /**
    * Initiates view config observer
-   * @protected
    */
   protected _initViewConfigObserver(): void {
     this._viewConfig.onViewChange(this._subscriberName, () => this.refresh());
@@ -165,7 +157,6 @@ export default class Drawer implements DrawerInterface {
 
   /**
    * Initiates storage observer
-   * @protected
    */
   protected _initStorageObserver(): void {
     this._storage.onViewChange(this._subscriberName, () => this.refresh());
@@ -173,7 +164,6 @@ export default class Drawer implements DrawerInterface {
 
   /**
    * Initiates image cache observer
-   * @protected
    */
   protected _initImageCacheObserver(): void {
     imageCacheHelper.subscribe(this._subscriberName, () => {
@@ -183,7 +173,6 @@ export default class Drawer implements DrawerInterface {
 
   /**
    * Initiates mouse events observer
-   * @protected
    */
   protected _initMouseEvents(): void {
     // TODO перенести куда-нибудь

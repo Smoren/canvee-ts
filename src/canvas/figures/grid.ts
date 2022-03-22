@@ -26,12 +26,10 @@ export interface GridConfigInterface extends DrawableConfigInterface {
 export default class Grid extends Drawable implements DrawableInterface {
   /**
    * Object type
-   * @protected
    */
   protected _type: string = 'Grid';
   /**
    * View config
-   * @protected
    */
   protected _config: GridConfigInterface;
 
@@ -101,11 +99,11 @@ export default class Grid extends Drawable implements DrawableInterface {
 
   /**
    * Draw horizontal line
-   * @param drawer
-   * @param yOffset
-   * @param color
-   * @param fromBound
-   * @param toBound
+   * @param drawer - drawer object
+   * @param xOffset - horizontal offset
+   * @param color - color
+   * @param fromBound - left-top bound
+   * @param toBound - right-bottom bound
    */
   protected _drawHorizontalLine(
     yOffset: number,
@@ -128,11 +126,11 @@ export default class Grid extends Drawable implements DrawableInterface {
 
   /**
    * Draw vertical line
-   * @param drawer
-   * @param xOffset
-   * @param color
-   * @param fromBound
-   * @param toBound
+   * @param drawer - drawer object
+   * @param xOffset - horizontal offset
+   * @param color - color
+   * @param fromBound - left-top bound
+   * @param toBound - right-bottom bound
    */
   protected _drawVerticalLine(
     xOffset: number,

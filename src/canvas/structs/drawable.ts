@@ -17,27 +17,22 @@ import { areArraysEqual } from '../helpers/base';
 export default abstract class Drawable implements DrawableInterface {
   /**
    * Object ID
-   * @protected
    */
   protected _id: DrawableIdType;
   /**
    * Object type
-   * @protected
    */
   protected _type: string;
   /**
    * View config
-   * @protected
    */
   protected _config: DrawableConfigInterface;
   /**
    * Extra linked data
-   * @protected
    */
   protected _data: LinkedDataType;
   /**
    * Observe helper
-   * @protected
    */
   protected _observeHelper: ObserveHelperInterface;
 
@@ -113,7 +108,6 @@ export default abstract class Drawable implements DrawableInterface {
    * @param id - object ID
    * @param config - view config
    * @param data - linked extra data
-   * @protected
    */
   protected constructor(id: DrawableIdType, config: DrawableConfigInterface, data: LinkedDataType = {}) {
     this._id = id;

@@ -13,7 +13,7 @@ import ObserveHelper from '../helpers/observe-helper';
 import DrawableGroup from './drawable-group';
 import { getMaxPosition, getMinPosition } from '../helpers/base';
 import { createVector } from './vector';
-import PositionalDrawableGroup from "./positional-drawable-group";
+import PositionalDrawableGroup from './positional-drawable-group';
 
 /**
  * Storage for drawable objects
@@ -22,17 +22,14 @@ import PositionalDrawableGroup from "./positional-drawable-group";
 export default class DrawableStorage implements DrawableStorageInterface {
   /**
    * Name of class to use as subscriber name in observable logic
-   * @protected
    */
   protected _subscriberName: string = 'DrawableStorage';
   /**
    * List of stored drawable objects
-   * @protected
    */
   protected _list: DrawableInterface[] = [];
   /**
    * Helper for observable logic
-   * @protected
    */
   protected _observeHelper: ObserveHelperInterface;
 
@@ -89,7 +86,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
   /**
    * Deletes objects found by config from storage
-   * @param config
+   * @param config - filter config
    */
   public delete(config: DrawableStorageFilterConfigInterface): DrawableInterface[] {
     const result: DrawableInterface[] = [];
@@ -106,7 +103,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
   /**
    * Deletes object by ID from storage
-   * @param id
+   * @param id - object ID
    */
   public deleteById(id: DrawableIdType): DrawableInterface {
     const index = this._list.findIndex((item) => item.id === id);
@@ -229,7 +226,6 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
   /**
    * Sorts the stored objects by z-index
-   * @protected
    */
   protected _sort(): void {
     console.log('sort');

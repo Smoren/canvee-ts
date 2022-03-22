@@ -1,4 +1,4 @@
-import MD5 from 'crypto-js/md5';
+import { default as md5 } from 'crypto-js/md5';
 import { VectorArrayType } from '../types';
 
 /**
@@ -53,7 +53,7 @@ export function createUrlFromBlob(blob: Blob): string {
 /**
  * Finds and returns minimal (left-top) position
  * @public
- * @param positions
+ * @param positions - input positions
  */
 export function getMinPosition(positions: VectorArrayType[]): VectorArrayType {
   let minX: number = Infinity;
@@ -74,7 +74,7 @@ export function getMinPosition(positions: VectorArrayType[]): VectorArrayType {
 /**
  * Finds and returns maximal (right-bottom) position
  * @public
- * @param positions
+ * @param positions - input positions
  */
 export function getMaxPosition(positions: VectorArrayType[]): VectorArrayType {
   let maxX: number = -Infinity;
@@ -95,8 +95,8 @@ export function getMaxPosition(positions: VectorArrayType[]): VectorArrayType {
 /**
  * Creates an MD5 hash from string
  * @public
- * @param input
+ * @param input - input string
  */
 export function hashString(input: string): string {
-  return MD5(input).toString();
+  return md5(input).toString();
 }

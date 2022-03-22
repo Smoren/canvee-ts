@@ -13,22 +13,18 @@ import {
 export default class ImageCache implements ImageCacheInterface {
   /**
    * Map of the preloaded images
-   * @protected
    */
   protected _imageMap: Record<HashKeyType, HTMLImageElement> = {};
   /**
    * Map of the running processes
-   * @protected
    */
   protected _processMap: Record<HashKeyType, boolean> = {};
   /**
    * Map of the buffered handlers
-   * @protected
    */
   protected _handlers: Record<HashKeyType, Array<OnLoadHandlerType>> = {};
   /**
    * Map of the handlers for subscribed objects
-   * @protected
    */
   protected _totalHandlers: Record<HashKeyType, OnTotalLoadHandlerType> = {};
 
@@ -104,7 +100,6 @@ export default class ImageCache implements ImageCacheInterface {
    * Creates a hash for image data and type and returns it as string
    * @param source - source data of image
    * @param type - mime type
-   * @protected
    */
   protected _getKey(source: string, type: string): HashKeyType {
     return hashString(`${source}_${type}`);

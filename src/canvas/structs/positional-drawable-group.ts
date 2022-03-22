@@ -7,9 +7,12 @@ import {
   LinkedDataType,
   VectorArrayType,
 } from '../types';
-import DrawableGroup from "./drawable-group";
-import { createVector } from "./vector";
+import DrawableGroup from './drawable-group';
+import { createVector } from './vector';
 
+/**
+ * Positional drawable group class
+ */
 export default class PositionalDrawableGroup extends DrawableGroup
   implements PositionalDrawableInterface, DrawableGroupInterface {
   /**
@@ -18,12 +21,10 @@ export default class PositionalDrawableGroup extends DrawableGroup
   public isPositional: true = true;
   /**
    * Name of class to use as subscriber name in observable logic
-   * @protected
    */
   protected _subscriberName: string = 'PositionalDrawableGroup';
   /**
    * View config
-   * @protected
    */
   protected _config: PositionalDrawableConfigInterface;
 
@@ -102,7 +103,7 @@ export default class PositionalDrawableGroup extends DrawableGroup
    */
   protected _processChildrenToUngroup(children: PositionalDrawableInterface[]): PositionalDrawableInterface[] {
     children.forEach((item) => {
-      (item as PositionalDrawableInterface).movePosition(this._config.position);
+      item.movePosition(this._config.position);
     });
 
     return children;

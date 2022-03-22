@@ -16,22 +16,18 @@ import { createVector } from './vector';
 export default class ViewConfig implements ViewConfigObservableInterface {
   /**
    * Scale
-   * @protected
    */
   protected _scale: VectorArrayType;
   /**
    * Offset
-   * @protected
    */
   protected _offset: VectorArrayType;
   /**
    * Grid step
-   * @protected
    */
   protected _gridStep: number;
   /**
    * Helper for observable logic
-   * @protected
    */
   protected _observeHelper: ObserveHelperInterface;
 
@@ -46,14 +42,14 @@ export default class ViewConfig implements ViewConfigObservableInterface {
     this._scale = new Proxy(scale, {
       set: (target: VectorArrayType, index, value): boolean => {
         const isChanged = target[index as keyof VectorArrayType] !== value;
-        target[index as keyof VectorArrayType] = value;
+        (target[index as keyof VectorArrayType] as unknown) = value;
         return isChanged ? this._observeHelper.processWithMuteHandlers() : true;
       },
     });
     this._offset = new Proxy(offset, {
       set: (target: VectorArrayType, index, value): boolean => {
         const isChanged = target[index as keyof VectorArrayType] !== value;
-        target[index as keyof VectorArrayType] = value;
+        (target[index as keyof VectorArrayType] as unknown) = value;
         return isChanged ? this._observeHelper.processWithMuteHandlers() : true;
       },
     });
