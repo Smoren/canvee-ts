@@ -39,12 +39,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Smoren/genetic-fourier-function-approx-js"
+    "url": "git+https://github.com/Smoren/canvas-ts"
   },
   "author": "Smoren",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Smoren/genetic-fourier-function-approx-js/issues"
+    "url": "https://github.com/Smoren/canvas-ts/issues"
   },
-  "homepage": "https://github.com/Smoren/genetic-fourier-function-approx-js#readme"
+  "homepage": "https://github.com/Smoren/canvas-ts#readme"
 }
