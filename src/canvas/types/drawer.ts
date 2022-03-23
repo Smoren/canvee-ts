@@ -1,4 +1,4 @@
-import { VectorArrayType } from './base';
+import { VectorArrayType } from '../structs/vector/types';
 import { ViewConfigObservableInterface } from './view-config';
 import { DrawableStorageInterface } from './drawable-storage';
 

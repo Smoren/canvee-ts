@@ -1,9 +1,9 @@
-import { VectorArrayType } from './base';
+import { VectorArrayType } from '../structs/vector/types';
 import {
   DrawableConfigInterface,
   DrawableIdType,
   LinkedDataType,
-  PositionalDrawableConfigInterface
+  PositionalDrawableConfigInterface,
 } from './drawable-config';
 import { ViewObservableHandlerType, ViewObservableInterface } from './observable';
 import { DrawerInterface } from './drawer';

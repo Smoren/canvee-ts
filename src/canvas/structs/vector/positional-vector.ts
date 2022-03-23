@@ -1,5 +1,5 @@
-import { PositionalVectorInterface, VectorArrayType, VectorInterface } from '../types/base';
-import Vector, { toVector } from './vector';
+import { PositionalVectorInterface, VectorArrayType, VectorInterface } from './types';
+import { toVector } from './vector';
 
 /**
  * Positional vector class
@@ -27,7 +27,7 @@ export default class PositionalVector implements PositionalVectorInterface {
   /**
    * {@inheritDoc PositionalVectorInterface.target}
    */
-  get target() {
+  get target(): VectorInterface {
     return this.position.clone().add(this.size);
   }
 
@@ -68,4 +68,3 @@ export function createPolygonVectors(points: VectorArrayType[] | VectorInterface
 
   return result;
 }
-

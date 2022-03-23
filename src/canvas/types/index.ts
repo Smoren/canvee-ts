@@ -1,31 +1,31 @@
-import { VectorArrayType, VectorInterface } from './base';
+import { VectorArrayType, VectorInterface } from '../structs/vector/types';
 import {
   DrawableGroupInterface,
   DrawableInterface,
   PositionalDrawableGroupInterface,
-  PositionalDrawableInterface
+  PositionalDrawableInterface,
 } from './drawable';
 import {
   DrawableConfigInterface,
   DrawableIdType,
   LinkedDataType,
-  PositionalDrawableConfigInterface, StylizedDrawableConfigInterface
+  PositionalDrawableConfigInterface, StylizedDrawableConfigInterface,
 } from './drawable-config';
 import {
   DrawableStorageFilterCallbackType,
-  DrawableStorageFilterConfigInterface, DrawableStorageInterface
+  DrawableStorageFilterConfigInterface, DrawableStorageInterface,
 } from './drawable-storage';
 import { DrawerConfigInterface, DrawerInterface } from './drawer';
 import {
   HashKeyType,
   ImageCacheInterface,
   OnLoadHandlerType,
-  OnTotalLoadHandlerType
+  OnTotalLoadHandlerType,
 } from './image-cache';
 import {
   ObserveHelperInterface,
   ViewObservableHandlerType,
-  ViewObservableInterface
+  ViewObservableInterface,
 } from './observable';
 import { ViewConfigInterface, ViewConfigObservableInterface } from './view-config';
 
@@ -55,4 +55,4 @@ export {
   ObserveHelperInterface,
   ViewConfigInterface,
   ViewConfigObservableInterface,
-}
+};

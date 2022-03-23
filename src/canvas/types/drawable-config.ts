@@ -1,4 +1,4 @@
-import { PositionalInterface, VectorArrayType } from './base';
+import { PositionalInterface } from '../structs/vector/types';
 
 /**
  * Extra data that is linked to drawable object

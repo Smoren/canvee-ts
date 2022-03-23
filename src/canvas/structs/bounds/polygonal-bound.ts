@@ -1,7 +1,10 @@
 import { VectorArrayType } from '../../types';
-import { BoundInterface, NeighborhoodBoundConfig, PolygonalBoundConfig } from '../../types/bound';
-import { createPolygonVectors } from "../positional-vector";
+import { BoundInterface, PolygonalBoundConfig } from '../../types/bound';
+import { createPolygonVectors } from '../vector';
 
+/**
+ * PolygonalBound class
+ */
 export default class PolygonalBound implements BoundInterface {
   /**
    * Bound config

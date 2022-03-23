@@ -1,4 +1,4 @@
-import PositionalVector from "../src/canvas/structs/positional-vector";
+import { PositionalVector } from '../src/canvas/structs/vector';
 
 test('positional-vector', () => {
   const v = new PositionalVector([0, 0], [5, 5]);

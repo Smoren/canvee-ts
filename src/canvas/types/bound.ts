@@ -1,4 +1,4 @@
-import { PositionalInterface, VectorArrayType } from './base';
+import { PositionalInterface, VectorArrayType } from '../structs/vector/types';
 
 /**
  * Interface for bounds
