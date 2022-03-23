@@ -51,5 +51,15 @@
                 "extensions": [".js", ".ts"]
             }
         }
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "**/*.test.js"
+            ],
+            "env": {
+                "jest": true
+            }
+        }
+    ]
 }
