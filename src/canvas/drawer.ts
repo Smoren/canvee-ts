@@ -186,6 +186,7 @@ export default class Drawer implements DrawerInterface {
       const list = this._storage.list;
       for (let i=list.length-1; i>=0; --i) {
         const item = list[i];
+        // TODO maybe only visible?
         if (isPositional(item) && (item as PositionalDrawableInterface).boundIncludes(transposedCoords)) {
           return (item as PositionalDrawableInterface);
         }
