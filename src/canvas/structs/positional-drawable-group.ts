@@ -1,11 +1,11 @@
 import {
   PositionalDrawableInterface,
   PositionalDrawableConfigInterface,
-  DrawableGroupInterface,
   DrawableIdType,
   DrawerInterface,
   LinkedDataType,
   VectorArrayType,
+  PositionalDrawableGroupInterface,
 } from '../types';
 import DrawableGroup from './drawable-group';
 import { createVector } from './vector';
@@ -13,8 +13,7 @@ import { createVector } from './vector';
 /**
  * Positional drawable group class
  */
-export default class PositionalDrawableGroup extends DrawableGroup
-  implements PositionalDrawableInterface, DrawableGroupInterface {
+export default class PositionalDrawableGroup extends DrawableGroup implements PositionalDrawableGroupInterface {
   /**
    * Interface belonging flag
    */

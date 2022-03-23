@@ -284,6 +284,16 @@ export interface DrawableGroupInterface extends DrawableInterface {
 }
 
 /**
+ * Interface for positional group of drawable objects
+ */
+export interface PositionalDrawableGroupInterface extends PositionalDrawableInterface, DrawableGroupInterface {
+  /**
+   * View config
+   */
+  config: PositionalDrawableConfigInterface;
+}
+
+/**
  * Filter callback for finding objects in storage
  * @public
  */
