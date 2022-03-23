@@ -1,6 +1,6 @@
 import Drawer from './canvas/drawer';
 import Rect from './canvas/figures/rect';
-import DrawableStorage from './canvas/structs/drawable-storage';
+import DrawableStorage from './canvas/structs/drawable/drawable-storage';
 import { DrawableInterface, ViewConfigObservableInterface } from './canvas/types';
 import ViewConfig from './canvas/structs/view-config';
 import Grid from './canvas/figures/grid';

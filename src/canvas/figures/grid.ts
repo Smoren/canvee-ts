@@ -6,7 +6,7 @@ import {
   LinkedDataType,
   VectorArrayType,
 } from '../types';
-import Drawable from '../structs/drawable';
+import Drawable from '../structs/drawable/drawable';
 
 /**
  * Interface for config of grid

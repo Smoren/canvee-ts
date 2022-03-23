@@ -6,9 +6,9 @@ import {
   DrawableStorageInterface,
   DrawerInterface,
   LinkedDataType,
-} from '../types';
-import Drawable from './drawable';
-import DrawableStorage from '../structs/drawable-storage';
+} from '../../types';
+import Drawable from '../drawable/drawable';
+import DrawableStorage from '../drawable/drawable-storage';
 
 /**
  * Drawable group class

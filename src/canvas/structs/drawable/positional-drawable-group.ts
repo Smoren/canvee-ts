@@ -6,9 +6,9 @@ import {
   LinkedDataType,
   VectorArrayType,
   PositionalDrawableGroupInterface,
-} from '../types';
-import DrawableGroup from './drawable-group';
-import { createVector } from './vector';
+} from '../../types';
+import DrawableGroup from '../drawable/drawable-group';
+import { createVector } from '../vector';
 
 /**
  * Positional drawable group class

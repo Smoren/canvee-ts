@@ -6,7 +6,7 @@ import {
   DrawerInterface,
   LinkedDataType,
 } from '../types';
-import PositionalDrawable from '../structs/positional-drawable';
+import PositionalDrawable from '../structs/drawable/positional-drawable';
 
 /**
  * Interface for config of rect figure

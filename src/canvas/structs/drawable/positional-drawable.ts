@@ -2,9 +2,9 @@ import {
   PositionalDrawableInterface,
   PositionalDrawableConfigInterface,
   VectorArrayType,
-} from '../types';
-import { createVector } from './vector';
-import Drawable from './drawable';
+} from '../../types';
+import { createVector } from '../vector';
+import Drawable from '../drawable/drawable';
 
 /**
  * Abstract class for drawable positional objects

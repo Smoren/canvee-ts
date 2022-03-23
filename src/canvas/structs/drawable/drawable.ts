@@ -6,9 +6,9 @@ import {
   LinkedDataType,
   ObserveHelperInterface,
   ViewObservableHandlerType,
-} from '../types';
-import ObserveHelper from '../helpers/observe-helper';
-import { areArraysEqual } from '../helpers/base';
+} from '../../types';
+import ObserveHelper from '../../helpers/observe-helper';
+import { areArraysEqual } from '../../helpers/base';
 
 /**
  * Abstract class for drawable objects

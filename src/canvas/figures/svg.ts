@@ -5,7 +5,7 @@ import {
   DrawerInterface,
   LinkedDataType,
 } from '../types';
-import PositionalDrawable from '../structs/positional-drawable';
+import PositionalDrawable from '../structs/drawable/positional-drawable';
 import imageCacheHelper from '../helpers/image-cache-helper';
 
 /**

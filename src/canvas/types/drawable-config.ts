@@ -1,4 +1,4 @@
-import { VectorArrayType } from './base';
+import { PositionalInterface, VectorArrayType } from './base';
 
 /**
  * Extra data that is linked to drawable object
@@ -30,15 +30,8 @@ export interface DrawableConfigInterface {
  * Config for positional drawable objects
  * @public
  */
-export interface PositionalDrawableConfigInterface extends DrawableConfigInterface {
-  /**
-   * Position vector
-   */
-  position: VectorArrayType;
-  /**
-   * Position vector
-   */
-  size: VectorArrayType;
+export interface PositionalDrawableConfigInterface extends DrawableConfigInterface, PositionalInterface {
+
 }
 
 /**

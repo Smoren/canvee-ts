@@ -73,3 +73,17 @@ export interface VectorInterface {
    */
   toArray(): VectorArrayType;
 }
+
+/**
+ * Interface for positional objects
+ */
+export interface PositionalInterface {
+  /**
+   * Position vector
+   */
+  position: VectorArrayType;
+  /**
+   * Position vector
+   */
+  size: VectorArrayType;
+}

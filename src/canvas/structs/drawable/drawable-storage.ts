@@ -8,12 +8,12 @@ import {
   PositionalDrawableConfigInterface,
   ObserveHelperInterface,
   ViewObservableHandlerType,
-} from '../types';
-import ObserveHelper from '../helpers/observe-helper';
-import DrawableGroup from './drawable-group';
-import { getMaxPosition, getMinPosition } from '../helpers/base';
-import { createVector } from './vector';
-import PositionalDrawableGroup from './positional-drawable-group';
+} from '../../types';
+import ObserveHelper from '../../helpers/observe-helper';
+import DrawableGroup from '../drawable/drawable-group';
+import { getMaxPosition, getMinPosition } from '../../helpers/base';
+import { createVector } from '../vector';
+import PositionalDrawableGroup from '../drawable/positional-drawable-group';
 
 /**
  * Storage for drawable objects
