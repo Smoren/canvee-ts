@@ -27,3 +27,29 @@ export function round(num: number, precision: number = 0): number {
   const mult = 10**precision;
   return Math.round(num * mult) / mult;
 }
+
+/**
+ * Transpose coords with forward applying offset and scale
+ * @param coords - coords to transpose
+ * @param offset - offset vector
+ * @param scale - scale vector
+ */
+export function transposeCoordsForward(
+  coords: VectorArrayType, offset: VectorArrayType, scale: VectorArrayType = [1, 1],
+): VectorArrayType {
+  const [x, y] = coords;
+  return [(x - offset[0])/scale[0], (y - offset[1])/scale[1]];
+}
+
+/**
+ * Transpose coords with backward applying offset and scale
+ * @param coords - coords to transpose
+ * @param offset - offset vector
+ * @param scale - scale vector
+ */
+export function transposeCoordsBackward(
+  coords: VectorArrayType, offset: VectorArrayType, scale: VectorArrayType = [1, 1],
+): VectorArrayType {
+  const [x, y] = coords;
+  return [x*scale[0] + offset[0], y*scale[1] + offset[1]];
+}

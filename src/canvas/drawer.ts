@@ -3,9 +3,11 @@ import {
   DrawerConfigInterface,
   DrawableStorageInterface,
   VectorArrayType,
-  ViewConfigObservableInterface,
+  ViewConfigObservableInterface, PositionalDrawableInterface,
 } from './types';
 import imageCacheHelper from './helpers/image-cache-helper';
+import { isPositional } from './helpers/type-helpers';
+import { createVector } from './structs/vector';
 
 /**
  * Canvas drawer
@@ -176,6 +178,22 @@ export default class Drawer implements DrawerInterface {
    */
   protected _initMouseEvents(): void {
     // TODO перенести куда-нибудь
+
+    let currentElement: PositionalDrawableInterface | null = null;
+    const getCurrentElement = (coords: VectorArrayType): PositionalDrawableInterface | null => {
+      const transposedCoords: VectorArrayType = this._viewConfig.transposeForward(coords);
+
+      const list = this._storage.list;
+      for (let i=list.length-1; i>=0; --i) {
+        const item = list[i];
+        if (isPositional(item) && (item as PositionalDrawableInterface).boundIncludes(transposedCoords)) {
+          return (item as PositionalDrawableInterface);
+        }
+      }
+
+      return null;
+    };
+
     this._domElement.addEventListener('wheel', (event: WheelEvent) => {
       if (event.ctrlKey) {
         let scale = this._viewConfig.scale[0];
@@ -192,25 +210,27 @@ export default class Drawer implements DrawerInterface {
     });
 
     this._domElement.addEventListener('click', (event: PointerEvent) => {
-      const coords: VectorArrayType = [event.offsetX, event.offsetY];
-      const coords1: VectorArrayType = this._viewConfig.transposeForward(coords);
-      // const coords2: VectorArrayType = this._viewConfig.transposeBackward(coords1);
-      console.log('mouse coords', coords);
-      console.log('real coords', coords1);
-
       event.preventDefault();
     });
 
     let mouseDownCoords: VectorArrayType | null = null;
 
     this._domElement.addEventListener('mousedown', (event: MouseEvent) => {
+      if (currentElement === null) {
+        currentElement = getCurrentElement([event.offsetX, event.offsetY]);
+      }
+
       mouseDownCoords = [event.offsetX, event.offsetY];
       this._domElement.style.cursor = 'grabbing';
     });
 
     this._domElement.addEventListener('mousemove', (event: MouseEvent) => {
+      const mouseMoveCoords: VectorArrayType = [event.offsetX, event.offsetY];
+
       if (mouseDownCoords === null) {
-        if (event.shiftKey) {
+        if (getCurrentElement(mouseMoveCoords) !== null) {
+          this._domElement.style.cursor = 'pointer';
+        } else if (event.shiftKey) {
           this._domElement.style.cursor = 'ew-resize';
         } else if (event.ctrlKey) {
           this._domElement.style.cursor = 'crosshair';
@@ -221,16 +241,30 @@ export default class Drawer implements DrawerInterface {
         return;
       }
 
-      const mouseMoveCoords: VectorArrayType = [event.offsetX, event.offsetY];
       const difference: VectorArrayType = [
         mouseDownCoords[0]-mouseMoveCoords[0],
         mouseDownCoords[1]-mouseMoveCoords[1],
       ];
-      this._viewConfig.offset = [this._viewConfig.offset[0]-difference[0], this._viewConfig.offset[1]-difference[1]];
+
+      if (currentElement !== null) {
+        currentElement.config.position = createVector(currentElement.config.position)
+          .sub(createVector(difference).div(this._viewConfig.scale[0]))
+          .toArray();
+      } else {
+        this._viewConfig.offset = createVector(this._viewConfig.offset)
+          .sub(createVector(difference))
+          .toArray();
+      }
+
       mouseDownCoords = mouseMoveCoords;
     });
 
     this._domElement.addEventListener('mouseup', () => {
+      if (currentElement !== null) {
+        console.log(currentElement);
+      }
+
+      currentElement = null;
       mouseDownCoords = null;
       this._domElement.style.cursor = 'default';
     });

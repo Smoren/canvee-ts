@@ -7,6 +7,7 @@ import { createVector } from '../vector';
 import Drawable from '../drawable/drawable';
 import { BoundInterface } from '../../types/bound';
 import RectangularBound from '../bounds/rectangular-bound';
+import { transposeCoordsForward } from '../vector/helpers';
 
 /**
  * Abstract class for drawable positional objects
@@ -44,16 +45,9 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    * {@inheritDoc DrawableInterface.boundIncludes}
    */
   public boundIncludes(coords: VectorArrayType): boolean {
-    // TODO
-    return coords instanceof Array;
-  }
-
-  /**
-   * {@inheritDoc DrawableInterface.rectBoundIncludes}
-   */
-  public rectBoundIncludes(coords: VectorArrayType): boolean {
-    // TODO
-    return coords instanceof Array;
+    return this.bound.includes(
+      transposeCoordsForward(coords, this._config.position),
+    );
   }
 
   /**
@@ -67,15 +61,8 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    * bound getter
    */
   public get bound(): BoundInterface {
-    return this.rectBound;
-  }
-
-  /**
-   * rectBound getter
-   */
-  public get rectBound(): BoundInterface {
     return new RectangularBound({
-      position: this._config.position,
+      position: [0, 0],
       size: this._config.size,
     });
   }

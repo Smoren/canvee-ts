@@ -68,10 +68,6 @@ export interface PositionalDrawableInterface extends DrawableInterface {
    * Figure bound
    */
   bound: BoundInterface;
-  /**
-   * Figure rectangular bound
-   */
-  rectBound: BoundInterface;
 
   /**
    * Sets a new object position
@@ -90,12 +86,6 @@ export interface PositionalDrawableInterface extends DrawableInterface {
    * @param coords - point coords
    */
   boundIncludes(coords: VectorArrayType): boolean;
-
-  /**
-   * Returns true if the rect bound includes a point
-   * @param coords - point coords
-   */
-  rectBoundIncludes(coords: VectorArrayType): boolean;
 }
 
 /**

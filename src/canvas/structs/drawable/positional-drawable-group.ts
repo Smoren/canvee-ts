@@ -11,6 +11,9 @@ import DrawableGroup from '../drawable/drawable-group';
 import { createVector } from '../vector';
 import { BoundInterface } from '../../types/bound';
 import RectangularBound from '../bounds/rectangular-bound';
+import { transposeCoordsForward } from '../vector/helpers';
+import { isPositional } from '../../helpers/type-helpers';
+import PositionalDrawable from './positional-drawable';
 
 /**
  * Positional drawable group class
@@ -77,16 +80,20 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
    * {@inheritDoc DrawableInterface.boundIncludes}
    */
   public boundIncludes(coords: VectorArrayType): boolean {
-    // TODO
-    return coords instanceof Array;
-  }
+    for (const child of this.children) {
+      if (
+        isPositional(child)
+        && (child as PositionalDrawable).boundIncludes(transposeCoordsForward(coords, this._config.position))
+      ) {
+        return true;
+      }
+    }
 
-  /**
-   * {@inheritDoc DrawableInterface.rectBoundIncludes}
-   */
-  public rectBoundIncludes(coords: VectorArrayType): boolean {
-    // TODO
-    return coords instanceof Array;
+    return false;
+
+    // return this.bound.includes(
+    //   transposeCoordsForward(coords, this._config.position),
+    // );
   }
 
   /**
@@ -107,15 +114,8 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
    * bound getter
    */
   public get bound(): BoundInterface {
-    return this.rectBound;
-  }
-
-  /**
-   * rectBound getter
-   */
-  public get rectBound(): BoundInterface {
     return new RectangularBound({
-      position: this._config.position,
+      position: [0, 0],
       size: this._config.size,
     });
   }

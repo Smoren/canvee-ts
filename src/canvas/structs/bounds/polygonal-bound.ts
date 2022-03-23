@@ -23,7 +23,7 @@ export default class PolygonalBound implements BoundInterface {
    * {@inheritDoc BoundInterface.includes}
    */
   includes(coords: VectorArrayType): boolean {
-    const precision = 12;
+    const precision = 0;
     const x = coords[0];
     const y = coords[1];
     let isInside = false;

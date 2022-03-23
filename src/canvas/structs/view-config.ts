@@ -8,6 +8,7 @@ import {
 import { areArraysEqual } from '../helpers/base';
 import ObserveHelper from '../helpers/observe-helper';
 import { createVector } from './vector';
+import { transposeCoordsBackward, transposeCoordsForward } from './vector/helpers';
 
 /**
  * Config for objects drawable on canvas
@@ -74,16 +75,14 @@ export default class ViewConfig implements ViewConfigObservableInterface {
    * {@inheritDoc ViewConfigObservableInterface.transposeForward}
    */
   public transposeForward(coords: VectorArrayType): VectorArrayType {
-    const [x, y] = coords;
-    return [(x - this._offset[0])/this._scale[0], (y - this._offset[1])/this._scale[1]];
+    return transposeCoordsForward(coords, this._offset, this._scale);
   }
 
   /**
    * {@inheritDoc ViewConfigObservableInterface.transposeBackward}
    */
   public transposeBackward(coords: VectorArrayType): VectorArrayType {
-    const [x, y] = coords;
-    return [x*this._scale[0] + this._offset[0], y*this._scale[1] + this._offset[1]];
+    return transposeCoordsBackward(coords, this._offset, this._scale);
   }
 
   /**

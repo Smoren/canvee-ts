@@ -1,4 +1,26 @@
 import PolygonalBound from '../src/canvas/structs/bounds/polygonal-bound';
+import RectangularBound from "../src/canvas/structs/bounds/rectangular-bound";
+
+test('rectangular-bound', () => {
+  const bound = new RectangularBound({
+    position: [10, 20],
+    size: [30, 10],
+  });
+  expect(bound.includes([15, 25])).toEqual(true);
+
+  expect(bound.includes([10, 20])).toEqual(true);
+  expect(bound.includes([20, 20])).toEqual(true);
+  expect(bound.includes([40, 20])).toEqual(true);
+  expect(bound.includes([40, 25])).toEqual(true);
+  expect(bound.includes([10, 30])).toEqual(true);
+  expect(bound.includes([20, 30])).toEqual(true);
+  expect(bound.includes([40, 30])).toEqual(true);
+
+  expect(bound.includes([20, 0])).toEqual(false);
+  expect(bound.includes([20, 40])).toEqual(false);
+  expect(bound.includes([0, 25])).toEqual(false);
+  expect(bound.includes([50, 25])).toEqual(false);
+});
 
 test('polygonal-bound', () => {
   const points1 = [[1, 1], [1, 3], [5, 3], [5, 1]];
