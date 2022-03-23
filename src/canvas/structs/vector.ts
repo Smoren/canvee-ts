@@ -1,4 +1,5 @@
 import { VectorArrayType, VectorInterface } from '../types';
+import { PositionalVectorInterface } from "../types/base";
 
 /**
  * Vector class
@@ -28,7 +29,7 @@ export default class Vector implements VectorInterface {
    * Add another vector to this vector
    * @param v - vector to cache
    */
-  add(v: Vector): Vector {
+  public add(v: Vector): Vector {
     this.x += v.x;
     this.y += v.y;
 
@@ -39,7 +40,7 @@ export default class Vector implements VectorInterface {
    * Subtracts vector with another vector
    * @param v - vector to subtract
    */
-  sub(v: Vector): Vector {
+  public sub(v: Vector): Vector {
     this.x -= v.x;
     this.y -= v.y;
 
@@ -50,7 +51,7 @@ export default class Vector implements VectorInterface {
    * Multiples vector by number
    * @param mul - multiplier
    */
-  mul(mul: number): Vector {
+  public mul(mul: number): Vector {
     this.x *= mul;
     this.y *= mul;
 
@@ -61,7 +62,7 @@ export default class Vector implements VectorInterface {
    * Divides vector by number
    * @param div - divider
    */
-  div(div: number): Vector {
+  public div(div: number): Vector {
     this.x /= div;
     this.y /= div;
 
@@ -71,7 +72,7 @@ export default class Vector implements VectorInterface {
   /**
    * Inverses vector
    */
-  inverse(): Vector {
+  public inverse(): Vector {
     this.x = -this.x;
     this.y = -this.y;
 
@@ -81,7 +82,7 @@ export default class Vector implements VectorInterface {
   /**
    * Reverses vector
    */
-  reverse(): Vector {
+  public reverse(): Vector {
     this.x = 1/this.x;
     this.y = 1/this.y;
 
@@ -91,30 +92,45 @@ export default class Vector implements VectorInterface {
   /**
    * Returns the length of vector
    */
-  len(): number {
+  public len(): number {
     return Math.sqrt(this.x*this.x + this.y*this.y);
+  }
+
+  /**
+   * Returns true if this vector is equal to another vector
+   * @param v - another vector
+   * @param precision - round precision for comparison
+   */
+  public isEqual(v: VectorInterface, precision: number = 4): boolean {
+    return round(v.x, precision) === round(this.x, precision)
+      && round(v.y, precision) === round(this.y, precision);
   }
 
   /**
    * Returns distance vector of this and another vector
    * @param v - another vector
    */
-  distance(v: Vector): Vector {
+  public distance(v: Vector): Vector {
     return this.clone().sub(v);
   }
 
   /**
    * Clones vector
    */
-  clone(): Vector {
+  public clone(): Vector {
     return new Vector(this.toArray());
   }
 
   /**
    * Converts vector to array
+   * @param precision - precision
    */
-  toArray(): VectorArrayType {
-    return [this.x, this.y];
+  public toArray(precision?: number): VectorArrayType {
+    if (precision === undefined || precision === null) {
+      return [this.x, this.y];
+    }
+
+    return [round(this.x, precision), round(this.y, precision)];
   }
 }
 
@@ -125,4 +141,40 @@ export default class Vector implements VectorInterface {
  */
 export function createVector(coords: VectorArrayType): Vector {
   return new Vector(coords);
+}
+
+/**
+ * Converts instance to vector if it's an array
+ * @param coords - coords as vector or an array
+ */
+export function toVector(coords: VectorArrayType | VectorInterface): Vector {
+  return (coords instanceof Array) ? createVector(coords) : coords;
+}
+
+/**
+ * Returns true if a number is inside interval
+ * @param what - number
+ * @param interval - interval
+ */
+export function isInInterval(what: number, interval: VectorArrayType): boolean {
+  return what > interval[0] && what < interval[1];
+}
+
+/**
+ * Returns true if a number is inside segment
+ * @param what - number
+ * @param segment - segment
+ */
+export function isInSegment(what: number, segment: VectorArrayType): boolean {
+  return what >= segment[0] && what <= segment[1];
+}
+
+/**
+ * Rounds a number with a precision
+ * @param num - number
+ * @param precision - percision
+ */
+export function round(num: number, precision: number = 0): number {
+  const mult = 10**precision;
+  return Math.round(num * mult) / mult;
 }

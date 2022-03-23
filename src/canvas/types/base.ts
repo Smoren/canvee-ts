@@ -58,6 +58,13 @@ export interface VectorInterface {
   len(): number;
 
   /**
+   * Returns true if this vector is equal to another vector
+   * @param v - another vector
+   * @param precision - round precision for comparison
+   */
+  isEqual(v: VectorInterface, precision: number): boolean;
+
+  /**
    * Returns distance vector of this and another vector
    * @param v - another vector
    */
@@ -70,8 +77,9 @@ export interface VectorInterface {
 
   /**
    * Converts vector to array
+   * @param precision - precision
    */
-  toArray(): VectorArrayType;
+  toArray(precision?: number): VectorArrayType;
 }
 
 /**
@@ -86,4 +94,29 @@ export interface PositionalInterface {
    * Position vector
    */
   size: VectorArrayType;
+}
+
+/**
+ * Interface for positional vector
+ */
+export interface PositionalVectorInterface {
+  /**
+   * Position
+   */
+  position: VectorInterface;
+  /**
+   * Size
+   */
+  size: VectorInterface;
+  /**
+   * Target position (position + size)
+   */
+  target: VectorInterface;
+
+  /**
+   * Returns true if vector includes the point
+   * @param coords - point coords
+   * @param precision - round precision for comparison
+   */
+  includes(coords: VectorArrayType | VectorInterface, precision: number): boolean;
 }

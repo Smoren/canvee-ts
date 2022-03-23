@@ -34,6 +34,7 @@
         "@typescript-eslint/restrict-plus-operands": "off",
         "@typescript-eslint/space-infix-ops": "off",
         "@typescript-eslint/lines-between-class-members": "off",
+        "@typescript-eslint/no-use-before-define": "off",
         "valid-jsdoc": "off",
         "no-prototype-builtins": "off",
         "operator-linebreak": "off",
