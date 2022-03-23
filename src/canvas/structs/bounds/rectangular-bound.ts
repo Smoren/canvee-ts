@@ -1,6 +1,9 @@
 import { VectorArrayType } from '../../types';
 import { BoundInterface, RectangularBoundConfig } from '../../types/bound';
 
+/**
+ * RectangularBound class
+ */
 export default class RectangularBound implements BoundInterface {
   /**
    * Bound config

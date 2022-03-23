@@ -9,6 +9,8 @@ import {
 } from '../../types';
 import DrawableGroup from '../drawable/drawable-group';
 import { createVector } from '../vector';
+import { BoundInterface } from '../../types/bound';
+import RectangularBound from '../bounds/rectangular-bound';
 
 /**
  * Positional drawable group class
@@ -72,6 +74,22 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
   }
 
   /**
+   * {@inheritDoc DrawableInterface.boundIncludes}
+   */
+  public boundIncludes(coords: VectorArrayType): boolean {
+    // TODO
+    return coords instanceof Array;
+  }
+
+  /**
+   * {@inheritDoc DrawableInterface.rectBoundIncludes}
+   */
+  public rectBoundIncludes(coords: VectorArrayType): boolean {
+    // TODO
+    return coords instanceof Array;
+  }
+
+  /**
    * List getter
    */
   public get children(): PositionalDrawableInterface[] {
@@ -83,6 +101,23 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
    */
   public get config(): PositionalDrawableConfigInterface {
     return this._config;
+  }
+
+  /**
+   * bound getter
+   */
+  public get bound(): BoundInterface {
+    return this.rectBound;
+  }
+
+  /**
+   * rectBound getter
+   */
+  public get rectBound(): BoundInterface {
+    return new RectangularBound({
+      position: this._config.position,
+      size: this._config.size,
+    });
   }
 
   /**

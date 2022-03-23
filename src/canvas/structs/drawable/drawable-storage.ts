@@ -168,7 +168,11 @@ export default class DrawableStorage implements DrawableStorageInterface {
   public group(ids: DrawableIdType[]): DrawableGroup {
     const groupItems = this.delete({ idsOnly: ids }) as PositionalDrawableInterface[];
     const minPosition = getMinPosition(groupItems.map((item) => item.config.position));
-    const maxPosition = getMaxPosition(groupItems.map((item) => item.config.position));
+    const maxPosition = getMaxPosition(groupItems.map((item) => {
+      return createVector(item.config.position)
+        .add(createVector(item.config.size))
+        .toArray();
+    }));
     const groupSize = createVector(maxPosition).sub(createVector(minPosition)).toArray();
     const groupZIndex = Math.max(...groupItems.map((item) => item.config.zIndex))+1;
 

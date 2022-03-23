@@ -7,6 +7,7 @@ import {
 } from './drawable-config';
 import { ViewObservableHandlerType, ViewObservableInterface } from './observable';
 import { DrawerInterface } from './drawer';
+import { BoundInterface } from './bound';
 
 /**
  * Interface for drawable objects
@@ -63,6 +64,14 @@ export interface PositionalDrawableInterface extends DrawableInterface {
    * View config
    */
   config: PositionalDrawableConfigInterface;
+  /**
+   * Figure bound
+   */
+  bound: BoundInterface;
+  /**
+   * Figure rectangular bound
+   */
+  rectBound: BoundInterface;
 
   /**
    * Sets a new object position
@@ -75,6 +84,18 @@ export interface PositionalDrawableInterface extends DrawableInterface {
    * @param offset - vector to change position
    */
   movePosition(offset: VectorArrayType): void;
+
+  /**
+   * Returns true if the bound includes a point
+   * @param coords - point coords
+   */
+  boundIncludes(coords: VectorArrayType): boolean;
+
+  /**
+   * Returns true if the rect bound includes a point
+   * @param coords - point coords
+   */
+  rectBoundIncludes(coords: VectorArrayType): boolean;
 }
 
 /**
