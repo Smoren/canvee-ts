@@ -12,7 +12,7 @@ export interface CollectionFilterInterface<T> extends FilterInterface<Array<T>> 
 }
 
 export interface CoordsFilterConfigInterface extends ViewConfigInterface, FilterConfigType {
-  bounds: [VectorArrayType, VectorArrayType];
+
 }
 
 export interface CoordsFilterInterface extends FilterInterface<VectorArrayType> {

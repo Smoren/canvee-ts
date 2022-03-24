@@ -183,11 +183,11 @@ export default class Drawer implements DrawerInterface {
 
     const coordsFilter = new GridFilter();
     const filterCoords = (coords: VectorArrayType) => {
+      // TODO toConfig???
       return coordsFilter.process(coords, {
         scale: this._viewConfig.scale,
         offset: this._viewConfig.offset,
         gridStep: this._viewConfig.gridStep,
-        bounds: this.getBounds(),
       });
     };
 
@@ -264,8 +264,11 @@ export default class Drawer implements DrawerInterface {
         const newPosition = createVector(transposedCoords)
           .sub(createVector(currentElementManager.position))
           .toArray();
+        const newPositionFiltered = filterCoords(newPosition);
 
-        currentElementManager.element.config.position = filterCoords(newPosition);
+        if (!createVector(newPositionFiltered).isEqual(createVector(currentElementManager.element.config.position))) {
+          currentElementManager.element.config.position = filterCoords(newPosition);
+        }
       } else {
         const difference: VectorArrayType = [
           mouseDownCoords[0]-mouseMoveCoords[0],
