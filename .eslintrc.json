@@ -39,7 +39,7 @@
         "no-prototype-builtins": "off",
         "operator-linebreak": "off",
         "no-use-before-define": "off",
-        "no-constant-condition": "off"
+        "no-constant-condition": "warn"
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
