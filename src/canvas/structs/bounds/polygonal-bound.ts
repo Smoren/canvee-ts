@@ -48,4 +48,11 @@ export default class PolygonalBound implements BoundInterface {
 
     return isInside;
   }
+
+  /**
+   * {@inheritDoc BoundInterface.isNearEdge}
+   */
+  isNearEdge(coords: VectorArrayType, deviation: number): boolean {
+    return false;
+  }
 }

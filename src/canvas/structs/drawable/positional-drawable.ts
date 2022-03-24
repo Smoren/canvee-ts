@@ -51,6 +51,16 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
   }
 
   /**
+   * {@inheritDoc DrawableInterface.isNearBoundEdge}
+   */
+  isNearBoundEdge(coords: VectorArrayType, deviation: number): boolean {
+    return this.bound.isNearEdge(
+      transposeCoordsForward(coords, this._config.position),
+      deviation,
+    );
+  }
+
+  /**
    * View config getter
    */
   public get config(): PositionalDrawableConfigInterface {

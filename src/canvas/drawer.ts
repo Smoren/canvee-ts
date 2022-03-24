@@ -195,6 +195,26 @@ export default class Drawer implements DrawerInterface {
       return null;
     };
 
+    const DEVIATION = 8;
+    const getNearBoundElement = (coords: VectorArrayType): PositionalDrawableInterface | null => {
+      const transposedCoords: VectorArrayType = this._viewConfig.transposeForward(coords);
+
+      const list = this._storage.list;
+      for (let i=list.length-1; i>=0; --i) {
+        const item = list[i];
+        // TODO maybe only visible?
+        if (
+          isPositional(item)
+          && (item as PositionalDrawableInterface)
+            .isNearBoundEdge(transposedCoords, DEVIATION / this._viewConfig.scale[0])
+        ) {
+          return (item as PositionalDrawableInterface);
+        }
+      }
+
+      return null;
+    };
+
     this._domElement.addEventListener('wheel', (event: WheelEvent) => {
       if (event.ctrlKey) {
         let scale = this._viewConfig.scale[0];
@@ -229,12 +249,10 @@ export default class Drawer implements DrawerInterface {
       const mouseMoveCoords: VectorArrayType = [event.offsetX, event.offsetY];
 
       if (mouseDownCoords === null) {
-        if (getCurrentElement(mouseMoveCoords) !== null) {
-          this._domElement.style.cursor = 'pointer';
-        } else if (event.shiftKey) {
-          this._domElement.style.cursor = 'ew-resize';
-        } else if (event.ctrlKey) {
+        if (getNearBoundElement(mouseMoveCoords) !== null) {
           this._domElement.style.cursor = 'crosshair';
+        } else if (getCurrentElement(mouseMoveCoords) !== null) {
+          this._domElement.style.cursor = 'pointer';
         } else {
           this._domElement.style.cursor = 'default';
         }

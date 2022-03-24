@@ -114,6 +114,17 @@ export interface PositionalVectorInterface {
   target: VectorInterface;
 
   /**
+   * Returns the length of vector
+   */
+  len(): number;
+
+  /**
+   * Returns a positional vector from another point to the nearest point on vector
+   * @param point - another point
+   */
+  getDistanceVector(point: VectorArrayType | VectorInterface): PositionalVectorInterface;
+
+  /**
    * Returns true if vector includes the point
    * @param coords - point coords
    * @param precision - round precision for comparison

@@ -90,10 +90,16 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
     }
 
     return false;
+  }
 
-    // return this.bound.includes(
-    //   transposeCoordsForward(coords, this._config.position),
-    // );
+  /**
+   * {@inheritDoc DrawableInterface.isNearBoundEdge}
+   */
+  isNearBoundEdge(coords: VectorArrayType, deviation: number): boolean {
+    return this.bound.isNearEdge(
+      transposeCoordsForward(coords, this._config.position),
+      deviation,
+    );
   }
 
   /**

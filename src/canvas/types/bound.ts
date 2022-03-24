@@ -9,6 +9,13 @@ export interface BoundInterface {
    * @param coords - point coords
    */
   includes(coords: VectorArrayType): boolean;
+
+  /**
+   * Return true if point is near edge of the bound
+   * @param coords - point coords
+   * @param deviation - deviation size
+   */
+  isNearEdge(coords: VectorArrayType, deviation: number): boolean
 }
 
 /**

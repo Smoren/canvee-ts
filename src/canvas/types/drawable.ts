@@ -86,6 +86,13 @@ export interface PositionalDrawableInterface extends DrawableInterface {
    * @param coords - point coords
    */
   boundIncludes(coords: VectorArrayType): boolean;
+
+  /**
+   * Returns true if a point is near bound edge
+   * @param coords - point coords
+   * @param deviation - deviation size
+   */
+  isNearBoundEdge(coords: VectorArrayType, deviation: number): boolean;
 }
 
 /**

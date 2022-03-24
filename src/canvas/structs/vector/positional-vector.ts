@@ -1,5 +1,5 @@
 import { PositionalVectorInterface, VectorArrayType, VectorInterface } from './types';
-import { toVector } from './vector';
+import Vector, { toVector } from './vector';
 
 /**
  * Positional vector class
@@ -27,14 +27,19 @@ export default class PositionalVector implements PositionalVectorInterface {
   /**
    * {@inheritDoc PositionalVectorInterface.target}
    */
-  get target(): VectorInterface {
+  public get target(): VectorInterface {
     return this.position.clone().add(this.size);
   }
 
   /**
-   * Returns true if vector includes point
-   * @param point - point coords to check
-   * @param precision - round precision for comparison
+   * Returns the length of vector
+   */
+  len(): number {
+    return this.size.len();
+  }
+
+  /**
+   * {@inheritDoc PositionalVectorInterface.includes}
    */
   public includes(point: VectorArrayType | VectorInterface, precision: number = 4): boolean {
     const pointVector = toVector(point);
@@ -49,6 +54,51 @@ export default class PositionalVector implements PositionalVectorInterface {
 
     return (x-x1) * (y2-y1) - (y-y1) * (x2-x1) === 0
       && (x1 < x && x < x2) && (y1 < y && y < y2);
+  }
+
+  /**
+   * {@inheritDoc PositionalVectorInterface.getDistanceVector}
+   */
+  public getDistanceVector(point: VectorArrayType | VectorInterface): PositionalVectorInterface {
+    const vectorPoint = toVector(point);
+    const destPoint = this._getNearestLinePoint(point);
+
+    if (
+      destPoint.x < Math.min(this.position.x, this.target.x) ||
+      destPoint.x > Math.max(this.position.x, this.target.x) ||
+      destPoint.y < Math.min(this.position.y, this.target.y) ||
+      destPoint.y > Math.max(this.position.y, this.target.y)
+    ) {
+      const l1 = new PositionalVector(vectorPoint, toVector(this.position).sub(vectorPoint));
+      const l2 = new PositionalVector(vectorPoint, toVector(this.target).sub(vectorPoint));
+
+      if (l1.len() < l2.len()) {
+        return l1;
+      } else {
+        return l2;
+      }
+    }
+
+    return new PositionalVector(vectorPoint, destPoint.sub(vectorPoint));
+  }
+
+  /**
+   * Returns the coords of the nearest point on vector to another point
+   * @param point - another point
+   */
+  protected _getNearestLinePoint(point: VectorArrayType | VectorInterface) {
+    const pointVector = toVector(point);
+
+    const k = (
+      (this.target.y-this.position.y) * (pointVector.x-this.position.x)
+      - (this.target.x-this.position.x) * (pointVector.y-this.position.y)
+    ) / ((this.target.y-this.position.y)**2 + (this.target.x-this.position.x)**2);
+    console.log('k: ', k);
+
+    return new Vector([
+      pointVector.x - k * (this.target.y-this.position.y),
+      pointVector.y + k * (this.target.x-this.position.x),
+    ]);
   }
 }
 

@@ -38,7 +38,8 @@
         "valid-jsdoc": "off",
         "no-prototype-builtins": "off",
         "operator-linebreak": "off",
-        "no-use-before-define": "off"
+        "no-use-before-define": "off",
+        "no-constant-condition": "off"
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

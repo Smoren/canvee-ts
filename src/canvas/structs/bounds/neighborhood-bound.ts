@@ -26,4 +26,11 @@ export default class NeighborhoodBound implements BoundInterface {
 
     return (x - centerX) ** 2 + (y - centerY) ** 2 <= this._config.radius ** 2;
   }
+
+  /**
+   * {@inheritDoc BoundInterface.isNearEdge}
+   */
+  isNearEdge(coords: VectorArrayType, deviation: number): boolean {
+    return false;
+  }
 }
