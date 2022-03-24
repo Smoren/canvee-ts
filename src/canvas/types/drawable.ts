@@ -82,6 +82,12 @@ export interface PositionalDrawableInterface extends DrawableInterface {
   movePosition(offset: VectorArrayType): void;
 
   /**
+   * Returns relative position of a point
+   * @param point - some point
+   */
+  getRelativePosition(point: VectorArrayType): VectorArrayType;
+
+  /**
    * Returns true if the bound includes a point
    * @param coords - point coords
    */

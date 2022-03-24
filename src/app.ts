@@ -22,7 +22,7 @@ const storage = new DrawableStorage([
     visible: true,
     fillStyle: 'green',
     strokeStyle: 'black',
-    lineWidth: 3,
+    lineWidth: 1,
   }),
   new Rect(3, {
     position: [10, 25],
@@ -31,16 +31,16 @@ const storage = new DrawableStorage([
     visible: true,
     fillStyle: 'blue',
     strokeStyle: 'black',
-    lineWidth: 3,
+    lineWidth: 1,
   }),
   new Rect(4, {
-    position: [700, 250],
-    size: [150, 100],
-    zIndex: 1,
+    position: [15*30, 15*10],
+    size: [15*10, 15*5],
+    zIndex: 10,
     visible: true,
-    fillStyle: 'blue',
-    strokeStyle: 'black',
-    lineWidth: 3,
+    fillStyle: 'transparent',
+    strokeStyle: 'red',
+    lineWidth: 1,
   }),
   new Svg(5, {
     position: [300, 550],
@@ -63,7 +63,7 @@ const storage = new DrawableStorage([
     visible: true,
     fillStyle: 'transparent',
     strokeStyle: 'blue',
-    lineWidth: 3,
+    lineWidth: 1,
   }),
   new Rect(7, {
     position: [350, 300],
@@ -72,7 +72,7 @@ const storage = new DrawableStorage([
     visible: true,
     fillStyle: 'transparent',
     strokeStyle: 'blue',
-    lineWidth: 3,
+    lineWidth: 1,
   }),
   new Rect(8, {
     position: [300, 350],
@@ -81,7 +81,7 @@ const storage = new DrawableStorage([
     visible: true,
     fillStyle: 'transparent',
     strokeStyle: 'blue',
-    lineWidth: 3,
+    lineWidth: 1,
   }),
   new Rect(9, {
     position: [200, 200],
@@ -90,7 +90,7 @@ const storage = new DrawableStorage([
     visible: true,
     fillStyle: 'green',
     strokeStyle: 'blue',
-    lineWidth: 3,
+    lineWidth: 1,
   }),
 ]);
 

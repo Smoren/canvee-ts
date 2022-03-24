@@ -61,7 +61,7 @@ export interface VectorInterface {
    * @param v - another vector
    * @param precision - round precision for comparison
    */
-  isEqual(v: VectorInterface, precision: number): boolean;
+  isEqual(v: VectorInterface, precision?: number): boolean;
 
   /**
    * Returns true if angle between vectors equals 90 degrees
@@ -121,7 +121,7 @@ export interface VectorInterface {
    * @param angle - angle to rotate to
    * @param precision - round precision
    */
-  rotate(angle: number, precision: number): VectorInterface;
+  rotate(angle: number, precision?: number): VectorInterface;
 
   /**
    * Get cos with another vector
@@ -187,5 +187,5 @@ export interface PositionalVectorInterface {
    * @param coords - point coords
    * @param precision - round precision for comparison
    */
-  includes(coords: VectorArrayType | VectorInterface, precision: number): boolean;
+  includes(coords: VectorArrayType | VectorInterface, precision?: number): boolean;
 }

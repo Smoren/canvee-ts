@@ -77,6 +77,15 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
   }
 
   /**
+   * {@inheritDoc DrawableInterface.getRelativePosition}
+   */
+  public getRelativePosition(point: VectorArrayType): VectorArrayType {
+    return createVector(point)
+      .sub(createVector(this.config.position))
+      .toArray();
+  }
+
+  /**
    * {@inheritDoc DrawableInterface.boundIncludes}
    */
   public boundIncludes(coords: VectorArrayType): boolean {

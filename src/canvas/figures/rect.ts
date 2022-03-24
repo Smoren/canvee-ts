@@ -49,7 +49,11 @@ export default class Rect extends PositionalDrawable implements PositionalDrawab
     drawer.context.fillStyle = this._config.fillStyle;
     drawer.context.lineWidth = this._config.lineWidth;
     drawer.context.fillRect(...this._config.position, ...this._config.size);
-    drawer.context.strokeRect(...this._config.position, ...this._config.size);
+
+    if (this._config.lineWidth !== 0) {
+      drawer.context.strokeRect(...this._config.position, ...this._config.size);
+    }
+
     drawer.context.closePath();
   }
 }

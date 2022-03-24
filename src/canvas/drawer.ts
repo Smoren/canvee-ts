@@ -8,6 +8,8 @@ import {
 import imageCacheHelper from './helpers/image-cache-helper';
 import { isPositional } from './helpers/type-helpers';
 import { createVector } from './structs/vector';
+import GridFilter from './structs/filters/grid-filter';
+import CurrentElementManager from './helpers/current-element-manager';
 
 /**
  * Canvas drawer
@@ -179,24 +181,21 @@ export default class Drawer implements DrawerInterface {
   protected _initMouseEvents(): void {
     // TODO перенести куда-нибудь
 
-    let currentElement: PositionalDrawableInterface | null = null;
-    const getCurrentElement = (coords: VectorArrayType): PositionalDrawableInterface | null => {
-      const transposedCoords: VectorArrayType = this._viewConfig.transposeForward(coords);
-
-      const list = this._storage.list;
-      for (let i=list.length-1; i>=0; --i) {
-        const item = list[i];
-        // TODO maybe only visible?
-        if (isPositional(item) && (item as PositionalDrawableInterface).boundIncludes(transposedCoords)) {
-          return (item as PositionalDrawableInterface);
-        }
-      }
-
-      return null;
+    const coordsFilter = new GridFilter();
+    const filterCoords = (coords: VectorArrayType) => {
+      return coordsFilter.process(coords, {
+        scale: this._viewConfig.scale,
+        offset: this._viewConfig.offset,
+        gridStep: this._viewConfig.gridStep,
+        bounds: this.getBounds(),
+      });
     };
+
+    const currentElementManager = new CurrentElementManager(this, this._storage);
 
     const DEVIATION = 8;
     const getNearBoundElement = (coords: VectorArrayType): PositionalDrawableInterface | null => {
+      // TODO проблема, когда на фигуру накладывается другая фигура
       const transposedCoords: VectorArrayType = this._viewConfig.transposeForward(coords);
 
       const list = this._storage.list;
@@ -237,8 +236,8 @@ export default class Drawer implements DrawerInterface {
     let mouseDownCoords: VectorArrayType | null = null;
 
     this._domElement.addEventListener('mousedown', (event: MouseEvent) => {
-      if (currentElement === null) {
-        currentElement = getCurrentElement([event.offsetX, event.offsetY]);
+      if (!currentElementManager.found()) {
+        currentElementManager.search([event.offsetX, event.offsetY]);
       }
 
       mouseDownCoords = [event.offsetX, event.offsetY];
@@ -251,7 +250,7 @@ export default class Drawer implements DrawerInterface {
       if (mouseDownCoords === null) {
         if (getNearBoundElement(mouseMoveCoords) !== null) {
           this._domElement.style.cursor = 'crosshair';
-        } else if (getCurrentElement(mouseMoveCoords) !== null) {
+        } else if (currentElementManager.found()) {
           this._domElement.style.cursor = 'pointer';
         } else {
           this._domElement.style.cursor = 'default';
@@ -260,16 +259,19 @@ export default class Drawer implements DrawerInterface {
         return;
       }
 
-      const difference: VectorArrayType = [
-        mouseDownCoords[0]-mouseMoveCoords[0],
-        mouseDownCoords[1]-mouseMoveCoords[1],
-      ];
-
-      if (currentElement !== null) {
-        currentElement.config.position = createVector(currentElement.config.position)
-          .sub(createVector(difference).div(this._viewConfig.scale[0]))
+      if (currentElementManager.found()) {
+        const transposedCoords = this.viewConfig.transposeForward(mouseMoveCoords);
+        const newPosition = createVector(transposedCoords)
+          .sub(createVector(currentElementManager.position))
           .toArray();
+
+        currentElementManager.element.config.position = filterCoords(newPosition);
       } else {
+        const difference: VectorArrayType = [
+          mouseDownCoords[0]-mouseMoveCoords[0],
+          mouseDownCoords[1]-mouseMoveCoords[1],
+        ];
+
         this._viewConfig.offset = createVector(this._viewConfig.offset)
           .sub(createVector(difference))
           .toArray();
@@ -279,11 +281,11 @@ export default class Drawer implements DrawerInterface {
     });
 
     this._domElement.addEventListener('mouseup', () => {
-      if (currentElement !== null) {
-        console.log(currentElement);
+      if (currentElementManager.found()) {
+        console.log(currentElementManager.element);
       }
 
-      currentElement = null;
+      currentElementManager.lose();
       mouseDownCoords = null;
       this._domElement.style.cursor = 'default';
     });
