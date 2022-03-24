@@ -34,8 +34,8 @@ export default class PositionalVector implements PositionalVectorInterface {
   /**
    * Returns the length of vector
    */
-  public len(): number {
-    return this.size.len();
+  public get length(): number {
+    return this.size.length;
   }
 
   /**
@@ -72,7 +72,7 @@ export default class PositionalVector implements PositionalVectorInterface {
       const l1 = new PositionalVector(vectorPoint, toVector(this.position).sub(vectorPoint));
       const l2 = new PositionalVector(vectorPoint, toVector(this.target).sub(vectorPoint));
 
-      if (l1.len() < l2.len()) {
+      if (l1.length < l2.length) {
         return l1;
       } else {
         return l2;

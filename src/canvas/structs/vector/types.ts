@@ -17,6 +17,10 @@ export interface VectorInterface {
    * Coordinate Y
    */
   y: number;
+  /**
+   * Returns the length of vector
+   */
+  length: number;
 
   /**
    * Add another vector to this vector
@@ -51,11 +55,6 @@ export interface VectorInterface {
    * Reverses vector
    */
   reverse(): VectorInterface;
-
-  /**
-   * Returns the length of vector
-   */
-  len(): number;
 
   /**
    * Returns true if this vector is equal to another vector
@@ -161,11 +160,10 @@ export interface PositionalVectorInterface {
    * Target position (position + size)
    */
   target: VectorInterface;
-
   /**
    * Returns the length of vector
    */
-  len(): number;
+  length: number;
 
   /**
    * Returns a positional vector from another point to the nearest point on vector

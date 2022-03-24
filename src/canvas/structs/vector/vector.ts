@@ -101,7 +101,7 @@ export default class Vector implements VectorInterface {
   /**
    * Returns the length of vector
    */
-  public len(): number {
+  public get length(): number {
     return Math.sqrt(this.x*this.x + this.y*this.y);
   }
 
@@ -159,7 +159,7 @@ export default class Vector implements VectorInterface {
    * Normalizes this vector
    */
   public normalize(): VectorInterface {
-    const len = this.len();
+    const len = this.length;
 
     this.x /= len;
     this.y /= len;
@@ -208,7 +208,7 @@ export default class Vector implements VectorInterface {
       v = createVector([1, 0]);
     }
 
-    return this.mulScalar(v) / (this.len() * v.len());
+    return this.mulScalar(v) / (this.length * v.length);
   }
 
   /**

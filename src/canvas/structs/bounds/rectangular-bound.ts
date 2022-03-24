@@ -41,7 +41,7 @@ export default class RectangularBound implements BoundInterface {
     ]);
 
     for (const vector of vectors) {
-      if (vector.getDistanceVector(coords).len() <= deviation) {
+      if (vector.getDistanceVector(coords).length <= deviation) {
         return true;
       }
     }
