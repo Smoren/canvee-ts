@@ -34,7 +34,7 @@ export default class PositionalVector implements PositionalVectorInterface {
   /**
    * Returns the length of vector
    */
-  len(): number {
+  public len(): number {
     return this.size.len();
   }
 
@@ -93,7 +93,6 @@ export default class PositionalVector implements PositionalVectorInterface {
       (this.target.y-this.position.y) * (pointVector.x-this.position.x)
       - (this.target.x-this.position.x) * (pointVector.y-this.position.y)
     ) / ((this.target.y-this.position.y)**2 + (this.target.x-this.position.x)**2);
-    console.log('k: ', k);
 
     return new Vector([
       pointVector.x - k * (this.target.y-this.position.y),
