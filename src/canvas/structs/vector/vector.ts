@@ -168,11 +168,28 @@ export default class Vector implements VectorInterface {
   }
 
   /**
-   * Translates vector with offset and scale
+   * Transposes vector forward with offset and scale
    * @param offset - offset
    * @param scale - scale
    */
-  public translate(
+  public transposeForward(
+    offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface,
+  ): VectorInterface {
+    const offsetVector = toVector(offset);
+    const scaleVector = toVector(scale);
+
+    this.x = (this.x - offsetVector.x) / scaleVector.x;
+    this.y = (this.y - offsetVector.y) / scaleVector.y;
+
+    return this;
+  }
+
+  /**
+   * Transposes vector backward with offset and scale
+   * @param offset - offset
+   * @param scale - scale
+   */
+  public transposeBackward(
     offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface,
   ): VectorInterface {
     const offsetVector = toVector(offset);

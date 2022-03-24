@@ -99,11 +99,22 @@ export interface VectorInterface {
   normalize(): VectorInterface;
 
   /**
-   * Translates vector with offset and scale
+   * Transposes vector forward with offset and scale
    * @param offset - offset
    * @param scale - scale
    */
-  translate(offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface): VectorInterface;
+  transposeForward(
+    offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface,
+  ): VectorInterface;
+
+  /**
+   * Transposes vector backward with offset and scale
+   * @param offset - offset
+   * @param scale - scale
+   */
+  transposeBackward(
+    offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface,
+  ): VectorInterface;
 
   /**
    * Returns new vector by rotating this
