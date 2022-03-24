@@ -3,7 +3,7 @@ import {
   PositionalDrawableConfigInterface,
   DrawableIdType,
   DrawerInterface,
-  LinkedDataType,
+  LinkedDataType, VectorArrayType,
 } from '../types';
 import PositionalDrawable from '../structs/drawable/positional-drawable';
 import imageCacheHelper from '../helpers/image-cache-helper';
@@ -60,14 +60,45 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
   }
 
   /**
+   * sourceWidth getter
+   */
+  public get sourceWidth(): number {
+    return this._img.width;
+  }
+
+  /**
+   * sourceHeight getter
+   */
+  public get sourceHeight(): number {
+    return this._img.height;
+  }
+
+  /**
+   * scale getter
+   */
+  public get scale(): VectorArrayType {
+    return [
+      this._config.size[0] / this.sourceWidth,
+      this._config.size[1] / this.sourceHeight,
+    ];
+  }
+
+  /**
    * Tries to draw the figure if the image is ready
    * @param drawer - drawer object
    */
   protected _tryDraw(drawer: DrawerInterface): boolean {
     if (this._img !== null) {
+      const scale = this.scale;
+      const position = this._config.position;
+      const scaledPosition: VectorArrayType = [position[0]/scale[0], position[1]/scale[1]];
+
+      drawer.context.save();
       drawer.context.beginPath();
-      drawer.context.drawImage(this._img, ...this._config.position);
+      drawer.context.scale(...scale);
+      drawer.context.drawImage(this._img, ...scaledPosition);
       drawer.context.closePath();
+      drawer.context.restore();
 
       return true;
     }

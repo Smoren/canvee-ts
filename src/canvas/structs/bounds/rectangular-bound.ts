@@ -28,4 +28,3 @@ export default class RectangularBound implements BoundInterface {
       && coords[1] <= this._config.position[1] + this._config.size[1];
   }
 }
-

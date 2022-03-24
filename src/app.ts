@@ -44,14 +44,14 @@ const storage = new DrawableStorage([
   }),
   new Svg(5, {
     position: [300, 550],
-    size: [150, 100],
+    size: [162, 82],
     zIndex: 1,
     visible: true,
     data: "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>", // eslint-disable-line
   }),
   new Svg(5, {
     position: [100, 550],
-    size: [150, 100],
+    size: [162, 82],
     zIndex: 1,
     visible: true,
     data: "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>", // eslint-disable-line
