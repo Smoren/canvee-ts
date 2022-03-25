@@ -182,6 +182,29 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   /**
+   * {@inheritDoc DrawableStorageInterface.findByNearEdgePosition}
+   */
+  findByNearEdgePosition(coords: VectorArrayType, deviation: number): PositionalContextInterface {
+    const positionContext = this.findByPosition(coords);
+
+    for (let i=this._list.length-1; i>=0; --i) {
+      const item = this._list[i];
+      // TODO maybe only visible?
+      if (
+        isPositional(item)
+        && (item as PositionalDrawableInterface).isNearBoundEdge(coords, deviation)
+        && (positionContext.isEmpty() || positionContext.element === item)
+      ) {
+        const element = (item as PositionalDrawableInterface);
+        const position = element.getRelativePosition(coords);
+        return new PositionalContext(element, position);
+      }
+    }
+
+    return new PositionalContext(null, null);
+  }
+
+  /**
    * {@inheritDoc DrawableStorageInterface.group}
    */
   public group(ids: DrawableIdType[]): DrawableGroup {

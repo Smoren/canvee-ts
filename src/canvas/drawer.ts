@@ -3,10 +3,9 @@ import {
   DrawerConfigInterface,
   DrawableStorageInterface,
   VectorArrayType,
-  ViewConfigObservableInterface, PositionalDrawableInterface,
+  ViewConfigObservableInterface,
 } from './types';
 import imageCacheHelper from './helpers/image-cache-helper';
-import { isPositional } from './helpers/type-helpers';
 import { createVector } from './structs/vector';
 import GridFilter from './structs/filters/grid-filter';
 import PositionalContext from './structs/drawable/positional-context';
@@ -194,24 +193,9 @@ export default class Drawer implements DrawerInterface {
     let currentElementContext: PositionalContext = new PositionalContext(null, null);
 
     const DEVIATION = 8;
-    const getNearBoundElement = (coords: VectorArrayType): PositionalDrawableInterface | null => {
-      // TODO проблема, когда на фигуру накладывается другая фигура
+    const getNearBoundElement = (coords: VectorArrayType): PositionalContext => {
       const transposedCoords: VectorArrayType = this._viewConfig.transposeForward(coords);
-
-      const list = this._storage.list;
-      for (let i=list.length-1; i>=0; --i) {
-        const item = list[i];
-        // TODO maybe only visible?
-        if (
-          isPositional(item)
-          && (item as PositionalDrawableInterface)
-            .isNearBoundEdge(transposedCoords, DEVIATION / this._viewConfig.scale[0])
-        ) {
-          return (item as PositionalDrawableInterface);
-        }
-      }
-
-      return null;
+      return this._storage.findByNearEdgePosition(transposedCoords, DEVIATION / this._viewConfig.scale[0]);
     };
 
     this._domElement.addEventListener('wheel', (event: WheelEvent) => {
@@ -250,7 +234,7 @@ export default class Drawer implements DrawerInterface {
       const transposedCoords = this._viewConfig.transposeForward(mouseMoveCoords);
 
       if (mouseDownCoords === null) {
-        if (getNearBoundElement(mouseMoveCoords) !== null) {
+        if (!getNearBoundElement(mouseMoveCoords).isEmpty()) {
           this._domElement.style.cursor = 'crosshair';
         } else if (!this._storage.findByPosition(transposedCoords).isEmpty()) {
           this._domElement.style.cursor = 'pointer';
