@@ -1,4 +1,5 @@
 import { VectorArrayType, VectorInterface } from '../structs/vector/types';
+import PositionalContextInterface from './context';
 import {
   DrawableGroupInterface,
   DrawableInterface,
@@ -55,4 +56,5 @@ export {
   ObserveHelperInterface,
   ViewConfigInterface,
   ViewConfigObservableInterface,
+  PositionalContextInterface,
 };

@@ -9,7 +9,7 @@ import imageCacheHelper from './helpers/image-cache-helper';
 import { isPositional } from './helpers/type-helpers';
 import { createVector } from './structs/vector';
 import GridFilter from './structs/filters/grid-filter';
-import ElementContext from './contexts/element-context';
+import PositionalContext from './structs/drawable/positional-context';
 
 /**
  * Canvas drawer
@@ -191,7 +191,7 @@ export default class Drawer implements DrawerInterface {
       });
     };
 
-    const currentElementManager = new ElementContext(this, this._storage);
+    let currentElementContext: PositionalContext = new PositionalContext(null, null);
 
     const DEVIATION = 8;
     const getNearBoundElement = (coords: VectorArrayType): PositionalDrawableInterface | null => {
@@ -236,8 +236,9 @@ export default class Drawer implements DrawerInterface {
     let mouseDownCoords: VectorArrayType | null = null;
 
     this._domElement.addEventListener('mousedown', (event: MouseEvent) => {
-      if (!currentElementManager.found()) {
-        currentElementManager.search([event.offsetX, event.offsetY]);
+      if (currentElementContext.isEmpty()) {
+        const transposedCoords = this._viewConfig.transposeForward([event.offsetX, event.offsetY]);
+        currentElementContext = this._storage.findByPosition(transposedCoords);
       }
 
       mouseDownCoords = [event.offsetX, event.offsetY];
@@ -246,11 +247,12 @@ export default class Drawer implements DrawerInterface {
 
     this._domElement.addEventListener('mousemove', (event: MouseEvent) => {
       const mouseMoveCoords: VectorArrayType = [event.offsetX, event.offsetY];
+      const transposedCoords = this._viewConfig.transposeForward(mouseMoveCoords);
 
       if (mouseDownCoords === null) {
         if (getNearBoundElement(mouseMoveCoords) !== null) {
           this._domElement.style.cursor = 'crosshair';
-        } else if (currentElementManager.found()) {
+        } else if (!this._storage.findByPosition(transposedCoords).isEmpty()) {
           this._domElement.style.cursor = 'pointer';
         } else {
           this._domElement.style.cursor = 'default';
@@ -259,15 +261,14 @@ export default class Drawer implements DrawerInterface {
         return;
       }
 
-      if (currentElementManager.found()) {
-        const transposedCoords = this.viewConfig.transposeForward(mouseMoveCoords);
+      if (!currentElementContext.isEmpty()) {
         const newPosition = createVector(transposedCoords)
-          .sub(createVector(currentElementManager.position))
+          .sub(createVector(currentElementContext.position))
           .toArray();
         const newPositionFiltered = filterCoords(newPosition);
 
-        if (!createVector(newPositionFiltered).isEqual(createVector(currentElementManager.element.config.position))) {
-          currentElementManager.element.config.position = filterCoords(newPosition);
+        if (!createVector(newPositionFiltered).isEqual(createVector(currentElementContext.element.config.position))) {
+          currentElementContext.element.config.position = filterCoords(newPosition);
         }
       } else {
         const difference: VectorArrayType = [
@@ -284,11 +285,11 @@ export default class Drawer implements DrawerInterface {
     });
 
     this._domElement.addEventListener('mouseup', () => {
-      if (currentElementManager.found()) {
-        console.log(currentElementManager.element);
+      if (!currentElementContext.isEmpty()) {
+        console.log(currentElementContext.element);
       }
 
-      currentElementManager.lose();
+      currentElementContext = new PositionalContext(null, null);
       mouseDownCoords = null;
       this._domElement.style.cursor = 'default';
     });

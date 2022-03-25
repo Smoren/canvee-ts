@@ -1,6 +1,7 @@
 import { ViewObservableInterface } from './observable';
 import { DrawableIdType } from './drawable-config';
 import { DrawableGroupInterface, DrawableInterface } from './drawable';
+import { PositionalContextInterface, VectorArrayType } from './index';
 
 /**
  * Filter callback for finding objects in storage
@@ -58,6 +59,12 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
    * @throws Error if object is not found
    */
   findById(id: DrawableIdType): DrawableInterface;
+
+  /**
+   * Finds item by position and returns context
+   * @param coords - coords
+   */
+  findByPosition(coords: VectorArrayType): PositionalContextInterface;
 
   /**
    * Make a group from objects by IDs

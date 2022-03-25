@@ -7,13 +7,15 @@ import {
   PositionalDrawableInterface,
   PositionalDrawableConfigInterface,
   ObserveHelperInterface,
-  ViewObservableHandlerType,
+  ViewObservableHandlerType, VectorArrayType, PositionalContextInterface,
 } from '../../types';
 import ObserveHelper from '../../helpers/observe-helper';
 import DrawableGroup from '../drawable/drawable-group';
 import { getMaxPosition, getMinPosition } from '../../helpers/base';
 import { createVector } from '../vector';
 import PositionalDrawableGroup from '../drawable/positional-drawable-group';
+import { isPositional } from '../../helpers/type-helpers';
+import PositionalContext from './positional-context';
 
 /**
  * Storage for drawable objects
@@ -160,6 +162,23 @@ export default class DrawableStorage implements DrawableStorageInterface {
     }
     // TODO customize exception
     throw new Error(`cannot find object with id '${id}'`);
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.findByPosition}
+   */
+  public findByPosition(coords: VectorArrayType): PositionalContextInterface {
+    for (let i=this._list.length-1; i>=0; --i) {
+      const item: DrawableInterface = this._list[i];
+      // TODO maybe only visible?
+      if (isPositional(item) && (item as PositionalDrawableInterface).boundIncludes(coords)) {
+        const element = (item as PositionalDrawableInterface);
+        const position = element.getRelativePosition(coords);
+        return new PositionalContext(element, position);
+      }
+    }
+
+    return new PositionalContext(null, null);
   }
 
   /**
