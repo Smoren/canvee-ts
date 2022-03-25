@@ -9,7 +9,7 @@ import imageCacheHelper from './helpers/image-cache-helper';
 import { isPositional } from './helpers/type-helpers';
 import { createVector } from './structs/vector';
 import GridFilter from './structs/filters/grid-filter';
-import CurrentElementManager from './helpers/current-element-manager';
+import ElementContext from './contexts/element-context';
 
 /**
  * Canvas drawer
@@ -191,7 +191,7 @@ export default class Drawer implements DrawerInterface {
       });
     };
 
-    const currentElementManager = new CurrentElementManager(this, this._storage);
+    const currentElementManager = new ElementContext(this, this._storage);
 
     const DEVIATION = 8;
     const getNearBoundElement = (coords: VectorArrayType): PositionalDrawableInterface | null => {

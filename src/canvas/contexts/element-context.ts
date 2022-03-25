@@ -1,10 +1,10 @@
 import { DrawableStorageInterface, DrawerInterface, PositionalDrawableInterface, VectorArrayType } from '../types';
-import { isPositional } from './type-helpers';
+import { isPositional } from '../helpers/type-helpers';
 
 /**
  * CurrentElementManager class
  */
-export default class CurrentElementManager {
+export default class ElementContext {
   public element: PositionalDrawableInterface | null = null;
   public position: VectorArrayType | null = null;
 
@@ -25,7 +25,7 @@ export default class CurrentElementManager {
    * Search
    * @param mouseCoords - mouse coords
    */
-  public search(mouseCoords: VectorArrayType): CurrentElementManager {
+  public search(mouseCoords: VectorArrayType): ElementContext {
     const transposedCoords: VectorArrayType = this._drawer.viewConfig.transposeForward(mouseCoords);
 
     const list = this._storage.list;
