@@ -52,3 +52,22 @@ export interface StylizedDrawableConfigInterface extends DrawableConfigInterface
    */
   lineWidth: number;
 }
+
+/**
+ * Config for drawable figures with name
+ * @public
+ */
+export interface NamedDrawableConfigInterface extends DrawableConfigInterface {
+  /**
+   * Name
+   */
+  name: string;
+}
+
+/**
+ * Config for drawable layers
+ * @public
+ */
+export interface DrawableLayerConfigInterface extends NamedDrawableConfigInterface {
+
+}

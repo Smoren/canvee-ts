@@ -9,15 +9,16 @@ import {
   ObserveHelperInterface,
   ViewObservableHandlerType,
   VectorArrayType,
-  PositionalContextInterface,
+  PositionalContextInterface, DrawableLayerInterface,
 } from '../../types';
 import ObserveHelper from '../../helpers/observe-helper';
 import DrawableGroup from '../drawable/drawable-group';
 import { getMaxPosition, getMinPosition } from '../../helpers/base';
 import { createVector } from '../vector';
 import PositionalDrawableGroup from '../drawable/positional-drawable-group';
-import { isPositional } from '../../helpers/type-helpers';
+import { isLayer, isPositional } from '../../helpers/type-helpers';
 import PositionalContext from './positional-context';
+import DrawableLayer from './drawable-layer';
 
 /**
  * Storage for drawable objects
@@ -172,8 +173,14 @@ export default class DrawableStorage implements DrawableStorageInterface {
   public findByPosition(coords: VectorArrayType): PositionalContextInterface {
     for (let i=this._list.length-1; i>=0; --i) {
       const item: DrawableInterface = this._list[i];
+
       // TODO maybe only visible?
-      if (isPositional(item) && (item as PositionalDrawableInterface).boundIncludes(coords)) {
+      if (isLayer(item)) {
+        const context = (item as DrawableLayer).storage.findByPosition(coords);
+        if (!context.isEmpty()) {
+          return context;
+        }
+      } else if (isPositional(item) && (item as PositionalDrawableInterface).boundIncludes(coords)) {
         const element = (item as PositionalDrawableInterface);
         const position = element.getRelativePosition(coords);
         return new PositionalContext(element, position);
@@ -191,8 +198,14 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
     for (let i=this._list.length-1; i>=0; --i) {
       const item = this._list[i];
+
       // TODO maybe only visible?
-      if (
+      if (isLayer(item)) {
+        const context = (item as DrawableLayer).storage.findByNearEdgePosition(coords, deviation);
+        if (!context.isEmpty()) {
+          return context;
+        }
+      } else if (
         isPositional(item)
         && (item as PositionalDrawableInterface).isNearBoundEdge(coords, deviation)
         && (positionContext.isEmpty() || positionContext.element === item)
@@ -243,6 +256,46 @@ export default class DrawableStorage implements DrawableStorageInterface {
   }
 
   /**
+   * {@inheritDoc DrawableStorageInterface.addLayer}
+   */
+  public addLayer(id: string, name: string, children: DrawableInterface[] = []): DrawableLayerInterface {
+    const layer = new DrawableLayer(id, {
+      visible: true,
+      zIndex: this._getMaxZIndex()+1,
+      name: name,
+    }, {}, children);
+
+    this.add(layer);
+
+    return layer;
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.getLayer}
+   */
+  public getLayer(id: string): DrawableLayerInterface {
+    try {
+      const candidate = this.findById(id);
+
+      if (!isLayer(candidate)) {
+        // TODO customize exception
+        throw new Error();
+      }
+
+      return (this.findById(id) as DrawableLayerInterface);
+    } catch (e) {
+      throw new Error(`cannot find layer with id '${id}'`);
+    }
+  }
+
+  /**
+   * {@inheritDoc DrawableStorageInterface.getLayers}
+   */
+  public getLayers(): DrawableLayerInterface[] {
+    return (this._find((item) => isLayer(item)) as DrawableLayerInterface[]);
+  }
+
+  /**
    * {@inheritDoc DrawableStorageInterface.onViewChange}
    */
   public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {
@@ -254,6 +307,17 @@ export default class DrawableStorage implements DrawableStorageInterface {
    */
   public offViewChange(subscriberName: string): void {
     this._observeHelper.offChange(subscriberName);
+  }
+
+  /**
+   * Returns the max zIndex of the first depth level items
+   */
+  protected _getMaxZIndex(): number {
+    if (this._list.length === 0) {
+      return 0;
+    }
+
+    return this._list[this._list.length - 1].config.zIndex;
   }
 
   /**
@@ -276,7 +340,8 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * Sorts the stored objects by z-index
    */
   protected _sort(): void {
-    console.log('sort');
+    // TODO следить
+    // console.log('sort');
     this._list.sort((lhs, rhs) => lhs.config.zIndex - rhs.config.zIndex);
   }
 }

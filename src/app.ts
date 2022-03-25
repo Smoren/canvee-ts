@@ -1,12 +1,29 @@
 import Drawer from './canvas/drawer';
-import Rect from './canvas/figures/rect';
 import DrawableStorage from './canvas/structs/drawable/drawable-storage';
-import { DrawableInterface, VectorArrayType, ViewConfigObservableInterface } from './canvas/types';
+import { ViewConfigObservableInterface } from './canvas/types';
 import ViewConfig from './canvas/structs/view-config';
-import Grid from './canvas/figures/grid';
 import Svg from './canvas/figures/svg';
+import Grid from './canvas/figures/grid';
+import Rect from './canvas/figures/rect';
 
-const storage = new DrawableStorage([
+const storage = new DrawableStorage([]);
+console.log(storage);
+
+const viewConfig: ViewConfigObservableInterface = new ViewConfig({
+  scale: [1, 1],
+  offset: [0, 0],
+  gridStep: 15,
+});
+console.log(viewConfig);
+
+const drawer: Drawer = new Drawer({
+  domElement: document.getElementById('canvas') as HTMLCanvasElement,
+  viewConfig,
+  storage,
+});
+drawer.draw();
+
+storage.addLayer('grid', 'Grid layer', [
   new Grid(1, {
     zIndex: -Infinity,
     visible: true,
@@ -15,6 +32,9 @@ const storage = new DrawableStorage([
     lineWidth: 1,
     linesInBlock: 5,
   }),
+]);
+
+const elementsLayer = storage.addLayer('elements', 'Elements layer', [
   new Rect(2, {
     position: [10, 20],
     size: [100, 30],
@@ -94,76 +114,19 @@ const storage = new DrawableStorage([
   }),
 ]);
 
-const group = storage.group([6, 7, 8, 9]);
+const group = elementsLayer.storage.group([6, 7, 8, 9]);
 console.log(group);
-// storage.ungroup(group.id);
+// elementsLayer.storage.ungroup(group.id);
 
-console.log(storage);
+const anotherLayer = storage.addLayer('another', 'Another Layer', []);
+anotherLayer.storage.add(new Rect(9, {
+  position: [800, 500],
+  size: [100, 100],
+  zIndex: -100,
+  visible: true,
+  fillStyle: 'lightblue',
+  strokeStyle: 'blue',
+  lineWidth: 1,
+}));
 
-const viewConfig: ViewConfigObservableInterface = new ViewConfig({
-  scale: [1, 1],
-  offset: [0, 0],
-  gridStep: 15,
-});
-console.log(viewConfig);
-
-const drawer: Drawer = new Drawer({
-  domElement: document.getElementById('canvas') as HTMLCanvasElement,
-  viewConfig,
-  storage,
-});
-drawer.draw();
-
-// setTimeout(() => {
-//   const batch: DrawableInterface[] = [];
-//   for (let i=0; i<1000; ++i) {
-//     batch.push(new Rect(i+100, {
-//       position: [Math.random()*drawer.width, Math.random()*drawer.height],
-//       size: [30+Math.random()*100, 30+Math.random()*100],
-//       zIndex: 0,
-//       visible: true,
-//       fillStyle: 'white',
-//       strokeStyle: 'green',
-//       lineWidth: 1,
-//     }));
-//   }
-//   storage.addBatch(batch);
-// }, 30);
-
-setTimeout(() => {
-  return;
-  const batch: DrawableInterface[] = [];
-  const data1 = "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>"; // eslint-disable-line
-  const data2 = "<svg width='160' height='100' viewBox='0 0 160 100' fill='none' xmlns='http://www.w3.org/2000/svg'><ellipse fill='#c5c6e2' stroke-width='null' stroke-opacity='null' cx='79.886158' cy='87.456573' id='svg_26' rx='79.524073' ry='11.878226' stroke='black'/><rect stroke='black' fill='#c5c6e2' stroke-width='null' stroke-opacity='null' fill-opacity='null' x='0.333864' y='12.489766' width='158.998938' height='75.332903' id='svg_27'/><ellipse fill='#c5c6e2' stroke-width='null' stroke-opacity='null' cx='79.802826' cy='12.457003' id='svg_9' rx='79.524073' ry='11.878226' stroke='black'/><rect fill='#c5c6e2' stroke-width='null' stroke-opacity='0' fill-opacity='null' x='1.083856' y='85.239354' width='157.832294' height='3.666642' id='svg_30' stroke='#000000'/></svg>"; // eslint-disable-line
-  const size1: VectorArrayType = [162, 82];
-  const size2: VectorArrayType = [160, 100];
-
-  for (let i=0; i<1200; ++i) {
-    const randFlag = Math.random() > 0.5;
-
-    batch.push(new Svg(i+100, {
-      position: [Math.random()*drawer.width, Math.random()*drawer.height],
-      size: randFlag ? size1 : size2,
-      data: randFlag ? data1 : data2,
-      zIndex: 0,
-      visible: true,
-    }));
-  }
-  storage.addBatch(batch);
-}, 1000);
-
-// setTimeout(() => {
-//   storage.delete({
-//     typesExclude: ['Grid'],
-//     extraFilter: item => item.config.zIndex === 0,
-//   });
-//   storage.add(new Rect(50, {
-//     position: [100, 25],
-//     size: [50, 30],
-//     zIndex: 1,
-//     visible: true,
-//     fillStyle: 'red',
-//     strokeStyle: 'black',
-//     lineWidth: 3,
-//   }));
-// }, 1000);
+console.log('layers', storage.getLayers());

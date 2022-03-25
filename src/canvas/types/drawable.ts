@@ -1,13 +1,14 @@
 import { VectorArrayType } from '../structs/vector/types';
 import {
   DrawableConfigInterface,
-  DrawableIdType,
+  DrawableIdType, DrawableLayerConfigInterface,
   LinkedDataType,
   PositionalDrawableConfigInterface,
 } from './drawable-config';
 import { ViewObservableHandlerType, ViewObservableInterface } from './observable';
 import { DrawerInterface } from './drawer';
 import { BoundInterface } from './bound';
+import { DrawableStorageInterface } from './drawable-storage';
 
 /**
  * Interface for drawable objects
@@ -103,6 +104,7 @@ export interface PositionalDrawableInterface extends DrawableInterface {
 
 /**
  * Interface for group of drawable objects
+ * @public
  */
 export interface DrawableGroupInterface extends DrawableInterface {
   /**
@@ -118,10 +120,30 @@ export interface DrawableGroupInterface extends DrawableInterface {
 
 /**
  * Interface for positional group of drawable objects
+ * @public
  */
 export interface PositionalDrawableGroupInterface extends PositionalDrawableInterface, DrawableGroupInterface {
   /**
    * View config
    */
   config: PositionalDrawableConfigInterface;
+}
+
+/**
+ * Interface for layer of drawable objects
+ * @public
+ */
+export interface DrawableLayerInterface extends DrawableGroupInterface {
+  /**
+   * Interface belonging flag
+   */
+  isLayer: true;
+  /**
+   * View config
+   */
+  config: DrawableLayerConfigInterface;
+  /**
+   * Storage of the layer's objects
+   */
+  storage: DrawableStorageInterface;
 }

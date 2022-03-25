@@ -1,6 +1,6 @@
 import { ViewObservableInterface } from './observable';
 import { DrawableIdType } from './drawable-config';
-import { DrawableGroupInterface, DrawableInterface } from './drawable';
+import { DrawableGroupInterface, DrawableInterface, DrawableLayerInterface } from './drawable';
 import { PositionalContextInterface, VectorArrayType } from './index';
 
 /**
@@ -84,6 +84,26 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
    * @param groupId - group ID
    */
   ungroup(groupId: DrawableIdType): void;
+
+  /**
+   * Adds and returns a new layer
+   * @param id - layer ID
+   * @param name - name
+   * @param children - children objects
+   */
+  addLayer(id: string, name: string, children?: DrawableInterface[]): DrawableLayerInterface;
+
+  /**
+   * Returns one layer found by ID
+   * @param id - object ID
+   * @throws Error if object is not found
+   */
+  getLayer(id: string): DrawableLayerInterface;
+
+  /**
+   * Returns all layers in this depth level
+   */
+  getLayers(): DrawableLayerInterface[]
 
   /**
    * Deletes objects found by config from storage

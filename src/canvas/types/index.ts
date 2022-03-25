@@ -3,18 +3,23 @@ import PositionalContextInterface from './context';
 import {
   DrawableGroupInterface,
   DrawableInterface,
+  DrawableLayerInterface,
   PositionalDrawableGroupInterface,
   PositionalDrawableInterface,
 } from './drawable';
 import {
   DrawableConfigInterface,
   DrawableIdType,
+  DrawableLayerConfigInterface,
   LinkedDataType,
-  PositionalDrawableConfigInterface, StylizedDrawableConfigInterface,
+  NamedDrawableConfigInterface,
+  PositionalDrawableConfigInterface,
+  StylizedDrawableConfigInterface,
 } from './drawable-config';
 import {
   DrawableStorageFilterCallbackType,
-  DrawableStorageFilterConfigInterface, DrawableStorageInterface,
+  DrawableStorageFilterConfigInterface,
+  DrawableStorageInterface,
 } from './drawable-storage';
 import { DrawerConfigInterface, DrawerInterface } from './drawer';
 import {
@@ -36,12 +41,15 @@ export {
   DrawableInterface,
   PositionalDrawableInterface,
   DrawableGroupInterface,
+  DrawableLayerInterface,
   PositionalDrawableGroupInterface,
   LinkedDataType,
   DrawableIdType,
   DrawableConfigInterface,
   PositionalDrawableConfigInterface,
   StylizedDrawableConfigInterface,
+  NamedDrawableConfigInterface,
+  DrawableLayerConfigInterface,
   DrawableStorageFilterCallbackType,
   DrawableStorageFilterConfigInterface,
   DrawableStorageInterface,
