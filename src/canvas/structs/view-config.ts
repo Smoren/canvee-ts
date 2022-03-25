@@ -125,6 +125,17 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   }
 
   /**
+   * Returns the config data
+   */
+  public getConfig(): ViewConfigInterface {
+    return {
+      scale: this._scale,
+      offset: this._offset,
+      gridStep: this._gridStep,
+    };
+  }
+
+  /**
    * Scale getter
    */
   get scale(): VectorArrayType {

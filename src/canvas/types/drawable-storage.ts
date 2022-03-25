@@ -68,8 +68,8 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
 
   /**
    * Finds item by position near it's bound edges and returns context
-   * @param coords
-   * @param deviation
+   * @param coords - coords
+   * @param deviation - deviation size
    */
   findByNearEdgePosition(coords: VectorArrayType, deviation: number): PositionalContextInterface;
 

@@ -26,13 +26,13 @@ export interface VectorInterface {
    * Add another vector to this vector
    * @param v - vector to cache
    */
-  add(v: VectorInterface): VectorInterface;
+  add(v: VectorInterface | VectorArrayType): VectorInterface;
 
   /**
    * Subtracts vector with another vector
    * @param v - vector to subtract
    */
-  sub(v: VectorInterface): VectorInterface;
+  sub(v: VectorInterface | VectorArrayType): VectorInterface;
 
   /**
    * Multiples vector by number
@@ -61,37 +61,37 @@ export interface VectorInterface {
    * @param v - another vector
    * @param precision - round precision for comparison
    */
-  isEqual(v: VectorInterface, precision?: number): boolean;
+  isEqual(v: VectorInterface | VectorArrayType, precision?: number): boolean;
 
   /**
    * Returns true if angle between vectors equals 90 degrees
    * @param v - another vector
    */
-  isOrthogonal(v: VectorInterface): boolean;
+  isOrthogonal(v: VectorInterface | VectorArrayType): boolean;
 
   /**
    * Returns true if this vector is collinear with argument vector
    * @param v - another vector
    */
-  isCollinear(v: VectorInterface): boolean;
+  isCollinear(v: VectorInterface | VectorArrayType): boolean;
 
   /**
    * Returns distance vector of this and another vector
    * @param v - another vector
    */
-  distance(v: VectorInterface): VectorInterface;
+  distance(v: VectorInterface | VectorArrayType): VectorInterface;
 
   /**
    * Returns scalar product with another vector
    * @param v - another vector
    */
-  mulScalar(v: VectorInterface): number;
+  mulScalar(v: VectorInterface | VectorArrayType): number;
 
   /**
    * Returns length of vector product with another vector
    * @param v - another vector
    */
-  mulVector(v: VectorInterface): number;
+  mulVector(v: VectorInterface | VectorArrayType): number;
 
   /**
    * Normalizes this vector
@@ -127,7 +127,7 @@ export interface VectorInterface {
    * Get cos with another vector
    * @param v - another vector
    */
-  getCos(v: VectorInterface | null): number;
+  getCos(v: VectorInterface | VectorArrayType | null): number;
 
   /**
    * Clones vector

@@ -38,7 +38,9 @@ export default class Vector implements VectorInterface {
    * Add another vector to this vector
    * @param v - vector to cache
    */
-  public add(v: Vector): VectorInterface {
+  public add(v: VectorInterface | VectorArrayType): VectorInterface {
+    v = toVector(v);
+
     this.x += v.x;
     this.y += v.y;
 
@@ -49,7 +51,9 @@ export default class Vector implements VectorInterface {
    * Subtracts vector with another vector
    * @param v - vector to subtract
    */
-  public sub(v: VectorInterface): VectorInterface {
+  public sub(v: VectorInterface | VectorArrayType): VectorInterface {
+    v = toVector(v);
+
     this.x -= v.x;
     this.y -= v.y;
 
@@ -110,7 +114,8 @@ export default class Vector implements VectorInterface {
    * @param v - another vector
    * @param precision - round precision for comparison
    */
-  public isEqual(v: VectorInterface, precision: number = this._defaultPrecision): boolean {
+  public isEqual(v: VectorInterface | VectorArrayType, precision: number = this._defaultPrecision): boolean {
+    v = toVector(v);
     return round(v.x, precision) === round(this.x, precision)
       && round(v.y, precision) === round(this.y, precision);
   }
@@ -119,7 +124,7 @@ export default class Vector implements VectorInterface {
    * Returns true if angle between vectors equals 90 degrees
    * @param v - another vector
    */
-  public isOrthogonal(v: VectorInterface): boolean {
+  public isOrthogonal(v: VectorInterface | VectorArrayType): boolean {
     return this.getCos(v) === 0;
   }
 
@@ -127,7 +132,7 @@ export default class Vector implements VectorInterface {
    * Returns true if this vector is collinear with argument vector
    * @param v - another vector
    */
-  public isCollinear(v: VectorInterface): boolean {
+  public isCollinear(v: VectorInterface | VectorArrayType): boolean {
     return this.mulVector(v) === 0;
   }
 
@@ -135,7 +140,7 @@ export default class Vector implements VectorInterface {
    * Returns distance vector of this and another vector
    * @param v - another vector
    */
-  public distance(v: VectorInterface): VectorInterface {
+  public distance(v: VectorInterface | VectorArrayType): VectorInterface {
     return this.clone().sub(v);
   }
 
@@ -143,7 +148,8 @@ export default class Vector implements VectorInterface {
    * Returns scalar product with another vector
    * @param v - another vector
    */
-  public mulScalar(v: VectorInterface): number {
+  public mulScalar(v: VectorInterface | VectorArrayType): number {
+    v = toVector(v);
     return this.x*v.x + this.y*v.y;
   }
 
@@ -151,7 +157,8 @@ export default class Vector implements VectorInterface {
    * Returns length of vector product with another vector
    * @param v - another vector
    */
-  public mulVector(v: VectorInterface): number {
+  public mulVector(v: VectorInterface | VectorArrayType): number {
+    v = toVector(v);
     return this.x*v.y - this.y*v.x;
   }
 
@@ -220,9 +227,11 @@ export default class Vector implements VectorInterface {
    * Get cos with another vector
    * @param v - another vector
    */
-  public getCos(v: VectorInterface | null = null): number {
+  public getCos(v: VectorInterface | VectorArrayType | null = null): number {
     if (v === null) {
       v = createVector([1, 0]);
+    } else {
+      v = toVector(v);
     }
 
     return this.mulScalar(v) / (this.length * v.length);

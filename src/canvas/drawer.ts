@@ -9,6 +9,7 @@ import imageCacheHelper from './helpers/image-cache-helper';
 import { createVector } from './structs/vector';
 import GridFilter from './structs/filters/grid-filter';
 import PositionalContext from './structs/drawable/positional-context';
+import { CoordsFilterConfigInterface } from './structs/filters/types';
 
 /**
  * Canvas drawer
@@ -182,12 +183,7 @@ export default class Drawer implements DrawerInterface {
 
     const coordsFilter = new GridFilter();
     const filterCoords = (coords: VectorArrayType) => {
-      // TODO toConfig???
-      return coordsFilter.process(coords, {
-        scale: this._viewConfig.scale,
-        offset: this._viewConfig.offset,
-        gridStep: this._viewConfig.gridStep,
-      });
+      return coordsFilter.process(coords, this._viewConfig.getConfig() as CoordsFilterConfigInterface);
     };
 
     let currentElementContext: PositionalContext = new PositionalContext(null, null);

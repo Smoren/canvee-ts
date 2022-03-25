@@ -1,4 +1,8 @@
-import { PositionalContextInterface, PositionalDrawableInterface, VectorArrayType } from '../../types';
+import {
+  PositionalContextInterface,
+  PositionalDrawableInterface,
+  VectorArrayType,
+} from '../../types';
 
 /**
  * PositionalContext class

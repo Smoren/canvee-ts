@@ -7,7 +7,9 @@ import {
   PositionalDrawableInterface,
   PositionalDrawableConfigInterface,
   ObserveHelperInterface,
-  ViewObservableHandlerType, VectorArrayType, PositionalContextInterface,
+  ViewObservableHandlerType,
+  VectorArrayType,
+  PositionalContextInterface,
 } from '../../types';
 import ObserveHelper from '../../helpers/observe-helper';
 import DrawableGroup from '../drawable/drawable-group';

@@ -1,6 +1,9 @@
 import { VectorArrayType } from '../../types';
 import { BoundInterface, NeighborhoodBoundConfig } from '../../types/bound';
 
+/**
+ * NeighborhoodBound class
+ */
 export default class NeighborhoodBound implements BoundInterface {
   /**
    * Bound config

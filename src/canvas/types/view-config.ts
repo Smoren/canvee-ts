@@ -50,4 +50,9 @@ export interface ViewConfigObservableInterface extends ViewConfigInterface, View
    * @param handler - handler callback
    */
   onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void;
+
+  /**
+   * Returns the config data
+   */
+  getConfig(): ViewConfigInterface;
 }

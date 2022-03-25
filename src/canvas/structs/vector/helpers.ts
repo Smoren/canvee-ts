@@ -21,7 +21,7 @@ export function isInSegment(what: number, segment: VectorArrayType): boolean {
 /**
  * Rounds a number with a precision
  * @param num - number
- * @param precision - percision
+ * @param precision - precision
  */
 export function round(num: number, precision: number = 0): number {
   const mult = 10**precision;
