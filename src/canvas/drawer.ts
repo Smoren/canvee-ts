@@ -252,7 +252,7 @@ export default class Drawer implements DrawerInterface {
         const newPositionFiltered = filterCoords(newPosition);
 
         if (!createVector(newPositionFiltered).isEqual(createVector(currentElementContext.element.config.position))) {
-          currentElementContext.element.config.position = filterCoords(newPosition);
+          currentElementContext.element.config.position = newPositionFiltered;
         }
       } else {
         const difference: VectorArrayType = [
