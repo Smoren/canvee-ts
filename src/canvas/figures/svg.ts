@@ -7,6 +7,8 @@ import {
 } from '../types';
 import PositionalDrawable from '../structs/drawable/positional-drawable';
 import imageCacheHelper from '../helpers/image-cache-helper';
+import { BoundInterface } from '../types/bound';
+import PolygonalBound from '../structs/bounds/polygonal-bound';
 
 /**
  * Interface for config of rect figure
@@ -81,6 +83,18 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
       this._config.size[0] / this.sourceWidth,
       this._config.size[1] / this.sourceHeight,
     ];
+  }
+
+  /**
+   * TODO временно для проверки
+   * bound getter
+   */
+  public get bound(): BoundInterface {
+    return new PolygonalBound({
+      points: [
+        [28, 0], [134, 0], [161, 40], [134, 81], [28, 81], [0, 40],
+      ],
+    });
   }
 
   /**

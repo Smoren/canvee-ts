@@ -53,6 +53,13 @@ export default class PolygonalBound implements BoundInterface {
    * {@inheritDoc BoundInterface.isNearEdge}
    */
   isNearEdge(coords: VectorArrayType, deviation: number): boolean {
+    const vectors = createPolygonVectors(this._config.points);
+
+    for (const vector of vectors) {
+      if (vector.getDistanceVector(coords).length <= deviation) {
+        return true;
+      }
+    }
     return false;
   }
 }
