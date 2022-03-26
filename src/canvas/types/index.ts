@@ -29,7 +29,9 @@ import {
   OnTotalLoadHandlerType,
 } from './image-cache';
 import {
+  ExtraDataType,
   ObserveHelperInterface,
+  ViewObservableCallbackType,
   ViewObservableHandlerType,
   ViewObservableInterface,
 } from './observable';
@@ -59,6 +61,8 @@ export {
   OnTotalLoadHandlerType,
   HashKeyType,
   ImageCacheInterface,
+  ExtraDataType,
+  ViewObservableCallbackType,
   ViewObservableHandlerType,
   ViewObservableInterface,
   ObserveHelperInterface,

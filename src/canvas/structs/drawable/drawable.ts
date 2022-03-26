@@ -69,17 +69,15 @@ export default abstract class Drawable implements DrawableInterface {
   public set config(config: DrawableConfigInterface) {
     const isChanged = !areArraysEqual(Object.entries(config), Object.entries(this._config));
 
-    this._observeHelper.withMuteHandlers(((mutedBefore: boolean, manager: ObserveHelperInterface) => {
+    this._observeHelper.withMutingHandlers(() => {
       const isZIndexChanged = config.zIndex !== this._config.zIndex;
 
       Object.entries(config).forEach(([key, value]) => {
         (this._config[key as keyof DrawableConfigInterface] as unknown) = value as unknown;
       });
 
-      manager.processHandlers(!isChanged || mutedBefore, {
-        zIndexChanged: isZIndexChanged,
-      });
-    }));
+      return [isChanged, { zIndexChanged: isZIndexChanged }];
+    });
   }
 
   /**
@@ -116,7 +114,7 @@ export default abstract class Drawable implements DrawableInterface {
       set: (target: DrawableConfigInterface, index, value): boolean => {
         const isChanged = target[index as keyof DrawableConfigInterface] !== value;
         (target[index as keyof DrawableConfigInterface] as unknown) = value as unknown;
-        return isChanged ? this._observeHelper.processWithMuteHandlers({
+        return isChanged ? this._observeHelper.processWithMutingHandlers({
           zIndexChanged: index === 'zIndex',
         }) : true;
       },
@@ -125,7 +123,7 @@ export default abstract class Drawable implements DrawableInterface {
       set: (target: LinkedDataType, index, value): boolean => {
         const isChanged = target[index as keyof LinkedDataType] !== value;
         target[index as keyof LinkedDataType] = value;
-        return isChanged ? this._observeHelper.processWithMuteHandlers() : true;
+        return isChanged ? this._observeHelper.processWithMutingHandlers() : true;
       },
     });
   }

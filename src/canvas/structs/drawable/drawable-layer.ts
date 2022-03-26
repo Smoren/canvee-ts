@@ -39,7 +39,7 @@ export default class DrawableLayer extends DrawableGroup implements DrawableLaye
 
     this._storage = new DrawableStorage(this._processChildrenToGroup(children));
     this._storage.onViewChange(this._subscriberName, (target, extra) => {
-      this._observeHelper.processWithMuteHandlers(extra);
+      this._observeHelper.processWithMutingHandlers(extra);
     });
   }
 

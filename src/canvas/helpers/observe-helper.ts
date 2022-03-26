@@ -1,4 +1,9 @@
-import { ObserveHelperInterface, ViewObservableHandlerType } from '../types';
+import {
+  ExtraDataType,
+  ObserveHelperInterface,
+  ViewObservableCallbackType,
+  ViewObservableHandlerType,
+} from '../types';
 
 /**
  * Helper for observable logic
@@ -17,10 +22,7 @@ export default class ObserveHelper implements ObserveHelperInterface {
   /**
    * {@inheritDoc ObserveHelperInterface.onChange}
    */
-  public onChange(
-    subscriberName: string,
-    handler: ViewObservableHandlerType,
-  ): void {
+  public onChange(subscriberName: string, handler: ViewObservableHandlerType): void {
     this._handlerMap[subscriberName] = handler;
   }
 
@@ -32,42 +34,38 @@ export default class ObserveHelper implements ObserveHelperInterface {
   }
 
   /**
-   * {@inheritDoc ObserveHelperInterface.processWithMuteHandlers}
+   * {@inheritDoc ObserveHelperInterface.processWithMutingHandlers}
    */
-  public processWithMuteHandlers(
-    extra: Record<string, unknown> | null = null,
-  ): boolean {
-    return this.withMuteHandlers((mutedBefore: boolean) => this.processHandlers(mutedBefore, extra));
+  public processWithMutingHandlers(extra: ExtraDataType | null = null): boolean {
+    return this.withMutingHandlers(() => [true, extra]);
   }
 
   /**
-   * {@inheritDoc ObserveHelperInterface.withMuteHandlers}
+   * {@inheritDoc ObserveHelperInterface.withMutingHandlers}
    */
-  public withMuteHandlers(
-    action: (mutedBefore: boolean, manager: ObserveHelperInterface) => void,
-  ): boolean {
+  public withMutingHandlers(action: ViewObservableCallbackType): boolean {
     if (this._muteHandlers) {
-      action(true, this);
+      action(this);
     } else {
       this._muteHandlers = true;
-      action(false, this);
+      const [processFlag, extra] = action(this);
       this._muteHandlers = false;
+
+      if (processFlag) {
+        return this._processHandlers(extra);
+      }
     }
 
     return true;
   }
 
   /**
-   * {@inheritDoc ObserveHelperInterface.processHandlers}
+   * Process all registered handlers
+   * @param extra - linked extra data
    */
-  public processHandlers(
-    isMuted: boolean,
-    extra: Record<string, unknown> | null = null,
-  ): boolean {
-    if (!isMuted) {
-      Object.values(this._handlerMap)
-        .forEach((handler) => handler(this, extra));
-    }
+  protected _processHandlers(extra: ExtraDataType | null = null): boolean {
+    Object.values(this._handlerMap)
+      .forEach((handler) => handler(this, extra));
 
     return true;
   }

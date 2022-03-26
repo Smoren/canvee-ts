@@ -44,14 +44,14 @@ export default class ViewConfig implements ViewConfigObservableInterface {
       set: (target: VectorArrayType, index, value): boolean => {
         const isChanged = target[index as keyof VectorArrayType] !== value;
         (target[index as keyof VectorArrayType] as unknown) = value;
-        return isChanged ? this._observeHelper.processWithMuteHandlers() : true;
+        return isChanged ? this._observeHelper.processWithMutingHandlers() : true;
       },
     });
     this._offset = new Proxy(offset, {
       set: (target: VectorArrayType, index, value): boolean => {
         const isChanged = target[index as keyof VectorArrayType] !== value;
         (target[index as keyof VectorArrayType] as unknown) = value;
-        return isChanged ? this._observeHelper.processWithMuteHandlers() : true;
+        return isChanged ? this._observeHelper.processWithMutingHandlers() : true;
       },
     });
     this._gridStep = gridStep;
@@ -95,14 +95,14 @@ export default class ViewConfig implements ViewConfigObservableInterface {
       return;
     }
 
-    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
+    this._observeHelper.withMutingHandlers(() => {
       const oldScalePosition = createVector(this.transposeForward(cursorCoords));
       this.scale = newScale;
       const newScalePosition = createVector(this.transposeForward(cursorCoords));
       const difference = newScalePosition.clone().sub(oldScalePosition);
       this.offset = this.transposeBackward(difference.toArray());
 
-      manager.processHandlers(!isChanged || mutedBefore);
+      return [isChanged, null];
     });
   }
 
@@ -115,12 +115,12 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   public update({ scale, offset, gridStep }: ViewConfigInterface): void {
     const isChanged = !areArraysEqual(scale, this._scale) || !areArraysEqual(offset, this._offset);
 
-    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
+    this._observeHelper.withMutingHandlers(() => {
       this.scale = scale;
       this.offset = offset;
       this.gridStep = gridStep;
 
-      manager.processHandlers(!isChanged || mutedBefore);
+      return [isChanged, null];
     });
   }
 
@@ -149,10 +149,10 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   set scale(scale: VectorArrayType) {
     const isChanged = !areArraysEqual(scale, this._scale);
 
-    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
+    this._observeHelper.withMutingHandlers(() => {
       this._scale[0] = scale[0];
       this._scale[1] = scale[1];
-      manager.processHandlers(!isChanged || mutedBefore);
+      return [isChanged, null];
     });
   }
 
@@ -170,10 +170,10 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   set offset(offset: VectorArrayType) {
     const isChanged = !areArraysEqual(offset, this._offset);
 
-    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
+    this._observeHelper.withMutingHandlers(() => {
       this._offset[0] = offset[0];
       this._offset[1] = offset[1];
-      manager.processHandlers(!isChanged || mutedBefore);
+      return [isChanged, null];
     });
   }
 
@@ -191,9 +191,9 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   set gridStep(gridStep: number) {
     const isChanged = gridStep !== this._gridStep;
 
-    this._observeHelper.withMuteHandlers((mutedBefore: boolean, manager: ObserveHelperInterface) => {
+    this._observeHelper.withMutingHandlers(() => {
       this._gridStep = gridStep;
-      manager.processHandlers(!isChanged || mutedBefore);
+      return [isChanged, null];
     });
   }
 }

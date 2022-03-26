@@ -67,11 +67,11 @@ export default class DrawableStorage implements DrawableStorageInterface {
   public add(item: DrawableInterface): void {
     item.onViewChange(
       this._subscriberName,
-      (target, extra) => this._observeHelper.processWithMuteHandlers(extra),
+      (target, extra) => this._observeHelper.processWithMutingHandlers(extra),
     );
     this._list.push(item);
     this._sort();
-    this._observeHelper.processWithMuteHandlers();
+    this._observeHelper.processWithMutingHandlers();
   }
 
   /**
@@ -81,12 +81,12 @@ export default class DrawableStorage implements DrawableStorageInterface {
     items.forEach((item) => {
       item.onViewChange(
         this._subscriberName,
-        (target, extra) => this._observeHelper.processWithMuteHandlers(extra),
+        (target, extra) => this._observeHelper.processWithMutingHandlers(extra),
       );
       this._list.push(item);
     });
     this._sort();
-    this._observeHelper.processWithMuteHandlers();
+    this._observeHelper.processWithMutingHandlers();
   }
 
   /**
@@ -96,13 +96,14 @@ export default class DrawableStorage implements DrawableStorageInterface {
   public delete(config: DrawableStorageFilterConfigInterface): DrawableInterface[] {
     const result: DrawableInterface[] = [];
 
-    this._observeHelper.withMuteHandlers(() => {
+    this._observeHelper.withMutingHandlers(() => {
       this.find(config).forEach((item) => {
         result.push(this.deleteById(item.id));
       });
+
+      return [true, null];
     });
 
-    this._observeHelper.processWithMuteHandlers();
     return result;
   }
 
@@ -116,7 +117,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
     if (index !== -1) {
       const deletedItem = this._list.splice(index, 1)[0];
       deletedItem.offViewChange(this._subscriberName);
-      this._observeHelper.processWithMuteHandlers();
+      this._observeHelper.processWithMutingHandlers();
       return deletedItem;
     }
 
@@ -129,7 +130,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
    */
   clear(): void {
     this._list.length = 0;
-    this._observeHelper.processWithMuteHandlers();
+    this._observeHelper.processWithMutingHandlers();
   }
 
   /**
