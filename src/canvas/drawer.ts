@@ -7,7 +7,7 @@ import {
 } from './types';
 import imageCacheHelper from './helpers/image-cache-helper';
 import { createVector } from './structs/vector';
-import GridFilter from './structs/filters/grid-filter';
+import CoordsGridFilter from './structs/filters/coords-grid-filter';
 import PositionalContext from './structs/drawable/positional-context';
 import { CoordsFilterConfigInterface } from './structs/filters/types';
 
@@ -181,7 +181,7 @@ export default class Drawer implements DrawerInterface {
   protected _initMouseEvents(): void {
     // TODO перенести куда-нибудь
 
-    const coordsFilter = new GridFilter();
+    const coordsFilter = new CoordsGridFilter();
     const filterCoords = (coords: VectorArrayType) => {
       return coordsFilter.process(coords, this._viewConfig.getConfig() as CoordsFilterConfigInterface);
     };

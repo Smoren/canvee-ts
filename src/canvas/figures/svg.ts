@@ -7,8 +7,10 @@ import {
 } from '../types';
 import PositionalDrawable from '../structs/drawable/positional-drawable';
 import imageCacheHelper from '../helpers/image-cache-helper';
-import { BoundInterface } from '../types/bound';
+import { BoundInterface, VectorArrayCollectionType } from '../types/bound';
 import PolygonalBound from '../structs/bounds/polygonal-bound';
+import { CoordsCollectionFilterInterface } from '../structs/filters/types';
+import CoordsCollectionBackwardFilter from '../structs/filters/coords-collection-backward-filter';
 
 /**
  * Interface for config of rect figure
@@ -24,6 +26,7 @@ export interface SvgConfigInterface extends PositionalDrawableConfigInterface {
 interface ConstructorInterface {
   id: DrawableIdType;
   config: SvgConfigInterface;
+  bound: VectorArrayCollectionType;
   data?: LinkedDataType;
 }
 
@@ -44,16 +47,26 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
    * Image DOM element
    */
   protected _img: HTMLImageElement | null = null;
+  /**
+   * Collection of the bound points
+   */
+  protected _bound: VectorArrayCollectionType;
+  /**
+   * Filter for scaling bound
+   */
+  protected _boundFilter: CoordsCollectionFilterInterface;
 
   /**
    * Svg constructor
    * @param id - object ID
    * @param config - view config
+   * @param bound - collection of the bound points
    * @param data - linked extra data
    */
   constructor({
     id,
     config,
+    bound,
     data = {},
   }: ConstructorInterface) {
     super({
@@ -61,6 +74,8 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
       config,
       data,
     });
+    this._bound = bound;
+    this._boundFilter = new CoordsCollectionBackwardFilter();
   }
 
   /**
@@ -79,14 +94,14 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
    * sourceWidth getter
    */
   public get sourceWidth(): number {
-    return this._img.width;
+    return this._img.width ?? this._config.size[0];
   }
 
   /**
    * sourceHeight getter
    */
   public get sourceHeight(): number {
-    return this._img.height;
+    return this._img.height ?? this._config.size[1];
   }
 
   /**
@@ -100,14 +115,15 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
   }
 
   /**
-   * TODO временно для проверки
    * bound getter
    */
   public get bound(): BoundInterface {
     return new PolygonalBound({
-      points: [
-        [28, 0], [134, 0], [161, 40], [134, 81], [28, 81], [0, 40],
-      ],
+      points: this._boundFilter.process(this._bound, {
+        scale: this.scale,
+        offset: [0, 0],
+        gridStep: 0,
+      }),
     });
   }
 

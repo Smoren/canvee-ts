@@ -16,7 +16,7 @@ const storage = new DrawableStorage([
       subLineColor: '#dedede',
       lineWidth: 1,
       linesInBlock: 5,
-    }
+    },
   }),
   new Rect({
     id: 2,
@@ -28,7 +28,7 @@ const storage = new DrawableStorage([
       fillStyle: 'green',
       strokeStyle: 'black',
       lineWidth: 1,
-    }
+    },
   }),
   new Rect({
     id: 3,
@@ -40,7 +40,7 @@ const storage = new DrawableStorage([
       fillStyle: 'blue',
       strokeStyle: 'black',
       lineWidth: 1,
-    }
+    },
   }),
   new Rect({
     id: 4,
@@ -52,7 +52,7 @@ const storage = new DrawableStorage([
       fillStyle: 'transparent',
       strokeStyle: 'red',
       lineWidth: 1,
-    }
+    },
   }),
   new Svg({
     id: 5,
@@ -62,7 +62,8 @@ const storage = new DrawableStorage([
       zIndex: 1,
       visible: true,
       data: "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>", // eslint-disable-line
-    }
+    },
+    bound: [[28, 0], [134, 0], [161, 40], [134, 81], [28, 81], [0, 40]],
   }),
   new Svg({
     id: 5,
@@ -72,7 +73,8 @@ const storage = new DrawableStorage([
       zIndex: 1,
       visible: true,
       data: "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>", // eslint-disable-line
-    }
+    },
+    bound: [[28, 0], [134, 0], [161, 40], [134, 81], [28, 81], [0, 40]],
   }),
   new Rect({
     id: 6,
@@ -84,7 +86,7 @@ const storage = new DrawableStorage([
       fillStyle: 'transparent',
       strokeStyle: 'blue',
       lineWidth: 1,
-    }
+    },
   }),
   new Rect({
     id: 7,
@@ -96,7 +98,7 @@ const storage = new DrawableStorage([
       fillStyle: 'transparent',
       strokeStyle: 'blue',
       lineWidth: 1,
-    }
+    },
   }),
   new Rect({
     id: 8,
@@ -108,7 +110,7 @@ const storage = new DrawableStorage([
       fillStyle: 'transparent',
       strokeStyle: 'blue',
       lineWidth: 1,
-    }
+    },
   }),
   new Rect({
     id: 9,
@@ -120,7 +122,7 @@ const storage = new DrawableStorage([
       fillStyle: 'green',
       strokeStyle: 'blue',
       lineWidth: 1,
-    }
+    },
   }),
 ]);
 
@@ -157,14 +159,14 @@ setTimeout(() => {
         fillStyle: 'white',
         strokeStyle: 'green',
         lineWidth: 1,
-      }
+      },
     }));
   }
   storage.addBatch(batch);
 }, 30);
 
 setTimeout(() => {
-  return;
+  // return;
   const batch: DrawableInterface[] = [];
   const data1 = "<svg width='162' height='82' viewBox='0 0 162 82' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M28.6923 1L1 40.1241L28.6923 81H134.675L161 40.1241L134.675 1H28.6923Z' fill='#FFBCF2' stroke='black' stroke-linejoin='round' /></svg>"; // eslint-disable-line
   const data2 = "<svg width='160' height='100' viewBox='0 0 160 100' fill='none' xmlns='http://www.w3.org/2000/svg'><ellipse fill='#c5c6e2' stroke-width='null' stroke-opacity='null' cx='79.886158' cy='87.456573' id='svg_26' rx='79.524073' ry='11.878226' stroke='black'/><rect stroke='black' fill='#c5c6e2' stroke-width='null' stroke-opacity='null' fill-opacity='null' x='0.333864' y='12.489766' width='158.998938' height='75.332903' id='svg_27'/><ellipse fill='#c5c6e2' stroke-width='null' stroke-opacity='null' cx='79.802826' cy='12.457003' id='svg_9' rx='79.524073' ry='11.878226' stroke='black'/><rect fill='#c5c6e2' stroke-width='null' stroke-opacity='0' fill-opacity='null' x='1.083856' y='85.239354' width='157.832294' height='3.666642' id='svg_30' stroke='#000000'/></svg>"; // eslint-disable-line
@@ -175,13 +177,15 @@ setTimeout(() => {
     const randFlag = Math.random() > 0.5;
 
     batch.push(new Svg({
-      id: i + 100, config: {
+      id: i + 100,
+      config: {
         position: [Math.random() * drawer.width, Math.random() * drawer.height],
         size: randFlag ? size1 : size2,
         data: randFlag ? data1 : data2,
         zIndex: 0,
         visible: true,
-      }
+      },
+      bound: [[28, 0], [134, 0], [161, 40], [134, 81], [28, 81], [0, 40]],
     }));
   }
   storage.addBatch(batch);

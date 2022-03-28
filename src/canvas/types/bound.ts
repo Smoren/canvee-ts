@@ -1,7 +1,14 @@
 import { PositionalInterface, VectorArrayType } from '../structs/vector/types';
 
 /**
+ * Collection of VectorArrayType interface
+ * @public
+ */
+export type VectorArrayCollectionType = Array<VectorArrayType>
+
+/**
  * Interface for bounds
+ * @public
  */
 export interface BoundInterface {
   /**
@@ -20,11 +27,13 @@ export interface BoundInterface {
 
 /**
  * Type for config of bound
+ * @public
  */
 export type BoundConfigType = Record<string, unknown>;
 
 /**
  * Interface for config of rectangular bound
+ * @public
  */
 export interface RectangularBoundConfig extends BoundConfigType, PositionalInterface {
 
@@ -32,6 +41,7 @@ export interface RectangularBoundConfig extends BoundConfigType, PositionalInter
 
 /**
  * Interface for config of rectangular bound
+ * @public
  */
 export interface NeighborhoodBoundConfig extends BoundConfigType {
   /**
@@ -46,6 +56,7 @@ export interface NeighborhoodBoundConfig extends BoundConfigType {
 
 /**
  * Interface for config of polygonal bound
+ * @public
  */
 export interface PolygonalBoundConfig extends BoundConfigType {
   /**

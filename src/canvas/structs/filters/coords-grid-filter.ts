@@ -4,7 +4,7 @@ import { VectorArrayType } from '../vector/types';
 /**
  * Filter coords using grid
  */
-export default class GridFilter implements CoordsFilterInterface {
+export default class CoordsGridFilter implements CoordsFilterInterface {
   /**
    * {@inheritDoc CoordsFilterInterface.process}
    */
