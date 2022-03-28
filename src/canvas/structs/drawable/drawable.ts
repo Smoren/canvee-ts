@@ -116,7 +116,7 @@ export default abstract class Drawable implements DrawableInterface {
   protected constructor({
     id,
     config,
-    data = {}
+    data = {},
   }: ConstructorInterface) {
     this._id = id;
     this._observeHelper = new ObserveHelper();

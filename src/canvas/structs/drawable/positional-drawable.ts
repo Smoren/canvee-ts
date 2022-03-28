@@ -103,6 +103,10 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
     config,
     data = {},
   }: ConstructorInterface) {
-    super({ id, config, data });
+    super({
+      id,
+      config,
+      data,
+    });
   }
 }

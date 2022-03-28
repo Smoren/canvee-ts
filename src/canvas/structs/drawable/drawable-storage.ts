@@ -242,7 +242,11 @@ export default class DrawableStorage implements DrawableStorageInterface {
     };
 
     const id = 'group-'+(new Date()).getTime()+'-'+Math.floor(Math.random()*100000);
-    const group = new PositionalDrawableGroup({ id, config, children });
+    const group = new PositionalDrawableGroup({
+      id,
+      config,
+      children,
+    });
     this.add(group);
 
     return group;

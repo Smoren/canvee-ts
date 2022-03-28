@@ -54,9 +54,13 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
   constructor({
     id,
     config,
-    data = {}
+    data = {},
   }: ConstructorInterface) {
-    super({ id, config, data });
+    super({
+      id,
+      config,
+      data,
+    });
   }
 
   /**

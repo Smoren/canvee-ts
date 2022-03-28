@@ -52,7 +52,12 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
     data = {},
     children = [],
   }: ConstructorInterface) {
-    super({ id, config, data, children });
+    super({
+      id,
+      config,
+      data,
+      children,
+    });
   }
 
   /**

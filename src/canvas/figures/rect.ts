@@ -45,9 +45,13 @@ export default class Rect extends PositionalDrawable implements PositionalDrawab
   constructor({
     id,
     config,
-    data = {}
+    data = {},
   }: ConstructorInterface) {
-    super({ id, config, data });
+    super({
+      id,
+      config,
+      data,
+    });
   }
 
   /**

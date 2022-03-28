@@ -43,7 +43,11 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
     data = {},
     children = [],
   }: ConstructorInterface) {
-    super({ id, config, data });
+    super({
+      id,
+      config,
+      data,
+    });
 
     this._storage = new DrawableStorage(this._processChildrenToGroup(children));
     this._storage.onViewChange(this._subscriberName, (target, extra) => {

@@ -48,9 +48,13 @@ export default class Grid extends Drawable implements DrawableInterface {
   constructor({
     id,
     config,
-    data = {}
+    data = {},
   }: ConstructorInterface) {
-    super({ id, config, data });
+    super({
+      id,
+      config,
+      data,
+    });
   }
 
   /**
