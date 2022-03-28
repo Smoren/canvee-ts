@@ -224,15 +224,15 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * {@inheritDoc DrawableStorageInterface.group}
    */
   public group(ids: DrawableIdType[]): DrawableGroup {
-    const groupItems = this.delete({ idsOnly: ids }) as PositionalDrawableInterface[];
-    const minPosition = getMinPosition(groupItems.map((item) => item.config.position));
-    const maxPosition = getMaxPosition(groupItems.map((item) => {
+    const children = this.delete({ idsOnly: ids }) as PositionalDrawableInterface[];
+    const minPosition = getMinPosition(children.map((item) => item.config.position));
+    const maxPosition = getMaxPosition(children.map((item) => {
       return createVector(item.config.position)
         .add(createVector(item.config.size))
         .toArray();
     }));
     const groupSize = createVector(maxPosition).sub(createVector(minPosition)).toArray();
-    const groupZIndex = Math.max(...groupItems.map((item) => item.config.zIndex))+1;
+    const groupZIndex = Math.max(...children.map((item) => item.config.zIndex))+1;
 
     const config: PositionalDrawableConfigInterface = {
       position: minPosition,
@@ -241,8 +241,8 @@ export default class DrawableStorage implements DrawableStorageInterface {
       visible: true,
     };
 
-    const groupId = 'group-'+(new Date()).getTime()+'-'+Math.floor(Math.random()*100000);
-    const group = new PositionalDrawableGroup(groupId, config, {}, groupItems);
+    const id = 'group-'+(new Date()).getTime()+'-'+Math.floor(Math.random()*100000);
+    const group = new PositionalDrawableGroup({ id, config, children });
     this.add(group);
 
     return group;
@@ -260,11 +260,15 @@ export default class DrawableStorage implements DrawableStorageInterface {
    * {@inheritDoc DrawableStorageInterface.addLayer}
    */
   public addLayer(id: string, name: string, children: DrawableInterface[] = []): DrawableLayerInterface {
-    const layer = new DrawableLayer(id, {
-      visible: true,
-      zIndex: this._getMaxZIndex()+1,
-      name: name,
-    }, {}, children);
+    const layer = new DrawableLayer({
+      id,
+      children,
+      config: {
+        visible: true,
+        zIndex: this._getMaxZIndex()+1,
+        name: name,
+      },
+    });
 
     this.add(layer);
 

@@ -1,13 +1,19 @@
 import {
   PositionalDrawableInterface,
   PositionalDrawableConfigInterface,
-  VectorArrayType,
+  VectorArrayType, DrawableIdType, LinkedDataType,
 } from '../../types';
 import { createVector } from '../vector';
 import Drawable from '../drawable/drawable';
 import { BoundInterface } from '../../types/bound';
 import RectangularBound from '../bounds/rectangular-bound';
 import { transposeCoordsForward } from '../vector/helpers';
+
+interface ConstructorInterface {
+  id: DrawableIdType;
+  config: PositionalDrawableConfigInterface;
+  data?: LinkedDataType;
+}
 
 /**
  * Abstract class for drawable positional objects
@@ -84,5 +90,19 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
       position: [0, 0],
       size: this._config.size,
     });
+  }
+
+  /**
+   * PositionalDrawable constructor
+   * @param id - group ID
+   * @param config - config
+   * @param data - extra data
+   */
+  protected constructor({
+    id,
+    config,
+    data = {},
+  }: ConstructorInterface) {
+    super({ id, config, data });
   }
 }

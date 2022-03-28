@@ -19,6 +19,12 @@ export interface GridConfigInterface extends DrawableConfigInterface {
   linesInBlock: number;
 }
 
+interface ConstructorInterface {
+  id: DrawableIdType;
+  config: GridConfigInterface;
+  data?: LinkedDataType;
+}
+
 /**
  * Grid figure
  * @public
@@ -39,8 +45,12 @@ export default class Grid extends Drawable implements DrawableInterface {
    * @param config - view config
    * @param data - linked extra data
    */
-  constructor(id: DrawableIdType, config: GridConfigInterface, data: LinkedDataType = {}) {
-    super(id, config, data);
+  constructor({
+    id,
+    config,
+    data = {}
+  }: ConstructorInterface) {
+    super({ id, config, data });
   }
 
   /**

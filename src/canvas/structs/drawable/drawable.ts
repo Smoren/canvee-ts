@@ -10,6 +10,12 @@ import {
 import ObserveHelper from '../../helpers/observe-helper';
 import { areArraysEqual } from '../../helpers/base';
 
+interface ConstructorInterface {
+  id: DrawableIdType;
+  config: DrawableConfigInterface;
+  data?: LinkedDataType;
+}
+
 /**
  * Abstract class for drawable objects
  * @public
@@ -107,7 +113,11 @@ export default abstract class Drawable implements DrawableInterface {
    * @param config - view config
    * @param data - linked extra data
    */
-  protected constructor(id: DrawableIdType, config: DrawableConfigInterface, data: LinkedDataType = {}) {
+  protected constructor({
+    id,
+    config,
+    data = {}
+  }: ConstructorInterface) {
     this._id = id;
     this._observeHelper = new ObserveHelper();
     this._config = new Proxy(config, {

@@ -15,6 +15,13 @@ import { transposeCoordsForward } from '../vector/helpers';
 import { isPositional } from '../../helpers/type-helpers';
 import PositionalDrawable from './positional-drawable';
 
+interface ConstructorInterface {
+  id: DrawableIdType;
+  config: PositionalDrawableConfigInterface;
+  data?: LinkedDataType;
+  children?: PositionalDrawableInterface[];
+}
+
 /**
  * Positional drawable group class
  */
@@ -39,13 +46,13 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
    * @param data - extra data
    * @param children - children of grouped objects
    */
-  constructor(
-    id: DrawableIdType,
-    config: PositionalDrawableConfigInterface,
-    data: LinkedDataType = {},
-    children: PositionalDrawableInterface[] = [],
-  ) {
-    super(id, config, data, children);
+  constructor({
+    id,
+    config,
+    data = {},
+    children = [],
+  }: ConstructorInterface) {
+    super({ id, config, data, children });
   }
 
   /**

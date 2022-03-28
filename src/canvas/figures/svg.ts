@@ -21,6 +21,12 @@ export interface SvgConfigInterface extends PositionalDrawableConfigInterface {
   data: string;
 }
 
+interface ConstructorInterface {
+  id: DrawableIdType;
+  config: SvgConfigInterface;
+  data?: LinkedDataType;
+}
+
 /**
  * Svg figure
  * @public
@@ -45,8 +51,12 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
    * @param config - view config
    * @param data - linked extra data
    */
-  constructor(id: DrawableIdType, config: SvgConfigInterface, data: LinkedDataType = {}) {
-    super(id, config, data);
+  constructor({
+    id,
+    config,
+    data = {}
+  }: ConstructorInterface) {
+    super({ id, config, data });
   }
 
   /**

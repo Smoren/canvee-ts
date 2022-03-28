@@ -16,6 +16,12 @@ export interface RectConfigInterface extends PositionalDrawableConfigInterface, 
 
 }
 
+interface ConstructorInterface {
+  id: DrawableIdType;
+  config: RectConfigInterface;
+  data?: LinkedDataType;
+}
+
 /**
  * Rect figure
  * @public
@@ -36,8 +42,12 @@ export default class Rect extends PositionalDrawable implements PositionalDrawab
    * @param config - view config
    * @param data - linked extra data
    */
-  constructor(id: DrawableIdType, config: RectConfigInterface, data: LinkedDataType = {}) {
-    super(id, config, data);
+  constructor({
+    id,
+    config,
+    data = {}
+  }: ConstructorInterface) {
+    super({ id, config, data });
   }
 
   /**

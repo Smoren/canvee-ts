@@ -10,6 +10,13 @@ import {
 import Drawable from '../drawable/drawable';
 import DrawableStorage from '../drawable/drawable-storage';
 
+interface ConstructorInterface {
+  id: DrawableIdType;
+  config: DrawableConfigInterface;
+  data?: LinkedDataType;
+  children?: DrawableInterface[];
+}
+
 /**
  * Drawable group class
  */
@@ -30,13 +37,13 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    * @param data - extra data
    * @param children - children of grouped objects
    */
-  constructor(
-    id: DrawableIdType,
-    config: DrawableConfigInterface,
-    data: LinkedDataType = {},
-    children: DrawableInterface[] = [],
-  ) {
-    super(id, config, data);
+  constructor({
+    id,
+    config,
+    data = {},
+    children = [],
+  }: ConstructorInterface) {
+    super({ id, config, data });
 
     this._storage = new DrawableStorage(this._processChildrenToGroup(children));
     this._storage.onViewChange(this._subscriberName, (target, extra) => {
