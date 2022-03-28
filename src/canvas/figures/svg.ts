@@ -10,7 +10,7 @@ import imageCacheHelper from '../helpers/image-cache-helper';
 import { BoundInterface, VectorArrayCollectionType } from '../types/bound';
 import PolygonalBound from '../structs/bounds/polygonal-bound';
 import { CoordsCollectionFilterInterface } from '../structs/filters/types';
-import CoordsCollectionBackwardFilter from '../structs/filters/coords-collection-backward-filter';
+import CoordsCollectionForwardFilter from '../structs/filters/coords-collection-forward-filter';
 
 /**
  * Interface for config of rect figure
@@ -75,7 +75,7 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
       data,
     });
     this._bound = bound;
-    this._boundFilter = new CoordsCollectionBackwardFilter();
+    this._boundFilter = new CoordsCollectionForwardFilter();
   }
 
   /**

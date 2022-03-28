@@ -111,8 +111,8 @@ export default class Drawer implements DrawerInterface {
    */
   public getBounds(): [VectorArrayType, VectorArrayType] {
     return [
-      this._viewConfig.transposeForward([0, 0]),
-      this._viewConfig.transposeForward([this.width, this.height]),
+      this._viewConfig.transposeBackward([0, 0]),
+      this._viewConfig.transposeBackward([this.width, this.height]),
     ];
   }
 
@@ -190,7 +190,7 @@ export default class Drawer implements DrawerInterface {
 
     const DEVIATION = 8;
     const getNearBoundElement = (coords: VectorArrayType): PositionalContext => {
-      const transposedCoords: VectorArrayType = this._viewConfig.transposeForward(coords);
+      const transposedCoords: VectorArrayType = this._viewConfig.transposeBackward(coords);
       return this._storage.findByNearEdgePosition(transposedCoords, DEVIATION / this._viewConfig.scale[0]);
     };
 
@@ -217,7 +217,7 @@ export default class Drawer implements DrawerInterface {
 
     this._domElement.addEventListener('mousedown', (event: MouseEvent) => {
       if (currentElementContext.isEmpty()) {
-        const transposedCoords = this._viewConfig.transposeForward([event.offsetX, event.offsetY]);
+        const transposedCoords = this._viewConfig.transposeBackward([event.offsetX, event.offsetY]);
         currentElementContext = this._storage.findByPosition(transposedCoords);
       }
 
@@ -227,7 +227,7 @@ export default class Drawer implements DrawerInterface {
 
     this._domElement.addEventListener('mousemove', (event: MouseEvent) => {
       const mouseMoveCoords: VectorArrayType = [event.offsetX, event.offsetY];
-      const transposedCoords = this._viewConfig.transposeForward(mouseMoveCoords);
+      const transposedCoords = this._viewConfig.transposeBackward(mouseMoveCoords);
 
       if (mouseDownCoords === null) {
         if (!getNearBoundElement(mouseMoveCoords).isEmpty()) {

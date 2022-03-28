@@ -3,7 +3,7 @@ import { CoordsCollectionFilterInterface, CoordsFilterConfigInterface } from './
 import { transposeCoordsForward } from '../vector/helpers';
 
 /**
- * Filter for forward transposing of the points collection
+ * Filter for backward transposing of the points collection
  */
 export default class CoordsCollectionForwardFilter implements CoordsCollectionFilterInterface {
   /**

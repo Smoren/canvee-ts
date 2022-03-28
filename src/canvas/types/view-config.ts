@@ -29,13 +29,13 @@ export interface ViewConfigObservableInterface extends ViewConfigInterface, View
    * Transposes coords with applying scale and offset
    * @param coords - coords to transpose
    */
-  transposeForward(coords: VectorArrayType): VectorArrayType;
+  transposeBackward(coords: VectorArrayType): VectorArrayType;
 
   /**
    * Transposes coords back using scale and offset
    * @param coords - coords to transpose
    */
-  transposeBackward(coords: VectorArrayType): VectorArrayType;
+  transposeForward(coords: VectorArrayType): VectorArrayType;
 
   /**
    * Update scale in cursor context (the place under the cursor will be fixed)

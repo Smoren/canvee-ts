@@ -29,12 +29,12 @@ export function round(num: number, precision: number = 0): number {
 }
 
 /**
- * Transpose coords with forward applying offset and scale
+ * Transpose coords with backward applying offset and scale
  * @param coords - coords to transpose
  * @param offset - offset vector
  * @param scale - scale vector
  */
-export function transposeCoordsForward(
+export function transposeCoordsBackward(
   coords: VectorArrayType, offset: VectorArrayType, scale: VectorArrayType = [1, 1],
 ): VectorArrayType {
   const [x, y] = coords;
@@ -42,12 +42,12 @@ export function transposeCoordsForward(
 }
 
 /**
- * Transpose coords with backward applying offset and scale
+ * Transpose coords with forward applying offset and scale
  * @param coords - coords to transpose
  * @param offset - offset vector
  * @param scale - scale vector
  */
-export function transposeCoordsBackward(
+export function transposeCoordsForward(
   coords: VectorArrayType, offset: VectorArrayType, scale: VectorArrayType = [1, 1],
 ): VectorArrayType {
   const [x, y] = coords;

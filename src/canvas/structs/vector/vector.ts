@@ -29,7 +29,7 @@ export default class Vector implements VectorInterface {
     this.x = x;
     this.y = y;
 
-    if (this._defaultPrecision !== undefined) {
+    if (this._defaultPrecision === undefined) {
       this._defaultPrecision = defaultPrecision;
     }
   }
@@ -39,7 +39,7 @@ export default class Vector implements VectorInterface {
    * @param v - vector to cache
    */
   public add(v: VectorInterface | VectorArrayType): VectorInterface {
-    v = toVector(v);
+    v = toVector(v, this._defaultPrecision);
 
     this.x += v.x;
     this.y += v.y;
@@ -52,7 +52,7 @@ export default class Vector implements VectorInterface {
    * @param v - vector to subtract
    */
   public sub(v: VectorInterface | VectorArrayType): VectorInterface {
-    v = toVector(v);
+    v = toVector(v, this._defaultPrecision);
 
     this.x -= v.x;
     this.y -= v.y;
@@ -110,12 +110,43 @@ export default class Vector implements VectorInterface {
   }
 
   /**
+   * Returns scalar product with another vector
+   * @param v - another vector
+   */
+  public mulScalar(v: VectorInterface | VectorArrayType): number {
+    v = toVector(v, this._defaultPrecision);
+    return this.x*v.x + this.y*v.y;
+  }
+
+  /**
+   * Returns length of vector product with another vector
+   * @param v - another vector
+   */
+  public mulVector(v: VectorInterface | VectorArrayType): number {
+    v = toVector(v, this._defaultPrecision);
+    return this.x*v.y - this.y*v.x;
+  }
+
+  /**
+   * Multiplies this vector with another vector coordinate-by-coordinate
+   * @param v - another vector
+   */
+  public mulCoords(v: VectorInterface | VectorArrayType): VectorInterface {
+    v = toVector(v, this._defaultPrecision);
+
+    this.x *= v.x;
+    this.y *= v.y;
+
+    return this;
+  }
+
+  /**
    * Returns true if this vector is equal to another vector
    * @param v - another vector
    * @param precision - round precision for comparison
    */
   public isEqual(v: VectorInterface | VectorArrayType, precision: number = this._defaultPrecision): boolean {
-    v = toVector(v);
+    v = toVector(v, this._defaultPrecision);
     return round(v.x, precision) === round(this.x, precision)
       && round(v.y, precision) === round(this.y, precision);
   }
@@ -137,29 +168,51 @@ export default class Vector implements VectorInterface {
   }
 
   /**
+   * Returns true if vector is normalized
+   * @param precision - round precision
+   */
+  public isNormalized(precision: number = this._defaultPrecision): boolean {
+    return round(this.length, precision) === 1;
+  }
+
+  /**
+   * Returns true if another vector is on left with this one
+   * @param v - another vector
+   */
+  public hasOnLeft(v: VectorInterface | VectorArrayType): boolean {
+    return this.mulVector(v) > 0;
+  }
+
+  /**
+   * Returns true if another vector is on right with this one
+   * @param v - another vector
+   */
+  public hasOnRight(v: VectorInterface | VectorArrayType): boolean {
+    return this.mulVector(v) < 0;
+  }
+
+  /**
+   * Returns true if angle between vectors is sharp
+   * @param v - another vector
+   */
+  public hasSharpCornerWith(v: VectorInterface | VectorArrayType): boolean {
+    return this.getCos(v) > 0;
+  }
+
+  /**
+   * Returns true if angle between vectors is obtuse
+   * @param v - another vector
+   */
+  public hasObtuseCornerWith(v: VectorInterface | VectorArrayType): boolean {
+    return this.getCos(v) < 0;
+  }
+
+  /**
    * Returns distance vector of this and another vector
    * @param v - another vector
    */
   public distance(v: VectorInterface | VectorArrayType): VectorInterface {
     return this.clone().sub(v);
-  }
-
-  /**
-   * Returns scalar product with another vector
-   * @param v - another vector
-   */
-  public mulScalar(v: VectorInterface | VectorArrayType): number {
-    v = toVector(v);
-    return this.x*v.x + this.y*v.y;
-  }
-
-  /**
-   * Returns length of vector product with another vector
-   * @param v - another vector
-   */
-  public mulVector(v: VectorInterface | VectorArrayType): number {
-    v = toVector(v);
-    return this.x*v.y - this.y*v.x;
   }
 
   /**
@@ -175,15 +228,15 @@ export default class Vector implements VectorInterface {
   }
 
   /**
-   * Transposes vector forward with offset and scale
+   * Transposes vector backward with offset and scale
    * @param offset - offset
    * @param scale - scale
    */
-  public transposeForward(
+  public transposeBackward(
     offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface,
   ): VectorInterface {
-    const offsetVector = toVector(offset);
-    const scaleVector = toVector(scale);
+    const offsetVector = toVector(offset, this._defaultPrecision);
+    const scaleVector = toVector(scale, this._defaultPrecision);
 
     this.x = (this.x - offsetVector.x) / scaleVector.x;
     this.y = (this.y - offsetVector.y) / scaleVector.y;
@@ -192,15 +245,15 @@ export default class Vector implements VectorInterface {
   }
 
   /**
-   * Transposes vector backward with offset and scale
+   * Transposes vector forward with offset and scale
    * @param offset - offset
    * @param scale - scale
    */
-  public transposeBackward(
+  public transposeForward(
     offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface,
   ): VectorInterface {
-    const offsetVector = toVector(offset);
-    const scaleVector = toVector(scale);
+    const offsetVector = toVector(offset, this._defaultPrecision);
+    const scaleVector = toVector(scale, this._defaultPrecision);
 
     this.x = offsetVector.x + this.x*scaleVector.x;
     this.y = offsetVector.y + this.y*scaleVector.y;
@@ -209,18 +262,37 @@ export default class Vector implements VectorInterface {
   }
 
   /**
-   * Returns new vector by rotating this
+   * Rotates vector by angle clockwise
    * @param angle - angle to rotate to
    * @param precision - round precision
    */
   public rotate(angle: number, precision: number = this._defaultPrecision): VectorInterface {
-    const cs = Math.cos(angle);
-    const sn = Math.sin(angle);
+    const cs = Math.cos(-angle);
+    const sn = Math.sin(-angle);
 
-    this.x = round(this.x*cs - this.y*sn, precision);
-    this.y = round(this.x*sn + this.y*cs, precision);
+    const newX = round(this.x*cs - this.y*sn, precision);
+    const newY = round(this.x*sn + this.y*cs, precision);
+
+    this.x = newX;
+    this.y = newY;
 
     return this;
+  }
+
+  /**
+   * Rotates vector to the left by 90 degrees
+   * @param precision - round precision
+   */
+  public rotateLeft(precision: number = this._defaultPrecision): VectorInterface {
+    return this.rotate(-Math.PI/2, precision);
+  }
+
+  /**
+   * Rotates vector to the right by 90 degrees
+   * @param precision - round precision
+   */
+  public rotateRight(precision: number = this._defaultPrecision): VectorInterface {
+    return this.rotate(Math.PI/2, precision);
   }
 
   /**
@@ -229,9 +301,9 @@ export default class Vector implements VectorInterface {
    */
   public getCos(v: VectorInterface | VectorArrayType | null = null): number {
     if (v === null) {
-      v = createVector([1, 0]);
+      v = createVector([1, 0], this._defaultPrecision);
     } else {
-      v = toVector(v);
+      v = toVector(v, this._defaultPrecision);
     }
 
     return this.mulScalar(v) / (this.length * v.length);
@@ -241,7 +313,7 @@ export default class Vector implements VectorInterface {
    * Clones vector
    */
   public clone(): VectorInterface {
-    return createVector(this.toArray());
+    return createVector(this.toArray(), this._defaultPrecision);
   }
 
   /**
@@ -261,15 +333,18 @@ export default class Vector implements VectorInterface {
  * Creates new vector
  * @public
  * @param coords - coordinates of new vector
+ * @param defaultPrecision - round precision
  */
-export function createVector(coords: VectorArrayType): VectorInterface {
-  return new Vector(coords);
+export function createVector(coords: VectorArrayType, defaultPrecision?: number): VectorInterface {
+  return new Vector(coords, defaultPrecision);
 }
 
 /**
  * Converts instance to vector if it's an array
+ * @public
  * @param coords - coords as vector or an array
+ * @param defaultPrecision - round precision
  */
-export function toVector(coords: VectorArrayType | VectorInterface): VectorInterface {
-  return (coords instanceof Array) ? createVector(coords) : coords;
+export function toVector(coords: VectorArrayType | VectorInterface, defaultPrecision?: number): VectorInterface {
+  return (coords instanceof Array) ? createVector(coords, defaultPrecision) : coords;
 }

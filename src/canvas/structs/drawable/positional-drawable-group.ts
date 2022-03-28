@@ -11,7 +11,7 @@ import DrawableGroup from '../drawable/drawable-group';
 import { createVector } from '../vector';
 import { BoundInterface } from '../../types/bound';
 import RectangularBound from '../bounds/rectangular-bound';
-import { transposeCoordsForward } from '../vector/helpers';
+import { transposeCoordsBackward } from '../vector/helpers';
 import { isPositional } from '../../helpers/type-helpers';
 import PositionalDrawable from './positional-drawable';
 
@@ -104,7 +104,7 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
     for (const child of this.children) {
       if (
         isPositional(child)
-        && (child as PositionalDrawable).boundIncludes(transposeCoordsForward(coords, this._config.position))
+        && (child as PositionalDrawable).boundIncludes(transposeCoordsBackward(coords, this._config.position))
       ) {
         return true;
       }
@@ -118,7 +118,7 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
    */
   isNearBoundEdge(coords: VectorArrayType, deviation: number): boolean {
     return this.bound.isNearEdge(
-      transposeCoordsForward(coords, this._config.position),
+      transposeCoordsBackward(coords, this._config.position),
       deviation,
     );
   }

@@ -57,6 +57,24 @@ export interface VectorInterface {
   reverse(): VectorInterface;
 
   /**
+   * Returns scalar product with another vector
+   * @param v - another vector
+   */
+  mulScalar(v: VectorInterface | VectorArrayType): number;
+
+  /**
+   * Returns length of vector product with another vector
+   * @param v - another vector
+   */
+  mulVector(v: VectorInterface | VectorArrayType): number;
+
+  /**
+   * Multiplies this vector with another vector coordinate-by-coordinate
+   * @param v - another vector
+   */
+  mulCoords(v: VectorInterface | VectorArrayType): VectorInterface;
+
+  /**
    * Returns true if this vector is equal to another vector
    * @param v - another vector
    * @param precision - round precision for comparison
@@ -76,36 +94,45 @@ export interface VectorInterface {
   isCollinear(v: VectorInterface | VectorArrayType): boolean;
 
   /**
+   * Returns true if vector is normalized
+   * @param precision - round precision
+   */
+  isNormalized(precision?: number): boolean;
+
+  /**
+   * Returns true if another vector is on left with this one
+   * @param v - another vector
+   */
+  hasOnLeft(v: VectorInterface | VectorArrayType): boolean;
+
+  /**
+   * Returns true if another vector is on right with this one
+   * @param v - another vector
+   */
+  hasOnRight(v: VectorInterface | VectorArrayType): boolean;
+
+  /**
+   * Returns true if angle between vectors is sharp
+   * @param v - another vector
+   */
+  hasSharpCornerWith(v: VectorInterface | VectorArrayType): boolean;
+
+  /**
+   * Returns true if angle between vectors is obtuse
+   * @param v - another vector
+   */
+  hasObtuseCornerWith(v: VectorInterface | VectorArrayType): boolean;
+
+  /**
    * Returns distance vector of this and another vector
    * @param v - another vector
    */
   distance(v: VectorInterface | VectorArrayType): VectorInterface;
 
   /**
-   * Returns scalar product with another vector
-   * @param v - another vector
-   */
-  mulScalar(v: VectorInterface | VectorArrayType): number;
-
-  /**
-   * Returns length of vector product with another vector
-   * @param v - another vector
-   */
-  mulVector(v: VectorInterface | VectorArrayType): number;
-
-  /**
    * Normalizes this vector
    */
   normalize(): VectorInterface;
-
-  /**
-   * Transposes vector forward with offset and scale
-   * @param offset - offset
-   * @param scale - scale
-   */
-  transposeForward(
-    offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface,
-  ): VectorInterface;
 
   /**
    * Transposes vector backward with offset and scale
@@ -117,11 +144,31 @@ export interface VectorInterface {
   ): VectorInterface;
 
   /**
+   * Transposes vector forward with offset and scale
+   * @param offset - offset
+   * @param scale - scale
+   */
+  transposeForward(
+    offset: VectorArrayType | VectorInterface, scale: VectorArrayType | VectorInterface,
+  ): VectorInterface;
+
+  /**
    * Returns new vector by rotating this
    * @param angle - angle to rotate to
+   */
+  rotate(angle: number): VectorInterface;
+
+  /**
+   * Rotates vector to the left by 90 degrees
    * @param precision - round precision
    */
-  rotate(angle: number, precision?: number): VectorInterface;
+  rotateLeft(precision?: number): VectorInterface;
+
+  /**
+   * Rotates vector to the right by 90 degrees
+   * @param precision - round precision
+   */
+  rotateRight(precision?: number): VectorInterface;
 
   /**
    * Get cos with another vector

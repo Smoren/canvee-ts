@@ -8,7 +8,7 @@ import {
 import { areArraysEqual } from '../helpers/base';
 import ObserveHelper from '../helpers/observe-helper';
 import { createVector } from './vector';
-import { transposeCoordsBackward, transposeCoordsForward } from './vector/helpers';
+import { transposeCoordsForward, transposeCoordsBackward } from './vector/helpers';
 
 /**
  * Config for objects drawable on canvas
@@ -72,17 +72,17 @@ export default class ViewConfig implements ViewConfigObservableInterface {
   }
 
   /**
-   * {@inheritDoc ViewConfigObservableInterface.transposeForward}
-   */
-  public transposeForward(coords: VectorArrayType): VectorArrayType {
-    return transposeCoordsForward(coords, this._offset, this._scale);
-  }
-
-  /**
    * {@inheritDoc ViewConfigObservableInterface.transposeBackward}
    */
   public transposeBackward(coords: VectorArrayType): VectorArrayType {
     return transposeCoordsBackward(coords, this._offset, this._scale);
+  }
+
+  /**
+   * {@inheritDoc ViewConfigObservableInterface.transposeForward}
+   */
+  public transposeForward(coords: VectorArrayType): VectorArrayType {
+    return transposeCoordsForward(coords, this._offset, this._scale);
   }
 
   /**
@@ -96,11 +96,11 @@ export default class ViewConfig implements ViewConfigObservableInterface {
     }
 
     this._observeHelper.withMutingHandlers(() => {
-      const oldScalePosition = createVector(this.transposeForward(cursorCoords));
+      const oldScalePosition = createVector(this.transposeBackward(cursorCoords));
       this.scale = newScale;
-      const newScalePosition = createVector(this.transposeForward(cursorCoords));
+      const newScalePosition = createVector(this.transposeBackward(cursorCoords));
       const difference = newScalePosition.clone().sub(oldScalePosition);
-      this.offset = this.transposeBackward(difference.toArray());
+      this.offset = this.transposeForward(difference.toArray());
 
       return [isChanged, null];
     });

@@ -210,7 +210,11 @@ export default class DrawableStorage implements DrawableStorageInterface {
       } else if (
         isPositional(item)
         && (item as PositionalDrawableInterface).isNearBoundEdge(coords, deviation)
-        && (positionContext.isEmpty() || positionContext.element === item)
+        && (
+          positionContext.isEmpty()
+          || positionContext.element === item
+          || item.config.zIndex >= positionContext.element.config.zIndex
+        )
       ) {
         const element = (item as PositionalDrawableInterface);
         const position = element.getRelativePosition(coords);

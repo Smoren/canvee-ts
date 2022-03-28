@@ -7,7 +7,7 @@ import { createVector } from '../vector';
 import Drawable from '../drawable/drawable';
 import { BoundInterface } from '../../types/bound';
 import RectangularBound from '../bounds/rectangular-bound';
-import { transposeCoordsForward } from '../vector/helpers';
+import { transposeCoordsBackward } from '../vector/helpers';
 
 interface ConstructorInterface {
   id: DrawableIdType;
@@ -61,7 +61,7 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    */
   public boundIncludes(coords: VectorArrayType): boolean {
     return this.bound.includes(
-      transposeCoordsForward(coords, this._config.position),
+      transposeCoordsBackward(coords, this._config.position),
     );
   }
 
@@ -70,7 +70,7 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    */
   public isNearBoundEdge(coords: VectorArrayType, deviation: number): boolean {
     return this.bound.isNearEdge(
-      transposeCoordsForward(coords, this._config.position),
+      transposeCoordsBackward(coords, this._config.position),
       deviation,
     );
   }
