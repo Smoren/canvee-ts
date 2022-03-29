@@ -13,7 +13,7 @@ interface ConstructorInterface {
   id: DrawableIdType;
   config: DrawableLayerConfigInterface;
   data?: LinkedDataType;
-  children?: DrawableInterface[];
+  list?: DrawableInterface[];
 }
 
 /**
@@ -34,13 +34,13 @@ export default class DrawableLayer extends DrawableGroup implements DrawableLaye
    * @param id - group ID
    * @param config - config
    * @param data - extra data
-   * @param children - children of grouped objects
+   * @param list - list of grouped objects
    */
   constructor({
     id,
     config,
     data = {},
-    children = [],
+    list = [],
   }: ConstructorInterface) {
     super({
       id,
@@ -48,7 +48,7 @@ export default class DrawableLayer extends DrawableGroup implements DrawableLaye
       data,
     });
 
-    this._storage = new DrawableStorage(this._processChildrenToGroup(children));
+    this._storage = new DrawableStorage(this._processListToGroup(list));
     this._storage.onViewChange(this._subscriberName, (target, extra) => {
       this._observeHelper.processWithMutingHandlers(extra);
     });

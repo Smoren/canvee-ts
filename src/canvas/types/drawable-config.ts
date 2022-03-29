@@ -21,6 +21,10 @@ export interface DrawableConfigInterface {
    */
   zIndex: number;
   /**
+   * Display flag
+   */
+  display: boolean;
+  /**
    * Visibility flag
    */
   visible: boolean;

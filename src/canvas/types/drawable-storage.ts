@@ -38,7 +38,7 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
   add(item: DrawableInterface): void;
 
   /**
-   * Adds the children of drawable objects to the storage
+   * Adds the list of drawable objects to the storage
    */
   addBatch(items: DrawableInterface[]): void;
 
@@ -75,7 +75,7 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
 
   /**
    * Make a group from objects by IDs
-   * @param ids - id children of objects to group
+   * @param ids - id list of objects to group
    */
   group(ids: DrawableIdType[]): DrawableGroupInterface
 
@@ -89,9 +89,9 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
    * Adds and returns a new layer
    * @param id - layer ID
    * @param name - name
-   * @param children - children objects
+   * @param list - list objects
    */
-  addLayer(id: string, name: string, children?: DrawableInterface[]): DrawableLayerInterface;
+  addLayer(id: string, name: string, list?: DrawableInterface[]): DrawableLayerInterface;
 
   /**
    * Returns one layer found by ID

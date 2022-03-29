@@ -74,7 +74,7 @@ export default class Drawer implements DrawerInterface {
     this._context.translate(...this._viewConfig.offset);
     this._context.scale(...this._viewConfig.scale);
     this._storage.list.forEach((item) => {
-      if (item.config.visible) {
+      if (item.config.visible && item.config.display) {
         item.draw(this);
       }
     });

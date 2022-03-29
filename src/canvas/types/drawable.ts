@@ -110,7 +110,7 @@ export interface DrawableGroupInterface extends DrawableInterface {
   /**
    * List of objects in group
    */
-  children: DrawableInterface[];
+  list: DrawableInterface[];
 
   /**
    * Do some work to destruct group

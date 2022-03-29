@@ -19,7 +19,7 @@ interface ConstructorInterface {
   id: DrawableIdType;
   config: PositionalDrawableConfigInterface;
   data?: LinkedDataType;
-  children?: PositionalDrawableInterface[];
+  list?: PositionalDrawableInterface[];
 }
 
 /**
@@ -44,19 +44,19 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
    * @param id - group ID
    * @param config - config
    * @param data - extra data
-   * @param children - children of grouped objects
+   * @param list - list of grouped objects
    */
   constructor({
     id,
     config,
     data = {},
-    children = [],
+    list = [],
   }: ConstructorInterface) {
     super({
       id,
       config,
       data,
-      children,
+      list,
     });
   }
 
@@ -101,7 +101,7 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
    * {@inheritDoc DrawableInterface.boundIncludes}
    */
   public boundIncludes(coords: VectorArrayType): boolean {
-    for (const child of this.children) {
+    for (const child of this.list) {
       if (
         isPositional(child)
         && (child as PositionalDrawable).boundIncludes(transposeCoordsBackward(coords, this._config.position))
@@ -126,7 +126,7 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
   /**
    * List getter
    */
-  public get children(): PositionalDrawableInterface[] {
+  public get list(): PositionalDrawableInterface[] {
     return this._storage.list as PositionalDrawableInterface[];
   }
 
@@ -148,25 +148,25 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
   }
 
   /**
-   * Some actions with children before grouping
+   * Some actions with list before grouping
    */
-  protected _processChildrenToGroup(children: PositionalDrawableInterface[]): PositionalDrawableInterface[] {
-    children.forEach((item) => {
+  protected _processListToGroup(list: PositionalDrawableInterface[]): PositionalDrawableInterface[] {
+    list.forEach((item) => {
       item.movePosition(
         createVector(this._config.position).inverse().toArray(),
       );
     });
-    return children;
+    return list;
   }
 
   /**
-   * Some actions with children before ungrouping
+   * Some actions with list before ungrouping
    */
-  protected _processChildrenToUngroup(children: PositionalDrawableInterface[]): PositionalDrawableInterface[] {
-    children.forEach((item) => {
+  protected _processListToUngroup(list: PositionalDrawableInterface[]): PositionalDrawableInterface[] {
+    list.forEach((item) => {
       item.movePosition(this._config.position);
     });
 
-    return children;
+    return list;
   }
 }

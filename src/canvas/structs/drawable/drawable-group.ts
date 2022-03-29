@@ -14,7 +14,7 @@ interface ConstructorInterface {
   id: DrawableIdType;
   config: DrawableConfigInterface;
   data?: LinkedDataType;
-  children?: DrawableInterface[];
+  list?: DrawableInterface[];
 }
 
 /**
@@ -26,7 +26,7 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    */
   protected _subscriberName: string = 'DrawableGroup';
   /**
-   * Storage of the children objects
+   * Storage of the list objects
    */
   protected _storage: DrawableStorageInterface;
 
@@ -35,13 +35,13 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    * @param id - group ID
    * @param config - config
    * @param data - extra data
-   * @param children - children of grouped objects
+   * @param list - list of grouped objects
    */
   constructor({
     id,
     config,
     data = {},
-    children = [],
+    list = [],
   }: ConstructorInterface) {
     super({
       id,
@@ -49,7 +49,7 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
       data,
     });
 
-    this._storage = new DrawableStorage(this._processChildrenToGroup(children));
+    this._storage = new DrawableStorage(this._processListToGroup(list));
     this._storage.onViewChange(this._subscriberName, (target, extra) => {
       this._observeHelper.processWithMutingHandlers(extra);
     });
@@ -60,7 +60,7 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
    */
   public draw(drawer: DrawerInterface): void {
     this._storage.list.forEach((item) => {
-      if (item.config.visible) {
+      if (item.config.visible && item.config.display) {
         item.draw(drawer);
       }
     });
@@ -74,27 +74,27 @@ export default class DrawableGroup extends Drawable implements DrawableGroupInte
       item.offViewChange(this._subscriberName);
     });
 
-    return this._processChildrenToUngroup(this.children);
+    return this._processListToUngroup(this.list);
   }
 
   /**
    * List getter
    */
-  public get children(): DrawableInterface[] {
+  public get list(): DrawableInterface[] {
     return this._storage.list;
   }
 
   /**
-   * Some actions with children before grouping
+   * Some actions with list before grouping
    */
-  protected _processChildrenToGroup(children: DrawableInterface[]): DrawableInterface[] {
-    return children;
+  protected _processListToGroup(list: DrawableInterface[]): DrawableInterface[] {
+    return list;
   }
 
   /**
-   * Some actions with children before ungrouping
+   * Some actions with list before ungrouping
    */
-  protected _processChildrenToUngroup(children: DrawableInterface[]): DrawableInterface[] {
-    return children;
+  protected _processListToUngroup(list: DrawableInterface[]): DrawableInterface[] {
+    return list;
   }
 }
