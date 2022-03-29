@@ -4,6 +4,8 @@ Just a little interactive canvas core.
 
 Under construction now...
 
+![alt text](resources/canvee.png)
+
 ### Install
 
 ```bash
