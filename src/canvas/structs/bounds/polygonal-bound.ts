@@ -1,6 +1,8 @@
 import { VectorArrayType } from '../../types';
 import { BoundInterface, PolygonalBoundConfig } from '../../types/bound';
-import { createPolygonVectors } from '../vector';
+import { createPolygonVectors, toVector } from '../vector';
+import { getMinPosition } from '../../helpers/base';
+import RectangularBound from './rectangular-bound';
 
 /**
  * PolygonalBound class
@@ -61,5 +63,25 @@ export default class PolygonalBound implements BoundInterface {
       }
     }
     return false;
+  }
+
+  /**
+   * {@inheritDoc BoundInterface.toArray}
+   */
+  toArray(): [VectorArrayType, VectorArrayType] {
+    return this.toRectBound().toArray();
+  }
+
+  /**
+   * {@inheritDoc BoundInterface.toRectBound}
+   */
+  toRectBound(): BoundInterface {
+    const minPosition = getMinPosition(this._config.points);
+    const maxPosition = getMinPosition(this._config.points);
+
+    return new RectangularBound({
+      position: minPosition,
+      size: toVector(maxPosition).sub(minPosition).toArray(),
+    });
   }
 }

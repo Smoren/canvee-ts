@@ -10,6 +10,8 @@ import { createVector } from './structs/vector';
 import CoordsGridFilter from './structs/filters/coords-grid-filter';
 import PositionalContext from './structs/drawable/positional-context';
 import { CoordsFilterConfigInterface } from './structs/filters/types';
+import { BoundInterface } from './types/bound';
+import RectangularBound from './structs/bounds/rectangular-bound';
 
 /**
  * Canvas drawer
@@ -109,11 +111,11 @@ export default class Drawer implements DrawerInterface {
   /**
    * Returns bounds of canvas frame
    */
-  public getBounds(): [VectorArrayType, VectorArrayType] {
-    return [
-      this._viewConfig.transposeBackward([0, 0]),
-      this._viewConfig.transposeBackward([this.width, this.height]),
-    ];
+  public getBound(): BoundInterface {
+    return new RectangularBound({
+      position: this._viewConfig.transposeBackward([0, 0]),
+      size: this._viewConfig.transposeBackward([this.width, this.height]),
+    });
   }
 
   /**

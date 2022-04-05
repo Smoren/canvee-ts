@@ -64,7 +64,7 @@ export default class Grid extends Drawable implements DrawableInterface {
     drawer.context.save();
     drawer.context.beginPath();
 
-    const [fromBound, toBound] = drawer.getBounds();
+    const [fromBound, toBound] = drawer.getBound().toArray();
     const scale = drawer.viewConfig.scale[0];
 
     drawer.context.lineWidth = this._config.lineWidth / scale;

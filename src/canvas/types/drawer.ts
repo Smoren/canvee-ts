@@ -1,6 +1,7 @@
 import { VectorArrayType } from '../structs/vector/types';
 import { ViewConfigObservableInterface } from './view-config';
 import { DrawableStorageInterface } from './drawable-storage';
+import { BoundInterface } from './bound';
 
 /**
  * Interface for config of drawer
@@ -61,5 +62,5 @@ export interface DrawerInterface {
   /**
    * Returns bounds of canvas frame
    */
-  getBounds(): [VectorArrayType, VectorArrayType];
+  getBound(): BoundInterface;
 }

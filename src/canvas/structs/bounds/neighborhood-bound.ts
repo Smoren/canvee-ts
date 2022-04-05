@@ -1,5 +1,8 @@
 import { VectorArrayType } from '../../types';
 import { BoundInterface, NeighborhoodBoundConfig } from '../../types/bound';
+import { getMinPosition } from '../../helpers/base';
+import RectangularBound from './rectangular-bound';
+import { toVector } from '../vector';
 
 /**
  * NeighborhoodBound class
@@ -36,5 +39,27 @@ export default class NeighborhoodBound implements BoundInterface {
   isNearEdge(coords: VectorArrayType, deviation: number): boolean {
     // TODO implement
     return false;
+  }
+
+
+  /**
+   * {@inheritDoc BoundInterface.toArray}
+   */
+  toArray(): [VectorArrayType, VectorArrayType] {
+    return this.toRectBound().toArray();
+  }
+
+  /**
+   * {@inheritDoc BoundInterface.toRectBound}
+   */
+  toRectBound(): BoundInterface {
+    const radiusVector = toVector([this._config.radius, this._config.radius]);
+    const position = toVector(this._config.position).sub(radiusVector).toArray();
+    const size = radiusVector.clone().mul(2).toArray();
+
+    return new RectangularBound({
+      position: position,
+      size: size,
+    });
   }
 }

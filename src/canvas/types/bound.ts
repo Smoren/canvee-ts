@@ -22,7 +22,18 @@ export interface BoundInterface {
    * @param coords - point coords
    * @param deviation - deviation size
    */
-  isNearEdge(coords: VectorArrayType, deviation: number): boolean
+  isNearEdge(coords: VectorArrayType, deviation: number): boolean;
+
+  /**
+   * Converts bound to array of position and size vectors
+   * (as rectangular bound)
+   */
+  toArray(): [VectorArrayType, VectorArrayType];
+
+  /**
+   * Converts bound to rectangular bound
+   */
+  toRectBound(): BoundInterface;
 }
 
 /**

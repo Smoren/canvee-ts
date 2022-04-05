@@ -47,4 +47,21 @@ export default class RectangularBound implements BoundInterface {
     }
     return false;
   }
+
+  /**
+   * {@inheritDoc BoundInterface.toArray}
+   */
+  toArray(): [VectorArrayType, VectorArrayType] {
+    return [this._config.position, this._config.size];
+  }
+
+  /**
+   * {@inheritDoc BoundInterface.toRectBound}
+   */
+  toRectBound(): BoundInterface {
+    return new RectangularBound({
+      position: this._config.position,
+      size: this._config.size,
+    });
+  }
 }
