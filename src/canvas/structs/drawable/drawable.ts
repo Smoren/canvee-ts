@@ -94,6 +94,13 @@ export default abstract class Drawable implements DrawableInterface {
   }
 
   /**
+   * isInteractive getter
+   */
+  public get isInteractive(): boolean {
+    return this._config.interactive && this._config.display;
+  }
+
+  /**
    * {@inheritDoc DrawableInterface.onViewChange}
    */
   public onViewChange(subscriberName: string, handler: ViewObservableHandlerType): void {

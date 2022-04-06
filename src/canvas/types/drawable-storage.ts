@@ -63,15 +63,17 @@ export interface DrawableStorageInterface extends ViewObservableInterface {
   /**
    * Finds item by position and returns context
    * @param coords - coords
+   * @param interactiveOnly - interactive only flag
    */
-  findByPosition(coords: VectorArrayType): PositionalContextInterface;
+  findByPosition(coords: VectorArrayType, interactiveOnly: boolean): PositionalContextInterface;
 
   /**
    * Finds item by position near it's bound edges and returns context
    * @param coords - coords
+   * @param interactiveOnly - interactive only flag
    * @param deviation - deviation size
    */
-  findByNearEdgePosition(coords: VectorArrayType, deviation: number): PositionalContextInterface;
+  findByNearEdgePosition(coords: VectorArrayType, interactiveOnly: boolean, deviation: number): PositionalContextInterface;
 
   /**
    * Make a group from objects by IDs

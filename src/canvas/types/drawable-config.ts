@@ -28,6 +28,10 @@ export interface DrawableConfigInterface {
    * Visibility flag
    */
   visible: boolean;
+  /**
+   * Interactive flag
+   */
+  interactive: boolean;
 }
 
 /**

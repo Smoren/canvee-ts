@@ -31,6 +31,10 @@ export interface DrawableInterface extends ViewObservableInterface {
    * View config
    */
   data: LinkedDataType;
+  /**
+   * Is interactive flag
+   */
+  isInteractive: boolean;
 
   /**
    * Draws the object view on canvas

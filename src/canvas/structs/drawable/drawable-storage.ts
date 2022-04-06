@@ -172,16 +172,16 @@ export default class DrawableStorage implements DrawableStorageInterface {
   /**
    * {@inheritDoc DrawableStorageInterface.findByPosition}
    */
-  public findByPosition(coords: VectorArrayType): PositionalContextInterface {
+  public findByPosition(coords: VectorArrayType, interactiveOnly: boolean): PositionalContextInterface {
     for (let i=this._list.length-1; i>=0; --i) {
       const item: DrawableInterface = this._list[i];
 
-      if (!item.config.display) {
+      if (interactiveOnly && !item.isInteractive) {
         continue;
       }
 
       if (isLayer(item)) {
-        const context = (item as DrawableLayer).storage.findByPosition(coords);
+        const context = (item as DrawableLayer).storage.findByPosition(coords, interactiveOnly);
         if (!context.isEmpty()) {
           return context;
         }
@@ -198,18 +198,22 @@ export default class DrawableStorage implements DrawableStorageInterface {
   /**
    * {@inheritDoc DrawableStorageInterface.findByNearEdgePosition}
    */
-  findByNearEdgePosition(coords: VectorArrayType, deviation: number): PositionalContextInterface {
-    const positionContext = this.findByPosition(coords);
+  findByNearEdgePosition(
+    coords: VectorArrayType,
+    interactiveOnly: boolean,
+    deviation: number,
+  ): PositionalContextInterface {
+    const positionContext = this.findByPosition(coords, interactiveOnly);
 
     for (let i=this._list.length-1; i>=0; --i) {
       const item = this._list[i];
 
-      if (!item.config.display) {
+      if (interactiveOnly && !item.isInteractive) {
         continue;
       }
 
       if (isLayer(item)) {
-        const context = (item as DrawableLayer).storage.findByNearEdgePosition(coords, deviation);
+        const context = (item as DrawableLayer).storage.findByNearEdgePosition(coords, interactiveOnly, deviation);
         if (!context.isEmpty()) {
           return context;
         }
@@ -251,6 +255,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
       zIndex: groupZIndex,
       display: true,
       visible: true,
+      interactive: true,
     };
 
     const id = 'group-'+(new Date()).getTime()+'-'+Math.floor(Math.random()*100000);
@@ -282,6 +287,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
       config: {
         visible: true,
         display: true,
+        interactive: true,
         zIndex: this._getMaxZIndex()+1,
         name: name,
       },
