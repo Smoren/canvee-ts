@@ -5,6 +5,7 @@ import ViewConfig from './canvas/structs/view-config';
 import Svg from './canvas/figures/svg';
 import Grid from './canvas/figures/grid';
 import Rect from './canvas/figures/rect';
+import Ellipse from './canvas/figures/ellipse';
 
 const storage = new DrawableStorage([]);
 console.log(storage);
@@ -159,7 +160,7 @@ console.log(group);
 
 const anotherLayer = storage.addLayer('another', 'Another Layer', []);
 anotherLayer.storage.add(new Rect({
-  id: 9,
+  id: 10,
   config: {
     position: [800, 500],
     size: [100, 100],
@@ -167,6 +168,20 @@ anotherLayer.storage.add(new Rect({
     display: true,
     visible: true,
     interactive: false,
+    fillStyle: 'lightblue',
+    strokeStyle: 'blue',
+    lineWidth: 1,
+  },
+}));
+anotherLayer.storage.add(new Ellipse({
+  id: 11,
+  config: {
+    position: [500, 250],
+    size: [120, 120],
+    zIndex: 100,
+    display: true,
+    visible: true,
+    interactive: true,
     fillStyle: 'lightblue',
     strokeStyle: 'blue',
     lineWidth: 1,

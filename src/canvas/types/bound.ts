@@ -51,6 +51,14 @@ export interface RectangularBoundConfig extends BoundConfigType, PositionalInter
 }
 
 /**
+ * Interface for config of ellipse bound
+ * @public
+ */
+export interface EllipseBoundConfig extends BoundConfigType, PositionalInterface {
+
+}
+
+/**
  * Interface for config of rectangular bound
  * @public
  */

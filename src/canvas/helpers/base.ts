@@ -1,5 +1,6 @@
 import { default as md5 } from 'crypto-js/md5';
-import { VectorArrayType } from '../types';
+import { VectorArrayType, VectorInterface } from '../types';
+import { toVector } from '../structs/vector';
 
 /**
  * Returns true if arrays are equal and false else
@@ -99,4 +100,21 @@ export function getMaxPosition(positions: VectorArrayType[]): VectorArrayType {
  */
 export function hashString(input: string): string {
   return md5(input).toString();
+}
+
+/**
+ * Returns true if ellipse includes point
+ * @param point - point coords vector
+ * @param center - center vector
+ * @param radius - radius vector
+ */
+export function isInEllipse(
+  point: VectorArrayType | VectorInterface,
+  center: VectorArrayType | VectorInterface,
+  radius: VectorArrayType | VectorInterface,
+): boolean {
+  const [x, y] = toVector(point).sub(center).toArray();
+  const [a, b] = toVector(radius).toArray();
+
+  return (x**2) / (a**2) + (y**2) / (b**2) <= 1;
 }

@@ -24,7 +24,7 @@ export default class PolygonalBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.includes}
    */
-  includes(coords: VectorArrayType): boolean {
+  public includes(coords: VectorArrayType): boolean {
     const precision = 0;
     const x = coords[0];
     const y = coords[1];
@@ -54,7 +54,7 @@ export default class PolygonalBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.isNearEdge}
    */
-  isNearEdge(coords: VectorArrayType, deviation: number): boolean {
+  public isNearEdge(coords: VectorArrayType, deviation: number): boolean {
     const vectors = createPolygonVectors(this._config.points);
 
     for (const vector of vectors) {
@@ -68,14 +68,14 @@ export default class PolygonalBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.toArray}
    */
-  toArray(): [VectorArrayType, VectorArrayType] {
+  public toArray(): [VectorArrayType, VectorArrayType] {
     return this.toRectBound().toArray();
   }
 
   /**
    * {@inheritDoc BoundInterface.toRectBound}
    */
-  toRectBound(): BoundInterface {
+  public toRectBound(): BoundInterface {
     const minPosition = getMinPosition(this._config.points);
     const maxPosition = getMinPosition(this._config.points);
 

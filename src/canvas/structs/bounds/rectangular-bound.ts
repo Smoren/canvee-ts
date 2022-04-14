@@ -22,7 +22,7 @@ export default class RectangularBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.includes}
    */
-  includes(coords: VectorArrayType): boolean {
+  public includes(coords: VectorArrayType): boolean {
     return coords[0] >= this._config.position[0]
       && coords[0] <= this._config.position[0] + this._config.size[0]
       && coords[1] >= this._config.position[1]
@@ -32,7 +32,7 @@ export default class RectangularBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.isNearEdge}
    */
-  isNearEdge(coords: VectorArrayType, deviation: number): boolean {
+  public isNearEdge(coords: VectorArrayType, deviation: number): boolean {
     const vectors = createPolygonVectors([
       [this._config.position[0], this._config.position[1]],
       [this._config.position[0] + this._config.size[0], this._config.position[1]],
@@ -51,14 +51,14 @@ export default class RectangularBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.toArray}
    */
-  toArray(): [VectorArrayType, VectorArrayType] {
+  public toArray(): [VectorArrayType, VectorArrayType] {
     return [this._config.position, this._config.size];
   }
 
   /**
    * {@inheritDoc BoundInterface.toRectBound}
    */
-  toRectBound(): BoundInterface {
+  public toRectBound(): BoundInterface {
     return new RectangularBound({
       position: this._config.position,
       size: this._config.size,

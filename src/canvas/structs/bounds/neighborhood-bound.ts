@@ -1,6 +1,5 @@
 import { VectorArrayType } from '../../types';
 import { BoundInterface, NeighborhoodBoundConfig } from '../../types/bound';
-import { getMinPosition } from '../../helpers/base';
 import RectangularBound from './rectangular-bound';
 import { toVector } from '../vector';
 

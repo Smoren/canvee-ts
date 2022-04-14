@@ -129,7 +129,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
   /**
    * {@inheritDoc DrawableStorageInterface.clear}
    */
-  clear(): void {
+  public clear(): void {
     this._list.length = 0;
     this._observeHelper.processWithMutingHandlers();
   }
@@ -214,7 +214,10 @@ export default class DrawableStorage implements DrawableStorageInterface {
 
       if (isLayer(item)) {
         const context = (item as DrawableLayer).storage.findByNearEdgePosition(coords, interactiveOnly, deviation);
-        if (!context.isEmpty()) {
+        if (
+          !context.isEmpty()
+          && (positionContext.isEmpty() || positionContext.element === context.element)
+        ) {
           return context;
         }
       } else if (
