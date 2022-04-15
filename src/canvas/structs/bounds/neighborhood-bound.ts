@@ -35,7 +35,7 @@ export default class NeighborhoodBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.isNearEdge}
    */
-  isNearEdge(coords: VectorArrayType, deviation: number): boolean {
+  isNearEdge(coords: VectorArrayType, scale: VectorArrayType, deviation: number): boolean {
     // TODO implement
     return false;
   }

@@ -32,7 +32,7 @@ export default class RectangularBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.isNearEdge}
    */
-  public isNearEdge(coords: VectorArrayType, deviation: number): boolean {
+  public isNearEdge(coords: VectorArrayType, scale: VectorArrayType, deviation: number): boolean {
     const vectors = createPolygonVectors([
       [this._config.position[0], this._config.position[1]],
       [this._config.position[0] + this._config.size[0], this._config.position[1]],

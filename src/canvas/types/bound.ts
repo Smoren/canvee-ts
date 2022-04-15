@@ -14,15 +14,17 @@ export interface BoundInterface {
   /**
    * Return true if the bound includes the point given as coords
    * @param coords - point coords
+   * @param scale - scale vector
    */
-  includes(coords: VectorArrayType): boolean;
+  includes(coords: VectorArrayType, scale: VectorArrayType): boolean;
 
   /**
    * Return true if point is near edge of the bound
    * @param coords - point coords
+   * @param scale - scale vector
    * @param deviation - deviation size
    */
-  isNearEdge(coords: VectorArrayType, deviation: number): boolean;
+  isNearEdge(coords: VectorArrayType, scale: VectorArrayType, deviation: number): boolean;
 
   /**
    * Converts bound to array of position and size vectors
@@ -56,6 +58,21 @@ export interface RectangularBoundConfig extends BoundConfigType, PositionalInter
  */
 export interface EllipseBoundConfig extends BoundConfigType, PositionalInterface {
 
+}
+
+/**
+ * Interface for config of line bound
+ * @public
+ */
+export interface LineBoundConfig extends BoundConfigType, PositionalInterface {
+  /**
+   * Distance amplitude
+   */
+  deviation: number;
+  /**
+   * Is line scalable
+   */
+  scalable: boolean;
 }
 
 /**

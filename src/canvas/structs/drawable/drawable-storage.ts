@@ -172,7 +172,9 @@ export default class DrawableStorage implements DrawableStorageInterface {
   /**
    * {@inheritDoc DrawableStorageInterface.findByPosition}
    */
-  public findByPosition(coords: VectorArrayType, interactiveOnly: boolean): PositionalContextInterface {
+  public findByPosition(
+    coords: VectorArrayType, scale: VectorArrayType, interactiveOnly: boolean,
+  ): PositionalContextInterface {
     for (let i=this._list.length-1; i>=0; --i) {
       const item: DrawableInterface = this._list[i];
 
@@ -181,11 +183,11 @@ export default class DrawableStorage implements DrawableStorageInterface {
       }
 
       if (isLayer(item)) {
-        const context = (item as DrawableLayer).storage.findByPosition(coords, interactiveOnly);
+        const context = (item as DrawableLayer).storage.findByPosition(coords, scale, interactiveOnly);
         if (!context.isEmpty()) {
           return context;
         }
-      } else if (isPositional(item) && (item as PositionalDrawableInterface).boundIncludes(coords)) {
+      } else if (isPositional(item) && (item as PositionalDrawableInterface).boundIncludes(coords, scale)) {
         const element = (item as PositionalDrawableInterface);
         const position = element.getRelativePosition(coords);
         return new PositionalContext(element, position);
@@ -200,10 +202,11 @@ export default class DrawableStorage implements DrawableStorageInterface {
    */
   findByNearEdgePosition(
     coords: VectorArrayType,
+    scale: VectorArrayType,
     interactiveOnly: boolean,
     deviation: number,
   ): PositionalContextInterface {
-    const positionContext = this.findByPosition(coords, interactiveOnly);
+    const positionContext = this.findByPosition(coords, scale, interactiveOnly);
 
     for (let i=this._list.length-1; i>=0; --i) {
       const item = this._list[i];
@@ -213,7 +216,9 @@ export default class DrawableStorage implements DrawableStorageInterface {
       }
 
       if (isLayer(item)) {
-        const context = (item as DrawableLayer).storage.findByNearEdgePosition(coords, interactiveOnly, deviation);
+        const context = (item as DrawableLayer).storage.findByNearEdgePosition(
+          coords, scale, interactiveOnly, deviation,
+        );
         if (
           !context.isEmpty()
           && (positionContext.isEmpty() || positionContext.element === context.element)
@@ -222,7 +227,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
         }
       } else if (
         isPositional(item)
-        && (item as PositionalDrawableInterface).isNearBoundEdge(coords, deviation)
+        && (item as PositionalDrawableInterface).isNearBoundEdge(coords, scale, deviation)
         && (
           positionContext.isEmpty()
           || positionContext.element === item

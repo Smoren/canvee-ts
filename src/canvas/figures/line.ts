@@ -1,7 +1,6 @@
 import {
   PositionalDrawableInterface,
   PositionalDrawableConfigInterface,
-  StylizedDrawableConfigInterface,
   DrawableIdType,
   DrawerInterface,
   LinkedDataType, VectorArrayType,
@@ -9,35 +8,46 @@ import {
 import PositionalDrawable from '../structs/drawable/positional-drawable';
 import { toVector } from '../structs/vector';
 import { BoundInterface } from '../types/bound';
-import EllipseBound from '../structs/bounds/ellipse-bound';
+import LineBound from '../structs/bounds/line-bound';
 
 /**
  * Interface for config of rect figure
  * @public
  */
-export interface EllipseConfigInterface extends PositionalDrawableConfigInterface, StylizedDrawableConfigInterface {
-
+export interface LineConfigInterface extends PositionalDrawableConfigInterface {
+  /**
+   * Is line scalable
+   */
+  scalable: boolean;
+  /**
+   * Stroke style
+   */
+  strokeStyle: string;
+  /**
+   * Line width
+   */
+  lineWidth: number;
 }
 
 interface ConstructorInterface {
   id: DrawableIdType;
-  config: EllipseConfigInterface;
+  config: LineConfigInterface;
   data?: LinkedDataType;
 }
 
 /**
- * Ellipse figure
+ * Line figure
  * @public
  */
-export default class Ellipse extends PositionalDrawable implements PositionalDrawableInterface {
+export default class Line extends PositionalDrawable implements PositionalDrawableInterface {
   /**
    * Object type
    */
-  protected _type: string = 'Ellipse';
+  protected _type: string = 'Line';
   /**
    * View config
    */
-  protected _config: EllipseConfigInterface;
+  protected _config: LineConfigInterface;
 
   /**
    * Rect constructor
@@ -58,29 +68,30 @@ export default class Ellipse extends PositionalDrawable implements PositionalDra
   }
 
   /**
-   * Center getter
+   * From getter
    */
-  public get center(): VectorArrayType {
-    return toVector(this._config.position).add(toVector(this._config.size).div(2)).toArray();
+  public get from(): VectorArrayType {
+    return this._config.position;
   }
 
   /**
-   * Center getter
+   * To getter
    */
-  public get radius(): VectorArrayType {
-    return toVector(this._config.size).div(2).toArray();
+  public get to(): VectorArrayType {
+    return toVector(this._config.position).add(this._config.size).toArray();
   }
 
   /**
    * {@inheritDoc DrawableInterface.draw}
    */
   public draw(drawer: DrawerInterface): void {
+    const scale = drawer.viewConfig.scale[0];
+
     drawer.context.beginPath();
     drawer.context.strokeStyle = this._config.strokeStyle;
-    drawer.context.fillStyle = this._config.fillStyle;
-    drawer.context.lineWidth = this._config.lineWidth;
-    drawer.context.ellipse(...this.center, ...this.radius, 0, 0, 2*Math.PI);
-    drawer.context.fill();
+    drawer.context.lineWidth = this._config.scalable ? this._config.lineWidth : this._config.lineWidth / scale;
+    drawer.context.moveTo(...this.from);
+    drawer.context.lineTo(...this.to);
 
     if (this._config.lineWidth !== 0) {
       drawer.context.stroke();
@@ -92,10 +103,12 @@ export default class Ellipse extends PositionalDrawable implements PositionalDra
   /**
    * bound getter
    */
-  get bound(): BoundInterface {
-    return new EllipseBound({
-      position: [0, 0],
+  public get bound(): BoundInterface {
+    return new LineBound({
+      position: this._config.position,
       size: this._config.size,
+      deviation: this._config.lineWidth/2,
+      scalable: this._config.scalable,
     });
   }
 }

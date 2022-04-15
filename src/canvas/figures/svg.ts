@@ -94,14 +94,14 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
    * sourceWidth getter
    */
   public get sourceWidth(): number {
-    return this._img.width ?? this._config.size[0];
+    return this._img !== null ? this._img.width : this._config.size[0];
   }
 
   /**
    * sourceHeight getter
    */
   public get sourceHeight(): number {
-    return this._img.height ?? this._config.size[1];
+    return this._img !== null ? this._img.height : this._config.size[1];
   }
 
   /**

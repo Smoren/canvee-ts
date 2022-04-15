@@ -193,7 +193,9 @@ export default class Drawer implements DrawerInterface {
     const DEVIATION = 8;
     const getNearBoundElement = (coords: VectorArrayType): PositionalContext => {
       const transposedCoords: VectorArrayType = this._viewConfig.transposeBackward(coords);
-      return this._storage.findByNearEdgePosition(transposedCoords, true, DEVIATION / this._viewConfig.scale[0]);
+      return this._storage.findByNearEdgePosition(
+        transposedCoords, this._viewConfig.scale, true, DEVIATION / this._viewConfig.scale[0],
+      );
     };
 
     this._domElement.addEventListener('wheel', (event: WheelEvent) => {
@@ -220,7 +222,7 @@ export default class Drawer implements DrawerInterface {
     this._domElement.addEventListener('mousedown', (event: MouseEvent) => {
       if (currentElementContext.isEmpty()) {
         const transposedCoords = this._viewConfig.transposeBackward([event.offsetX, event.offsetY]);
-        currentElementContext = this._storage.findByPosition(transposedCoords, true);
+        currentElementContext = this._storage.findByPosition(transposedCoords, this._viewConfig.scale, true);
       }
 
       mouseDownCoords = [event.offsetX, event.offsetY];
@@ -234,7 +236,9 @@ export default class Drawer implements DrawerInterface {
       if (mouseDownCoords === null) {
         if (!getNearBoundElement(mouseMoveCoords).isEmpty()) {
           this._domElement.style.cursor = 'crosshair';
-        } else if (!this._storage.findByPosition(transposedCoords, true).isEmpty()) {
+        } else if (
+          !this._storage.findByPosition(transposedCoords, this._viewConfig.scale, true).isEmpty()
+        ) {
           this._domElement.style.cursor = 'pointer';
         } else {
           this._domElement.style.cursor = 'default';

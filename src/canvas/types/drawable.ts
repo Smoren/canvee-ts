@@ -61,6 +61,7 @@ export interface DrawableInterface extends ViewObservableInterface {
  * @public
  */
 export interface PositionalDrawableInterface extends DrawableInterface {
+  // TODO add scalable flag
   /**
    * Interface belonging flag
    */
@@ -95,15 +96,17 @@ export interface PositionalDrawableInterface extends DrawableInterface {
   /**
    * Returns true if the bound includes a point
    * @param coords - point coords
+   * @param scale - scale vector
    */
-  boundIncludes(coords: VectorArrayType): boolean;
+  boundIncludes(coords: VectorArrayType, scale: VectorArrayType): boolean;
 
   /**
    * Returns true if a point is near bound edge
    * @param coords - point coords
+   * @param scale - scale vector
    * @param deviation - deviation size
    */
-  isNearBoundEdge(coords: VectorArrayType, deviation: number): boolean;
+  isNearBoundEdge(coords: VectorArrayType, scale: VectorArrayType, deviation: number): boolean;
 }
 
 /**

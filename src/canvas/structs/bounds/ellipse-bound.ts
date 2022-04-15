@@ -45,7 +45,7 @@ export default class EllipseBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.isNearEdge}
    */
-  public isNearEdge(coords: VectorArrayType, deviation: number): boolean {
+  public isNearEdge(coords: VectorArrayType, scale: VectorArrayType, deviation: number): boolean {
     const deviationVector: VectorInterface = toVector([deviation, deviation]);
 
     const maxRadius = toVector(this.radius).add(deviationVector);

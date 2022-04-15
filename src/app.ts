@@ -6,6 +6,7 @@ import Svg from './canvas/figures/svg';
 import Grid from './canvas/figures/grid';
 import Rect from './canvas/figures/rect';
 import Ellipse from './canvas/figures/ellipse';
+import Line from './canvas/figures/line';
 
 const storage = new DrawableStorage([]);
 console.log(storage);
@@ -185,6 +186,20 @@ anotherLayer.storage.add(new Ellipse({
     fillStyle: 'lightblue',
     strokeStyle: 'blue',
     lineWidth: 1,
+  },
+}));
+anotherLayer.storage.add(new Line({
+  id: 12,
+  config: {
+    position: [0, 0],
+    size: [100, 100],
+    zIndex: 101,
+    scalable: false,
+    display: true,
+    visible: true,
+    interactive: true,
+    strokeStyle: 'blue',
+    lineWidth: 2,
   },
 }));
 

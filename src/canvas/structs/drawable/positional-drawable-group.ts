@@ -100,11 +100,13 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
   /**
    * {@inheritDoc DrawableInterface.boundIncludes}
    */
-  public boundIncludes(coords: VectorArrayType): boolean {
+  public boundIncludes(coords: VectorArrayType, scale: VectorArrayType): boolean {
     for (const child of this.list) {
       if (
         isPositional(child)
-        && (child as PositionalDrawable).boundIncludes(transposeCoordsBackward(coords, this._config.position))
+        && (child as PositionalDrawable).boundIncludes(
+          transposeCoordsBackward(coords, this._config.position), scale,
+        )
       ) {
         return true;
       }
@@ -116,9 +118,10 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
   /**
    * {@inheritDoc DrawableInterface.isNearBoundEdge}
    */
-  isNearBoundEdge(coords: VectorArrayType, deviation: number): boolean {
+  isNearBoundEdge(coords: VectorArrayType, scale: VectorArrayType, deviation: number): boolean {
     return this.bound.isNearEdge(
       transposeCoordsBackward(coords, this._config.position),
+      scale,
       deviation,
     );
   }
