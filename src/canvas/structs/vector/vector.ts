@@ -128,6 +128,19 @@ export default class Vector implements VectorInterface {
   }
 
   /**
+   * Multiplies 2 vectors coordinate-to-coordinate
+   * @param v - another vector
+   */
+  public mulSimple(v: VectorInterface | VectorArrayType): VectorInterface {
+    v = toVector(v, this._defaultPrecision);
+
+    this.x *= v.x;
+    this.y *= v.y;
+
+    return this;
+  }
+
+  /**
    * Multiplies this vector with another vector coordinate-by-coordinate
    * @param v - another vector
    */

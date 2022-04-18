@@ -1,4 +1,4 @@
-import { PositionalInterface } from '../structs/vector/types';
+import { PositionalInterface, ScalableInterface } from '../structs/vector/types';
 
 /**
  * Extra data that is linked to drawable object
@@ -38,7 +38,8 @@ export interface DrawableConfigInterface {
  * Config for positional drawable objects
  * @public
  */
-export interface PositionalDrawableConfigInterface extends DrawableConfigInterface, PositionalInterface {
+export interface PositionalDrawableConfigInterface
+  extends DrawableConfigInterface, PositionalInterface, ScalableInterface {
 
 }
 

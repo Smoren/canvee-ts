@@ -3,11 +3,12 @@ import {
   PositionalDrawableConfigInterface,
   VectorArrayType, DrawableIdType, LinkedDataType,
 } from '../../types';
-import { createVector } from '../vector';
+import { createVector, toVector } from '../vector';
 import Drawable from '../drawable/drawable';
 import { BoundInterface } from '../../types/bound';
 import RectangularBound from '../bounds/rectangular-bound';
 import { transposeCoordsBackward } from '../vector/helpers';
+import { translatePositionConfig } from '../../helpers/base';
 
 interface ConstructorInterface {
   id: DrawableIdType;
@@ -60,7 +61,7 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    * {@inheritDoc DrawableInterface.boundIncludes}
    */
   public boundIncludes(coords: VectorArrayType, scale: VectorArrayType): boolean {
-    return this.bound.includes(
+    return this.getScaledBound(scale).includes(
       transposeCoordsBackward(coords, this._config.position),
       scale,
     );
@@ -70,11 +71,31 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    * {@inheritDoc DrawableInterface.isNearBoundEdge}
    */
   public isNearBoundEdge(coords: VectorArrayType, scale: VectorArrayType, deviation: number): boolean {
-    return this.bound.isNearEdge(
+    return this.getScaledBound(scale).isNearEdge(
       transposeCoordsBackward(coords, this._config.position),
       scale,
       deviation,
     );
+  }
+
+  /**
+   * {@inheritDoc DrawableInterface.getScaledBound}
+   */
+  public getScaledBound(scale: VectorArrayType): BoundInterface {
+    // TODO use position_offset config param
+    return this._config.scalable
+      ? this.bound.specify([1, 1], [0, 0])
+      : this.bound.specify(toVector(scale).reverse().toArray(), [0.5, 0.5]);
+  }
+
+  /**
+   * {@inheritDoc DrawableInterface.translatePositionConfig}
+   */
+  public translatePositionConfig(scale: VectorArrayType): [VectorArrayType, VectorArrayType] {
+    // TODO use with scalable and unscalable
+    return this._config.scalable
+      ? translatePositionConfig(this._config.position, this._config.size, [1, 1], [0, 0])
+      : translatePositionConfig(this._config.position, this._config.size, scale, [0.5, 0.5]);
   }
 
   /**

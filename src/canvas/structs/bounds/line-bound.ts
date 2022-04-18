@@ -65,4 +65,12 @@ export default class LineBound implements BoundInterface {
       size: this._config.size,
     });
   }
+
+  /**
+   * {@inheritDoc BoundInterface.specify}
+   */
+  public specify(): BoundInterface {
+    // line does not need bound scaling
+    return this;
+  }
 }

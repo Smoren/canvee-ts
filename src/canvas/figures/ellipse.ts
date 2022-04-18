@@ -76,14 +76,33 @@ export default class Ellipse extends PositionalDrawable implements PositionalDra
    */
   public draw(drawer: DrawerInterface): void {
     drawer.context.beginPath();
-    drawer.context.strokeStyle = this._config.strokeStyle;
-    drawer.context.fillStyle = this._config.fillStyle;
-    drawer.context.lineWidth = this._config.lineWidth;
-    drawer.context.ellipse(...this.center, ...this.radius, 0, 0, 2*Math.PI);
-    drawer.context.fill();
 
-    if (this._config.lineWidth !== 0) {
-      drawer.context.stroke();
+    if (this._config.scalable) {
+      drawer.context.strokeStyle = this._config.strokeStyle;
+      drawer.context.fillStyle = this._config.fillStyle;
+      drawer.context.lineWidth = this._config.lineWidth;
+      drawer.context.ellipse(...this.center, ...this.radius, 0, 0, 2*Math.PI);
+      drawer.context.fill();
+
+      if (this._config.lineWidth !== 0) {
+        drawer.context.stroke();
+      }
+    } else {
+      const lineWidth = this._config.lineWidth / drawer.viewConfig.scale[0];
+      const radius: VectorArrayType = [
+        this.radius[0] / drawer.viewConfig.scale[0],
+        this.radius[1] / drawer.viewConfig.scale[1],
+      ];
+
+      drawer.context.strokeStyle = this._config.strokeStyle;
+      drawer.context.fillStyle = this._config.fillStyle;
+      drawer.context.lineWidth = lineWidth;
+      drawer.context.ellipse(...this._config.position, ...radius, 0, 0, 2*Math.PI);
+      drawer.context.fill();
+
+      if (this._config.lineWidth !== 0) {
+        drawer.context.stroke();
+      }
     }
 
     drawer.context.closePath();

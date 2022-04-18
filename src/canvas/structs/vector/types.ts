@@ -69,6 +69,12 @@ export interface VectorInterface {
   mulVector(v: VectorInterface | VectorArrayType): number;
 
   /**
+   * Multiplies 2 vectors coordinate-to-coordinate
+   * @param v - another vector
+   */
+  mulSimple(v: VectorInterface | VectorArrayType): VectorInterface;
+
+  /**
    * Multiplies this vector with another vector coordinate-by-coordinate
    * @param v - another vector
    */
@@ -200,6 +206,16 @@ export interface PositionalInterface {
    * Position vector
    */
   size: VectorArrayType;
+}
+
+/**
+ * Interface for scalable objects
+ */
+export interface ScalableInterface {
+  /**
+   * Scalable flag
+   */
+  scalable: boolean;
 }
 
 /**

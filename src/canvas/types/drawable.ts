@@ -9,6 +9,7 @@ import { ViewObservableHandlerType, ViewObservableInterface } from './observable
 import { DrawerInterface } from './drawer';
 import { BoundInterface } from './bound';
 import { DrawableStorageInterface } from './drawable-storage';
+import { translatePositionConfig } from '../helpers/base';
 
 /**
  * Interface for drawable objects
@@ -107,6 +108,17 @@ export interface PositionalDrawableInterface extends DrawableInterface {
    * @param deviation - deviation size
    */
   isNearBoundEdge(coords: VectorArrayType, scale: VectorArrayType, deviation: number): boolean;
+
+  /**
+   * Returns bound with applied scale
+   * @param scale - scale vector
+   */
+  getScaledBound(scale: VectorArrayType): BoundInterface;
+
+  /**
+   * Returns position and size with applied scale
+   */
+  translatePositionConfig(scale: VectorArrayType): [VectorArrayType, VectorArrayType];
 }
 
 /**

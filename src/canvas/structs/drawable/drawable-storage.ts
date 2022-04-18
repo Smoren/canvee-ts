@@ -261,6 +261,7 @@ export default class DrawableStorage implements DrawableStorageInterface {
       position: minPosition,
       size: groupSize,
       zIndex: groupZIndex,
+      scalable: true,
       display: true,
       visible: true,
       interactive: true,

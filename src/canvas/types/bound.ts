@@ -36,6 +36,13 @@ export interface BoundInterface {
    * Converts bound to rectangular bound
    */
   toRectBound(): BoundInterface;
+
+  /**
+   * Applies scale and relative offset
+   * @param scale - scale
+   * @param offset - relative offset
+   */
+  specify(scale: VectorArrayType, offset: VectorArrayType): BoundInterface;
 }
 
 /**

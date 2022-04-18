@@ -118,3 +118,23 @@ export function isInEllipse(
 
   return (x**2) / (a**2) + (y**2) / (b**2) <= 1;
 }
+
+/**
+ * Returns centered scaled position and size
+ * @param position - position vector
+ * @param size - size vector
+ * @param scale - scale vector
+ * @param offset - left top point relative offset
+ */
+export function translatePositionConfig(
+  position: VectorArrayType, size: VectorArrayType, scale: VectorArrayType, offset: VectorArrayType,
+): [VectorArrayType, VectorArrayType] {
+  const mainPosition = toVector(position).sub(toVector(size).mulSimple(offset)).toArray();
+  const newSize = toVector(size).mulSimple(scale).toArray();
+
+  const newPosition = toVector(mainPosition).add(
+    toVector(size).sub(newSize).div(2),
+  ).toArray();
+
+  return [newPosition, newSize];
+}

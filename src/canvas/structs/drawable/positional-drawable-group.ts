@@ -8,12 +8,13 @@ import {
   PositionalDrawableGroupInterface,
 } from '../../types';
 import DrawableGroup from '../drawable/drawable-group';
-import { createVector } from '../vector';
+import { createVector, toVector } from '../vector';
 import { BoundInterface } from '../../types/bound';
 import RectangularBound from '../bounds/rectangular-bound';
 import { transposeCoordsBackward } from '../vector/helpers';
 import { isPositional } from '../../helpers/type-helpers';
 import PositionalDrawable from './positional-drawable';
+import { translatePositionConfig } from '../../helpers/base';
 
 interface ConstructorInterface {
   id: DrawableIdType;
@@ -148,6 +149,22 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
       position: [0, 0],
       size: this._config.size,
     });
+  }
+
+  /**
+   * {@inheritDoc DrawableInterface.getScaledBound}
+   */
+  public getScaledBound(scale: VectorArrayType): BoundInterface {
+    return this._config.scalable
+      ? this.bound.specify([1, 1], [0, 0])
+      : this.bound.specify(toVector(scale).reverse().toArray(), [0.5, 0.5]);
+  }
+
+  /**
+   * {@inheritDoc DrawableInterface.translatePositionConfig}
+   */
+  public translatePositionConfig(scale: VectorArrayType): [VectorArrayType, VectorArrayType] {
+    return translatePositionConfig(this._config.position, this._config.size, scale, [0.5, 0.5]);
   }
 
   /**

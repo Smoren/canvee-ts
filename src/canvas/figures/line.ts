@@ -16,10 +16,6 @@ import LineBound from '../structs/bounds/line-bound';
  */
 export interface LineConfigInterface extends PositionalDrawableConfigInterface {
   /**
-   * Is line scalable
-   */
-  scalable: boolean;
-  /**
    * Stroke style
    */
   strokeStyle: string;

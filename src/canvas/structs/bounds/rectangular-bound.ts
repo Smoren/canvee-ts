@@ -1,3 +1,4 @@
+import { translatePositionConfig } from '../../helpers/base';
 import { VectorArrayType } from '../../types';
 import { BoundInterface, RectangularBoundConfig } from '../../types/bound';
 import { createPolygonVectors } from '../vector';
@@ -63,5 +64,17 @@ export default class RectangularBound implements BoundInterface {
       position: this._config.position,
       size: this._config.size,
     });
+  }
+
+  /**
+   * {@inheritDoc BoundInterface.specify}
+   */
+  public specify(scale: VectorArrayType, offset: VectorArrayType = [0, 0]): BoundInterface {
+    const [position, size] = translatePositionConfig(this._config.position, this._config.size, scale, offset);
+
+    this._config.position = position;
+    this._config.size = size;
+
+    return this;
   }
 }

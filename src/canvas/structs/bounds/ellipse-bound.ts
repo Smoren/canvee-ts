@@ -1,7 +1,7 @@
 import { VectorArrayType, VectorInterface } from '../../types';
 import { BoundInterface, EllipseBoundConfig } from '../../types/bound';
 import RectangularBound from './rectangular-bound';
-import { isInEllipse } from '../../helpers/base';
+import { translatePositionConfig, isInEllipse } from '../../helpers/base';
 import { toVector } from '../vector';
 
 /**
@@ -70,5 +70,17 @@ export default class EllipseBound implements BoundInterface {
       position: this._config.position,
       size: this._config.size,
     });
+  }
+
+  /**
+   * {@inheritDoc BoundInterface.specify}
+   */
+  public specify(scale: VectorArrayType, offset: VectorArrayType = [0, 0]): BoundInterface {
+    const [position, size] = translatePositionConfig(this._config.position, this._config.size, scale, offset);
+
+    this._config.position = position;
+    this._config.size = size;
+
+    return this;
   }
 }

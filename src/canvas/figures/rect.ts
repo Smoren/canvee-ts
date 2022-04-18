@@ -7,6 +7,7 @@ import {
   LinkedDataType,
 } from '../types';
 import PositionalDrawable from '../structs/drawable/positional-drawable';
+import { toVector } from '../structs/vector';
 
 /**
  * Interface for config of rect figure
@@ -59,13 +60,30 @@ export default class Rect extends PositionalDrawable implements PositionalDrawab
    */
   draw(drawer: DrawerInterface): void {
     drawer.context.beginPath();
-    drawer.context.strokeStyle = this._config.strokeStyle;
-    drawer.context.fillStyle = this._config.fillStyle;
-    drawer.context.lineWidth = this._config.lineWidth;
-    drawer.context.fillRect(...this._config.position, ...this._config.size);
 
-    if (this._config.lineWidth !== 0) {
-      drawer.context.strokeRect(...this._config.position, ...this._config.size);
+    if (this._config.scalable) {
+      drawer.context.strokeStyle = this._config.strokeStyle;
+      drawer.context.fillStyle = this._config.fillStyle;
+      drawer.context.lineWidth = this._config.lineWidth;
+      drawer.context.fillRect(...this._config.position, ...this._config.size);
+
+      if (this._config.lineWidth !== 0) {
+        drawer.context.strokeRect(...this._config.position, ...this._config.size);
+      }
+    } else {
+      const [position, size] = this.translatePositionConfig(
+        toVector(drawer.viewConfig.scale).reverse().toArray(),
+      );
+      const lineWidth = this._config.lineWidth / drawer.viewConfig.scale[0];
+
+      drawer.context.strokeStyle = this._config.strokeStyle;
+      drawer.context.fillStyle = this._config.fillStyle;
+      drawer.context.lineWidth = lineWidth;
+      drawer.context.fillRect(...position, ...size);
+
+      if (this._config.lineWidth !== 0) {
+        drawer.context.strokeRect(...position, ...size);
+      }
     }
 
     drawer.context.closePath();

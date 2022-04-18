@@ -84,4 +84,12 @@ export default class PolygonalBound implements BoundInterface {
       size: toVector(maxPosition).sub(minPosition).toArray(),
     });
   }
+
+  /**
+   * {@inheritDoc BoundInterface.specify}
+   */
+  public specify(): BoundInterface {
+    // TODO implement
+    return this;
+  }
 }
