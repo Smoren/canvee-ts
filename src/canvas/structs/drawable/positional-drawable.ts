@@ -82,7 +82,6 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    * {@inheritDoc DrawableInterface.getScaledBound}
    */
   public getScaledBound(scale: VectorArrayType): BoundInterface {
-    // TODO use position_offset config param
     const positionOffset = this._config.positionOffset;
     return this._config.scalable
       ? this.bound.specify([1, 1], positionOffset ?? [0, 0])

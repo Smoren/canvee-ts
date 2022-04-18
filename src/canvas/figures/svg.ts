@@ -11,6 +11,7 @@ import { BoundInterface, VectorArrayCollectionType } from '../types/bound';
 import PolygonalBound from '../structs/bounds/polygonal-bound';
 import { CoordsCollectionFilterInterface } from '../structs/filters/types';
 import CoordsCollectionForwardFilter from '../structs/filters/coords-collection-forward-filter';
+import { toVector } from '../structs/vector';
 
 /**
  * Interface for config of rect figure
@@ -128,13 +129,30 @@ export default class Svg extends PositionalDrawable implements PositionalDrawabl
   }
 
   /**
+   * {@inheritDoc DrawableInterface.getScaledBound}
+   */
+  getScaledBound(scale: VectorArrayType): BoundInterface {
+    // TODO implement
+    return super.getScaledBound(scale);
+  }
+
+  /**
    * Tries to draw the figure if the image is ready
    * @param drawer - drawer object
    */
   protected _tryDraw(drawer: DrawerInterface): boolean {
     if (this._img !== null) {
-      const scale = this.scale;
-      const position = this._config.position;
+      // const scale = this.scale;
+      // const position = this._config.position;
+      // const scaledPosition: VectorArrayType = [position[0]/scale[0], position[1]/scale[1]];
+
+      const [position, size] = this.translatePositionConfig(
+        toVector(drawer.viewConfig.scale).reverse().toArray(),
+      );
+      const scale = toVector(this.scale)
+        .divCoords(this._config.size)
+        .mulCoords(size)
+        .toArray();
       const scaledPosition: VectorArrayType = [position[0]/scale[0], position[1]/scale[1]];
 
       drawer.context.save();

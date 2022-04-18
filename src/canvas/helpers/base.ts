@@ -129,11 +129,11 @@ export function isInEllipse(
 export function translatePositionConfig(
   position: VectorArrayType, size: VectorArrayType, scale: VectorArrayType, offset: VectorArrayType,
 ): [VectorArrayType, VectorArrayType] {
-  const mainPosition = toVector(position).sub(toVector(size).mulSimple(offset)).toArray();
-  const newSize = toVector(size).mulSimple(scale).toArray();
+  const mainPosition = toVector(position).sub(toVector(size).mulCoords(offset)).toArray();
+  const newSize = toVector(size).mulCoords(scale).toArray();
 
   const newPosition = toVector(mainPosition).add(
-    toVector(size).sub(newSize).mulSimple(offset),
+    toVector(size).sub(newSize).mulCoords(offset),
   ).toArray();
 
   return [newPosition, newSize];

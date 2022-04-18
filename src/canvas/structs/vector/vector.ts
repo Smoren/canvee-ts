@@ -128,10 +128,10 @@ export default class Vector implements VectorInterface {
   }
 
   /**
-   * Multiplies 2 vectors coordinate-to-coordinate
+   * Multiplies this vector with another vector coordinate-by-coordinate
    * @param v - another vector
    */
-  public mulSimple(v: VectorInterface | VectorArrayType): VectorInterface {
+  public mulCoords(v: VectorInterface | VectorArrayType): VectorInterface {
     v = toVector(v, this._defaultPrecision);
 
     this.x *= v.x;
@@ -141,14 +141,14 @@ export default class Vector implements VectorInterface {
   }
 
   /**
-   * Multiplies this vector with another vector coordinate-by-coordinate
+   * Divides this vector with another vector coordinate-by-coordinate
    * @param v - another vector
    */
-  public mulCoords(v: VectorInterface | VectorArrayType): VectorInterface {
+  public divCoords(v: VectorInterface | VectorArrayType): VectorInterface {
     v = toVector(v, this._defaultPrecision);
 
-    this.x *= v.x;
-    this.y *= v.y;
+    this.x /= v.x;
+    this.y /= v.y;
 
     return this;
   }

@@ -69,16 +69,16 @@ export interface VectorInterface {
   mulVector(v: VectorInterface | VectorArrayType): number;
 
   /**
-   * Multiplies 2 vectors coordinate-to-coordinate
-   * @param v - another vector
-   */
-  mulSimple(v: VectorInterface | VectorArrayType): VectorInterface;
-
-  /**
    * Multiplies this vector with another vector coordinate-by-coordinate
    * @param v - another vector
    */
   mulCoords(v: VectorInterface | VectorArrayType): VectorInterface;
+
+  /**
+   * Divides this vector with another vector coordinate-by-coordinate
+   * @param v - another vector
+   */
+  divCoords(v: VectorInterface | VectorArrayType): VectorInterface;
 
   /**
    * Returns true if this vector is equal to another vector
