@@ -83,9 +83,10 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    */
   public getScaledBound(scale: VectorArrayType): BoundInterface {
     // TODO use position_offset config param
+    const positionOffset = this._config.positionOffset;
     return this._config.scalable
-      ? this.bound.specify([1, 1], [0, 0])
-      : this.bound.specify(toVector(scale).reverse().toArray(), [0.5, 0.5]);
+      ? this.bound.specify([1, 1], positionOffset ?? [0, 0])
+      : this.bound.specify(toVector(scale).reverse().toArray(), positionOffset ?? [0.5, 0.5]);
   }
 
   /**
@@ -93,9 +94,10 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
    */
   public translatePositionConfig(scale: VectorArrayType): [VectorArrayType, VectorArrayType] {
     // TODO use with scalable and unscalable
+    const positionOffset = this._config.positionOffset;
     return this._config.scalable
-      ? translatePositionConfig(this._config.position, this._config.size, [1, 1], [0, 0])
-      : translatePositionConfig(this._config.position, this._config.size, scale, [0.5, 0.5]);
+      ? translatePositionConfig(this._config.position, this._config.size, [1, 1], positionOffset ?? [0, 0])
+      : translatePositionConfig(this._config.position, this._config.size, scale, positionOffset ?? [0.5, 0.5]);
   }
 
   /**

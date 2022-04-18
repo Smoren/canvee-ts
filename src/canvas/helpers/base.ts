@@ -133,7 +133,7 @@ export function translatePositionConfig(
   const newSize = toVector(size).mulSimple(scale).toArray();
 
   const newPosition = toVector(mainPosition).add(
-    toVector(size).sub(newSize).div(2),
+    toVector(size).sub(newSize).mulSimple(offset),
   ).toArray();
 
   return [newPosition, newSize];

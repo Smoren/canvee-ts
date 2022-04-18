@@ -171,7 +171,7 @@ const anotherLayer = storage.addLayer('another', 'Another Layer', []);
 anotherLayer.storage.add(new Rect({
   id: 10,
   config: {
-    position: [0, 0],
+    position: [120, 300],
     size: [100, 100],
     zIndex: -100,
     scalable: false,
@@ -181,6 +181,7 @@ anotherLayer.storage.add(new Rect({
     fillStyle: 'lightblue',
     strokeStyle: 'blue',
     lineWidth: 1,
+    positionOffset: [0.5, 1],
   },
 }));
 anotherLayer.storage.add(new Ellipse({
@@ -196,6 +197,7 @@ anotherLayer.storage.add(new Ellipse({
     fillStyle: 'lightblue',
     strokeStyle: 'blue',
     lineWidth: 1,
+    positionOffset: [0.5, 1],
   },
 }));
 anotherLayer.storage.add(new Line({

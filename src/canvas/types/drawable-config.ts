@@ -1,4 +1,4 @@
-import { PositionalInterface, ScalableInterface } from '../structs/vector/types';
+import { PositionalInterface, ScalableInterface, VectorArrayType } from '../structs/vector/types';
 
 /**
  * Extra data that is linked to drawable object
@@ -40,7 +40,10 @@ export interface DrawableConfigInterface {
  */
 export interface PositionalDrawableConfigInterface
   extends DrawableConfigInterface, PositionalInterface, ScalableInterface {
-
+  /**
+   * Position relative offset
+   */
+  positionOffset?: VectorArrayType;
 }
 
 /**

@@ -59,16 +59,24 @@ export default class Ellipse extends PositionalDrawable implements PositionalDra
 
   /**
    * Center getter
+   * @param scale - scale vector
    */
-  public get center(): VectorArrayType {
-    return toVector(this._config.position).add(toVector(this._config.size).div(2)).toArray();
+  public getCenter(scale: VectorArrayType): VectorArrayType {
+    const [position, size] = this.translatePositionConfig(
+      toVector(scale).reverse().toArray(),
+    );
+    return toVector(position).add(toVector(size).div(2)).toArray();
   }
 
   /**
    * Center getter
+   * @param scale - scale vector
    */
-  public get radius(): VectorArrayType {
-    return toVector(this._config.size).div(2).toArray();
+  public getRadius(scale: VectorArrayType): VectorArrayType {
+    const [, size] = this.translatePositionConfig(
+      toVector(scale).reverse().toArray(),
+    );
+    return toVector(size).div(2).toArray();
   }
 
   /**
@@ -77,32 +85,20 @@ export default class Ellipse extends PositionalDrawable implements PositionalDra
   public draw(drawer: DrawerInterface): void {
     drawer.context.beginPath();
 
-    if (this._config.scalable) {
-      drawer.context.strokeStyle = this._config.strokeStyle;
-      drawer.context.fillStyle = this._config.fillStyle;
-      drawer.context.lineWidth = this._config.lineWidth;
-      drawer.context.ellipse(...this.center, ...this.radius, 0, 0, 2*Math.PI);
-      drawer.context.fill();
+    const lineWidth = this._config.scalable
+      ? this._config.lineWidth
+      : this._config.lineWidth / drawer.viewConfig.scale[0];
 
-      if (this._config.lineWidth !== 0) {
-        drawer.context.stroke();
-      }
-    } else {
-      const lineWidth = this._config.lineWidth / drawer.viewConfig.scale[0];
-      const radius: VectorArrayType = [
-        this.radius[0] / drawer.viewConfig.scale[0],
-        this.radius[1] / drawer.viewConfig.scale[1],
-      ];
+    drawer.context.strokeStyle = this._config.strokeStyle;
+    drawer.context.fillStyle = this._config.fillStyle;
+    drawer.context.lineWidth = lineWidth;
+    drawer.context.ellipse(
+      ...this.getCenter(drawer.viewConfig.scale), ...this.getRadius(drawer.viewConfig.scale), 0, 0, 2*Math.PI,
+    );
+    drawer.context.fill();
 
-      drawer.context.strokeStyle = this._config.strokeStyle;
-      drawer.context.fillStyle = this._config.fillStyle;
-      drawer.context.lineWidth = lineWidth;
-      drawer.context.ellipse(...this._config.position, ...radius, 0, 0, 2*Math.PI);
-      drawer.context.fill();
-
-      if (this._config.lineWidth !== 0) {
-        drawer.context.stroke();
-      }
+    if (this._config.lineWidth !== 0) {
+      drawer.context.stroke();
     }
 
     drawer.context.closePath();
