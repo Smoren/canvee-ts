@@ -35,9 +35,11 @@
         "@typescript-eslint/space-infix-ops": "off",
         "@typescript-eslint/lines-between-class-members": "off",
         "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-for-in-array": "off",
         "valid-jsdoc": "off",
         "no-prototype-builtins": "off",
         "operator-linebreak": "off",
+        "guard-for-in": "off",
         "no-use-before-define": "off",
         "no-constant-condition": "warn"
     },

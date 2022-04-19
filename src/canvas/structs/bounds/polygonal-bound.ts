@@ -1,7 +1,7 @@
 import { VectorArrayType } from '../../types';
 import { BoundInterface, PolygonalBoundConfig } from '../../types/bound';
 import { createPolygonVectors, toVector } from '../vector';
-import { getMinPosition } from '../../helpers/base';
+import { getMaxPosition, getMinPosition, translatePositionConfig } from '../../helpers/base';
 import RectangularBound from './rectangular-bound';
 
 /**
@@ -77,7 +77,7 @@ export default class PolygonalBound implements BoundInterface {
    */
   public toRectBound(): BoundInterface {
     const minPosition = getMinPosition(this._config.points);
-    const maxPosition = getMinPosition(this._config.points);
+    const maxPosition = getMaxPosition(this._config.points);
 
     return new RectangularBound({
       position: minPosition,
@@ -88,8 +88,19 @@ export default class PolygonalBound implements BoundInterface {
   /**
    * {@inheritDoc BoundInterface.specify}
    */
-  public specify(): BoundInterface {
-    // TODO implement
+  public specify(scale: VectorArrayType, offset: VectorArrayType): BoundInterface {
+    const [oldPosition, oldSize] = this.toRectBound().toArray();
+    const [position, size] = translatePositionConfig(oldPosition, oldSize, scale, offset);
+    const newScale: VectorArrayType = toVector(size).divCoords(oldSize).toArray();
+    const newPosition: VectorArrayType = toVector(position).sub(oldPosition).toArray();
+
+    for (const i in this._config.points) {
+      this._config.points[i] = toVector(this._config.points[i])
+        .mulCoords(newScale)
+        .add(newPosition)
+        .toArray();
+    }
+
     return this;
   }
 }
