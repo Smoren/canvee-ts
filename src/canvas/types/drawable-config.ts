@@ -43,7 +43,7 @@ export interface PositionalDrawableConfigInterface
   /**
    * Position relative offset
    */
-  positionOffset?: VectorArrayType;
+  offset?: VectorArrayType;
 }
 
 /**
