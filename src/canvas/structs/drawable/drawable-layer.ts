@@ -23,7 +23,7 @@ export default class DrawableLayer extends DrawableGroup implements DrawableLaye
   /**
    * {@inheritDoc DrawableLayerInterface.isLayer}
    */
-  public isLayer: true = true;
+  public isLayer: boolean = true;
   /**
    * View config
    */

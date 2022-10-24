@@ -24,7 +24,7 @@ export default abstract class PositionalDrawable extends Drawable implements Pos
   /**
    * Interface belonging flag
    */
-  public isPositional: true = true;
+  public isPositional: boolean = true;
   /**
    * View config
    */

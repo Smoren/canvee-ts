@@ -66,7 +66,7 @@ export interface PositionalDrawableInterface extends DrawableInterface {
   /**
    * Interface belonging flag
    */
-  isPositional: true;
+  isPositional: boolean;
   /**
    * View config
    */
@@ -156,7 +156,7 @@ export interface DrawableLayerInterface extends DrawableGroupInterface {
   /**
    * Interface belonging flag
    */
-  isLayer: true;
+  isLayer: boolean;
   /**
    * View config
    */

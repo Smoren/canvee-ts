@@ -30,7 +30,7 @@ export default class PositionalDrawableGroup extends DrawableGroup implements Po
   /**
    * Interface belonging flag
    */
-  public isPositional: true = true;
+  public isPositional: boolean = true;
   /**
    * Name of class to use as subscriber name in observable logic
    */
